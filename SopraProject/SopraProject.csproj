@@ -67,12 +67,21 @@
     <Folder Include="Content\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\" />
+    <Folder Include="Models\Database\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\**\*.*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DBInterface\IUserProfileAPI.cs" />
+    <Compile Include="Models\DBInterface\IAuthApi.cs" />
+    <Compile Include="Models\DBInterface\IReservationsApi.cs" />
+    <Compile Include="Models\DBInterface\ISitesApi.cs" />
+    <Compile Include="Models\Database\UserProfileDB.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
