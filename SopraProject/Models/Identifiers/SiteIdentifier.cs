@@ -5,6 +5,9 @@ namespace SopraProject
     /// <summary>
     /// Represents a Reservation identifier.
     /// </summary>
-    public struct ReservationIdentifier : Identifier<string> { }
+    public class ReservationIdentifier : Identifier<string> 
+    {
+        public ReservationIdentifier(string id) : base(id) { }
+    }
 }
 

@@ -4,9 +4,7 @@ namespace SopraProject
 {
     public class UserIdentifier : Identifier<string>
     {
-        public UserIdentifier()
-        {
-        }
+        public UserIdentifier(string id) : base(id) { }
     }
 }
 
