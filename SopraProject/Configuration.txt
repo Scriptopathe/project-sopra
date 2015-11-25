@@ -1,0 +1,10 @@
+﻿Needed to run the project :
+MySQL Database (Mysql Community Edition)
+	- A user account with a known username and password.
+
+Go edit Web.config, at the connectionStrings section. Replace the values uid and password by
+the Database user's username and password :
+<connectionStrings>
+<add name="mainContext" providerName="MySql.Data.MySqlClient" 
+    connectionString="server=localhost;port=3306;database=sopra;uid=sopra;password=sopra"/>
+</connectionStrings>
