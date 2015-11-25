@@ -120,4 +120,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="Configuration.txt" />
+  </ItemGroup>
 </Project>

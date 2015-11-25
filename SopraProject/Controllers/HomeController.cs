@@ -18,19 +18,20 @@ namespace SopraProject.Controllers
             ViewData["Version"] = mvcName.Version.Major + "." + mvcName.Version.Minor;
             ViewData["Runtime"] = "NET";
 
-            MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(
-                "Server=myServerAddress;" +
-                "Port=1234;" +
-                "Database=myDataBase;" +
-                "Uid=myUsername;\n" +
-                "Pwd=myPassword;");
-            
+            string connectionString = 
+                "Server=localhost;" +
+                "Port=3306;" +
+                "Database=sopra;" +
+                "Uid=sopra;\n" +
+                "Pwd=sopra;";
+            /*MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
+            con.Open();*/
 
-            using (var ctx = new DBTestContext2(con))
+            using (var ctx = new DBTestContext2("mainContext"))
             {
                 Machin m = new Machin() { UnMachin = "Hhaha" };
 
-                for(int i = 0; i < rd.Next(10); i++)
+                for(int i = 0; i < 2+rd.Next(10); i++)
                     m.DesTrucs.Add(new Truc() { ID = rd.Next(500000) });
 
      
@@ -42,12 +43,21 @@ namespace SopraProject.Controllers
 
                 var query = from b in ctx.Machins
                                         select b;
-                foreach (var item in query)
+                foreach (var item in query.ToList())
                 {
                     Response.Write(item.UnMachin);
+                    int a;
+                    if (item.DesTrucs.Count != 0)
+                    {
+                        a = 0;
+                    }
+                    else
+                    {
+                        a = 5;
+                    }
                     foreach (var item2 in item.DesTrucs)
                     {
-                        Response.Write(" truc=" + item2);
+                        Response.Write(" truc=" + item2.ID);
                     }
                 }
             }

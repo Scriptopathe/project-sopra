@@ -8,7 +8,7 @@ namespace SopraProject
     {
         [Key]
         public int TrucID {get;set;}
-
+        public string UnFieldEnPlusMDR {get; set;}
         public int ID {get;set;}
 
     }
@@ -16,7 +16,7 @@ namespace SopraProject
     {
         [Key]
         public int MachinID { get; set; }
-        public List<Truc> DesTrucs { get; set; }
+        public virtual List<Truc> DesTrucs { get; set; }
         public string UnMachin { get; set; }
         public Machin()
         {
@@ -31,6 +31,8 @@ namespace SopraProject
         {
         }
         public DBTestContext2(System.Data.Common.DbConnection con) : base(con, true) {
+        }
+        public DBTestContext2(string str) : base(str) {
         }
         /*public DBTestContext2(SQLiteConnection con) : base(con, true) {
         }*/
