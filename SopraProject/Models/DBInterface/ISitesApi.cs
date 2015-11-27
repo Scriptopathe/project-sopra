@@ -30,11 +30,40 @@ namespace SopraProject
         /// <returns>The rooms.</returns>
         List<RoomIdentifier> GetRooms();
         /// <summary>
+        /// Gets a list of RoomIdentifier corresponding to the rooms in the given site.
+        /// </summary>
+        /// <returns>The rooms.</returns>
+        List<RoomIdentifier> GetRooms(SiteIdentifier id);
+        /// <summary>
         /// Gets the name of the given room.
         /// </summary>
         /// <returns>The room name.</returns>
         /// <param name="roomId">Room identifier.</param>
         string GetRoomName(RoomIdentifier roomId);
+        /// <summary>
+        /// Gets the room capacity.
+        /// </summary>
+        /// <returns>The room capacity.</returns>
+        /// <param name="roomId">Room identifier.</param>
+        int GetRoomCapacity(RoomIdentifier roomId);
+        /// <summary>
+        /// Gets the room particularities.
+        /// </summary>
+        /// <returns>The room particularities.</returns>
+        /// <param name="roomId">Room identifier.</param>
+        List<ParticularityIdentifier> GetRoomParticularities(RoomIdentifier roomId);
+        /// <summary>
+        /// Gets the name of the particularity.
+        /// </summary>
+        /// <returns>The particularity name.</returns>
+        /// <param name="partId">Part identifier.</param>
+        string GetParticularityName(ParticularityIdentifier partId);
+        /// <summary>
+        /// Gets the particularity description.
+        /// </summary>
+        /// <returns>The particularity description.</returns>
+        /// <param name="partId">Part identifier.</param>
+        string GetParticularityDescription(ParticularityIdentifier partId);
     }
 }
 

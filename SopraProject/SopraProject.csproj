@@ -98,7 +98,11 @@
     <Compile Include="Models\Database\DBTest.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Models\ObjectAPI\Sites.cs" />
+    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
+    <Compile Include="Models\ObjectAPI\Site.cs" />
+    <Compile Include="Models\ObjectAPI\Room.cs" />
+    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
+    <Compile Include="Models\ObjectAPI\Particularity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
