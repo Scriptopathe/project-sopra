@@ -7,7 +7,7 @@ using System.Web.Mvc.Ajax;
 
 namespace SopraProject.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         public ActionResult Index()
         {
@@ -18,12 +18,12 @@ namespace SopraProject.Controllers
             ViewData["Version"] = mvcName.Version.Major + "." + mvcName.Version.Minor;
             ViewData["Runtime"] = "NET";
 
-            string connectionString = 
+            /*string connectionString = 
                 "Server=localhost;" +
                 "Port=3306;" +
                 "Database=sopra;" +
                 "Uid=sopra;\n" +
-                "Pwd=sopra;";
+                "Pwd=sopra;";*/
             /*MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
             con.Open();*/
 
@@ -42,7 +42,8 @@ namespace SopraProject.Controllers
                 Response.Write("LA BDD contient ");
 
                 var query = from b in ctx.Machins
-                                        select b;
+                            select b;
+                
                 foreach (var item in query.ToList())
                 {
                     Response.Write(item.UnMachin);

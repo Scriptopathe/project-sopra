@@ -82,6 +82,7 @@
     <Folder Include="Scripts\" />
     <Folder Include="Models\Database\" />
     <Folder Include="Models\Identifiers\" />
+    <Folder Include="Models\ObjectAPI\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Database\UserProfileDB.cs" />
@@ -95,6 +96,9 @@
     <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
     <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
     <Compile Include="Models\Database\DBTest.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Models\ObjectAPI\Sites.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -111,6 +115,8 @@
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
+    <Content Include="Views\Shared\Empty.cshtml" />
+    <Content Include="Views\Shared\Login.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
