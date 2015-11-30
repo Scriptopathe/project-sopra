@@ -86,6 +86,7 @@
     <Reference Include="MySql.Data.Entity.EF6">
       <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -103,7 +104,6 @@
     <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
     <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
     <Compile Include="Models\Database\DBTest.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
     <Compile Include="Models\ObjectAPI\Site.cs" />
@@ -119,7 +119,8 @@
     <Compile Include="Models\Database\BookingContext.cs" />
     <Compile Include="Models\Database\DatabaseWorker.cs" />
     <Compile Include="Models\DBInterface\SitesApi.cs" />
-    <Compile Include="Models\DBInterface\AuthApiImplementationTest.cs" />
+    <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
+    <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />

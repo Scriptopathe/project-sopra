@@ -33,7 +33,7 @@ namespace SopraProject
         /// </summary>
         /// <returns>The booking room.</returns>
         /// <param name="bookingId">Booking identifier.</param>
-        string GetBookingRoom(BookingIdentifier bookingId);
+        RoomIdentifier GetBookingRoom(BookingIdentifier bookingId);
         /// <summary>
         /// Gets the booking start date.
         /// </summary>

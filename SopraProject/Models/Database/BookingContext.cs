@@ -23,10 +23,10 @@ namespace SopraProject.Database
         /// <value>The room ID.</value>
         public int RoomID { get; set; }
         /// <summary>
-        /// Gets or sets the user ID.
+        /// Gets or sets the contacts' e-mail addresses.
         /// </summary>
-        /// <value>The user ID.</value>
-        public string User { get; set; }
+        /// <value>The list of contacts.</value>
+        public List<string> Contacts { get; set; }
         /// <summary>
         /// Gets or sets the booking date.
         /// </summary>

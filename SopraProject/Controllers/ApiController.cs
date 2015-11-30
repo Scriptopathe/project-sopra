@@ -18,6 +18,27 @@ namespace SopraProject.Controllers
             public Test() { }
         }
 
+        /// <summary>
+        /// Authenticates an user.
+        /// </summary>
+        public ActionResult Authenticate()
+        {
+            SopraProject.ObjectApi.User usr = SopraProject.ObjectApi.User.Authenticate(
+                new SopraProject.UserIdentifier(Request.QueryString["username"]), 
+                Request.QueryString["password"]);
+
+            return Content(usr == null ? "Wrong Username / Password" : "Authenticated");
+        }
+
+        /// <summary>
+        /// Creates the db.
+        /// </summary>
+        /// <returns>The db.</returns>
+        public ActionResult CreateDb()
+        {
+            Database.DatabaseWorker.CreateDatabase();
+        }
+
         public ActionResult Rooms()
         {
             //var rooms = SopraProject.ObjectApi.Room.GetAllRooms();

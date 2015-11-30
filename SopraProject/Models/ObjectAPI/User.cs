@@ -38,7 +38,7 @@ namespace SopraProject.ObjectApi
         /// </summary>
         /// <param name="username">Username.</param>
         /// <param name="password">Password.</param>
-        public User Authenticate(UserIdentifier username, string password)
+        public static User Authenticate(UserIdentifier username, string password)
         {
             bool userExists = ObjectApiProvider.Instance.AuthApi.Authenticate(username, password);
             if (userExists)

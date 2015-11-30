@@ -121,7 +121,7 @@ namespace SopraProject.Database
             return new BCBooking()
             {
                 RoomID = room,
-                User = username,
+                Contacts = new List<string>() { "email@domain.com", "email2@domain.com" },
                 StartDate = start,
                 EndDate = end,
                 PersonCount = personCount,
