@@ -31,7 +31,7 @@ namespace SopraProject.Database
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SopraProject.Database.AuthenticationContext"/> class.
 		/// </summary>
-		public AuthenticationContext (string connexion) : base(connexion)
+		public AuthenticationContext () : base("authContext")
 		{
 		}
 		/// <summary>

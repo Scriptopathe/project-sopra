@@ -93,7 +93,7 @@ namespace SopraProject.Database
 
 
 
-        public BookingContext(string connexion) : base(connexion)
+        public BookingContext() : base("bookingContext")
         {
         }
     }
