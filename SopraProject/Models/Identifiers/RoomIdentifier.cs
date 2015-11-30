@@ -5,9 +5,9 @@ namespace SopraProject
     /// <summary>
     /// Represents a Site identifier.
     /// </summary>
-    public class SiteIdentifier : Identifier<string> 
+    public class RoomIdentifier : Identifier<string> 
     { 
-        public SiteIdentifier(string id) : base(id) { }
+        public RoomIdentifier(string id) : base(id) { }
     }
 }
 
