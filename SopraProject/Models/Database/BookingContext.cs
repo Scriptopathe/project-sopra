@@ -26,12 +26,17 @@ namespace SopraProject.Database
         /// Gets or sets the user ID.
         /// </summary>
         /// <value>The user ID.</value>
-        public BCUserProfile BookingUser { get; set; }
+        public string BookingUser { get; set; }
         /// <summary>
         /// Gets or sets the booking date.
         /// </summary>
         /// <value>The booking date.</value>
-        public DateTime BookingDate { get; set; }
+        public DateTime BookingStartDate { get; set; }
+        /// <summary>
+        /// Gets or sets the booking end date.
+        /// </summary>
+        /// <value>The booking end date.</value>
+        public DateTime BookingEndDate { get; set; }
         /// <summary>
         /// Gets or sets the person count.
         /// </summary>
@@ -55,6 +60,11 @@ namespace SopraProject.Database
         /// <value>The name of the user.</value>
         [Key]
         public string UserName { get; set; }
+        /// <summary>
+        /// Gets or sets the user site.
+        /// </summary>
+        /// <value>The user site.</value>
+        public int UserSite { get; set; }
     }
 
     /// <summary>
