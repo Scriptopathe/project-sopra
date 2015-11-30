@@ -93,7 +93,6 @@
     <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Database\UserProfileDB.cs" />
     <Compile Include="Models\DBInterface\IAuthApi.cs" />
     <Compile Include="Models\DBInterface\IBookingsApi.cs" />
     <Compile Include="Models\DBInterface\ISitesApi.cs" />
