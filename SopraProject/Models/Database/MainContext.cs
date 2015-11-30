@@ -15,12 +15,12 @@ namespace SopraProject.Database
 		/// </summary>
 		/// <value>The name of the user.</value>
 		[Key]
-		public string UserName { get; set; }
+		public string Username { get; set; }
         /// <summary>
         /// Gets or sets the user site.
         /// </summary>
         /// <value>The user site.</value>
-        public int UserSite { get; set; }
+        public int SiteID { get; set; }
 	}
 
     public class MCSite
@@ -35,17 +35,17 @@ namespace SopraProject.Database
 		/// Gets or sets the name of the site.
 		/// </summary>
 		/// <value>The name of the site.</value>
-		public string SiteName { get; set; }
+		public string Name { get; set; }
 		/// <summary>
 		/// Gets or sets the site address.
 		/// </summary>
 		/// <value>The site address.</value>
-		public string SiteAddress { get; set; }
+		public string Address { get; set; }
 		/// <summary>
 		/// Gets or sets the rooms list.
 		/// </summary>
 		/// <value>The rooms list.</value>
-        public virtual List<MCRoom> RoomsList { get; set; }
+        public virtual List<MCRoom> Rooms { get; set; }
 	}
 
 	/// <summary>
@@ -68,12 +68,12 @@ namespace SopraProject.Database
 		/// Gets or sets the name of the room.
 		/// </summary>
 		/// <value>The name of the room.</value>
-		public string RoomName { get; set; }
+		public string Name { get; set; }
 		/// <summary>
 		/// Gets or sets the room particularities.
 		/// </summary>
 		/// <value>The room particularities.</value>
-        public virtual List<MCParticularity> RoomParticularities { get; set; }
+        public virtual List<MCParticularity> Particularities { get; set; }
 	}
 
 	/// <summary>
@@ -91,12 +91,12 @@ namespace SopraProject.Database
 		/// Gets or sets the name of the particularity.
 		/// </summary>
 		/// <value>The name of the particularity.</value>
-		public string ParticularityName { get; set; }
+		public string Name { get; set; }
 		/// <summary>
 		/// Gets or sets the particularity description.
 		/// </summary>
 		/// <value>The particularity description.</value>
-		public string ParticularityDescription { get; set; }
+		public string Description { get; set; }
 	}
 
 	/// <summary>

@@ -21,10 +21,10 @@ namespace SopraProject.Database
             using (var ctx = new MainContext())
             {
                 List<MCParticularity> allparts = new List<MCParticularity>();
-                allparts.Add(new MCParticularity() { ParticularityName = "Videoconf" });
-                allparts.Add(new MCParticularity() { ParticularityName = "Digilab" });
-                allparts.Add(new MCParticularity() { ParticularityName = "Telephone" });
-                allparts.Add(new MCParticularity() { ParticularityName = "Secure" });
+                allparts.Add(new MCParticularity() { Name = "Videoconf" });
+                allparts.Add(new MCParticularity() { Name = "Digilab" });
+                allparts.Add(new MCParticularity() { Name = "Telephone" });
+                allparts.Add(new MCParticularity() { Name = "Secure" });
 
 
 
@@ -58,7 +58,7 @@ namespace SopraProject.Database
             {
                 foreach (string username in usernames)
                 {
-                    ACUser user = new ACUser() { UserName = username, Password = username + "pass" };
+                    ACUser user = new ACUser() { Username = username, Password = username + "pass" };
                     ctx.Users.Add(user);
                 }
                 ctx.SaveChanges();
@@ -86,23 +86,23 @@ namespace SopraProject.Database
             return new MCRoom()
             {
                 Capacity = s_rand.Next(1, 10),
-                RoomName = name,
-                RoomParticularities = p
+                Name = name,
+                Particularities = p
             };
         }
 
         static MCSite CreateSite(string name, List<MCRoom> rooms)
         {
-            return new MCSite() { SiteName = name, SiteAddress = "@dress", RoomsList = rooms };
+            return new MCSite() { Name = name, Address = "@dress", Rooms = rooms };
         }
 
         static ACUser CreateUser(string username)
         {
-            return new ACUser() { UserName = username, Password = "pass" };
+            return new ACUser() { Username = username, Password = "pass" };
         }
         static MCUserProfile CreateUserProfile(string username, List<MCSite> allsites)
         {
-            return new MCUserProfile() { UserName = username, UserSite = s_rand.Next(allsites.Count) };
+            return new MCUserProfile() { Username = username, SiteID = s_rand.Next(allsites.Count) };
         }
 
         static BCBooking CreateBooking(List<string> usernames, int rooms, string subject)
@@ -121,11 +121,11 @@ namespace SopraProject.Database
             return new BCBooking()
             {
                 RoomID = room,
-                BookingUser = username,
-                BookingStartDate = start,
-                BookingEndDate = end,
+                User = username,
+                StartDate = start,
+                EndDate = end,
                 PersonCount = personCount,
-                BookingSubject = subject
+                Subject = subject
             };
         }
         
