@@ -8,7 +8,7 @@ namespace SopraProject.Database
 	/// <summary>
 	/// The user profile is
 	/// </summary>
-	public class UserProfile
+	public class MCUserProfile
 	{
 		/// <summary>
 		/// Gets or sets the name of the user.
@@ -18,7 +18,7 @@ namespace SopraProject.Database
 		public string UserName { get; set; }
 	}
 
-	public class Site
+	public class MCSite
 	{
 		/// <summary>
 		/// Gets or sets the site ID.
@@ -40,18 +40,18 @@ namespace SopraProject.Database
 		/// Gets or sets the users list.
 		/// </summary>
 		/// <value>The users list.</value>
-		public virtual List<UserProfile> UsersList { get; set; }
+		public virtual List<MCUserProfile> UsersList { get; set; }
 		/// <summary>
 		/// Gets or sets the rooms list.
 		/// </summary>
 		/// <value>The rooms list.</value>
-		public virtual List<Room> RoomsList { get; set; }
+		public virtual List<MCRoom> RoomsList { get; set; }
 	}
 
 	/// <summary>
 	/// Room.
 	/// </summary>
-	public class Room
+	public class MCRoom
 	{
 		/// <summary>
 		/// Gets or sets the room ID.
@@ -73,13 +73,13 @@ namespace SopraProject.Database
 		/// Gets or sets the room particularities.
 		/// </summary>
 		/// <value>The room particularities.</value>
-		public virtual List<Particularity> RoomParticularities { get; set; }
+		public virtual List<MCParticularity> RoomParticularities { get; set; }
 	}
 
 	/// <summary>
 	/// Particularity.
 	/// </summary>
-	public class Particularity
+	public class MCParticularity
 	{
 		/// <summary>
 		/// Gets or sets the particularity ID.
@@ -115,22 +115,22 @@ namespace SopraProject.Database
 		/// Gets or sets the users profile.
 		/// </summary>
 		/// <value>The users profile.</value>
-		public DbSet<UserProfile> UsersProfile { get; set; }
+		public DbSet<MCUserProfile> UsersProfile { get; set; }
 		/// <summary>
 		/// Gets or sets the sites.
 		/// </summary>
 		/// <value>The sites.</value>
-		public DbSet<Site> Sites  { get; set; }
+		public DbSet<MCSite> Sites  { get; set; }
 		/// <summary>
 		/// Gets or sets the rooms.
 		/// </summary>
 		/// <value>The rooms.</value>
-		public DbSet<Room> Rooms { get; set; }
+		public DbSet<MCRoom> Rooms { get; set; }
 		/// <summary>
 		/// Gets or sets the particularities.
 		/// </summary>
 		/// <value>The particularities.</value>
-		public DbSet<Particularity> Particularities  { get; set; }
+		public DbSet<MCParticularity> Particularities  { get; set; }
 	}
 }
 	

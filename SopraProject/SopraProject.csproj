@@ -114,6 +114,7 @@
     <Compile Include="Models\ObjectAPI\User.cs" />
     <Compile Include="Models\ObjectAPI\Booking.cs" />
     <Compile Include="Models\Database\AuthenticationContext.cs" />
+    <Compile Include="Models\Database\BookingContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
