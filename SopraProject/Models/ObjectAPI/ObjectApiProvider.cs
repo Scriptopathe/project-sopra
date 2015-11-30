@@ -32,7 +32,7 @@ namespace SopraProject.ObjectApi
 
         #region Properties
         public IAuthApi AuthApi { get; private set; }
-        public IReservationsApi ReservationsApi { get; private set; }
+        public IBookingsApi BookingsApi { get; private set; }
         public ISitesApi SitesApi { get; private set; }
         public IUserProfileAPI UserProfileApi { get; private set; }
         #endregion

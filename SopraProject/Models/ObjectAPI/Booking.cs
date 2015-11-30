@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace SopraProject.ObjectApi
 {
-    public class Reservation
+    public class Booking
     {
-        ReservationIdentifier _identifier;
+        BookingIdentifier _identifier;
         DateTime? _startDate;
         DateTime? _endDate;
         string _name;
-        List<string> _contacts; 
+        List<string> _contacts;
 
         /// <summary>
-        /// Gets the reservation's contact e-mails.
+        /// Gets the booking's contact e-mails.
         /// </summary>
         /// <value>The contacts.</value>
         public IReadOnlyList<string> Contacts
@@ -21,14 +21,14 @@ namespace SopraProject.ObjectApi
             {
                 if (_contacts == null)
                 {
-                    _contacts = ObjectApiProvider.Instance.ReservationsApi.GetReservationContacts(_identifier);
+                    _contacts = ObjectApiProvider.Instance.BookingsApi.GetBookingContacts(_identifier);
                 }
                 return _contacts;
             }
         }
 
         /// <summary>
-        /// Gets the reservation's start date.
+        /// Gets the booking's start date.
         /// </summary>
         /// <value>The start date.</value>
         public DateTime StartDate
@@ -37,14 +37,14 @@ namespace SopraProject.ObjectApi
             {
                 if (!_startDate.HasValue)
                 {
-                    _startDate = ObjectApiProvider.Instance.ReservationsApi.GetReservationStartDate(_identifier);
+                    _startDate = ObjectApiProvider.Instance.BookingsApi.GetBookingStartDate(_identifier);
                 }
                 return _startDate.Value;
             }
         }
 
         /// <summary>
-        /// Gets the reservation's end date.
+        /// Gets the booking's end date.
         /// </summary>
         /// <value>The end date.</value>
         public DateTime EndDate
@@ -53,14 +53,14 @@ namespace SopraProject.ObjectApi
             {
                 if (!_endDate.HasValue)
                 {
-                    _endDate = ObjectApiProvider.Instance.ReservationsApi.GetReservationEndDate(_identifier);
+                    _endDate = ObjectApiProvider.Instance.BookingsApi.GetBookingEndDate(_identifier);
                 }
                 return _endDate.Value;
             }
         }
 
         /// <summary>
-        /// Gets the reservation's subject.
+        /// Gets the booking's subject.
         /// </summary>
         /// <value>The subject.</value>
         public string Subject
@@ -69,17 +69,17 @@ namespace SopraProject.ObjectApi
             {
                 if (_name == String.Empty)
                 {
-                    _name = ObjectApiProvider.Instance.ReservationsApi.GetReservationSubject(_identifier);
+                    _name = ObjectApiProvider.Instance.BookingsApi.GetBookingSubject(_identifier);
                 }
                 return _name;
             }
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SopraProject.Reservation"/> class.
+        /// Initializes a new instance of the <see cref="SopraProject.Booking"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public Reservation(ReservationIdentifier id)
+        public Booking(BookingIdentifier id)
         {
             _identifier = id;
         }

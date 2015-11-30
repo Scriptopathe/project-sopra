@@ -15,15 +15,15 @@ namespace SopraProject.ObjectApi
         #region Properties
 
         /// <summary>
-        /// Gets the reservations affected to this room and occurring between the given
+        /// Gets the bookings affected to this room and occurring between the given
         /// start date and end date.
         /// </summary>
-        /// <returns>The reservations.</returns>
+        /// <returns>The bookings.</returns>
         /// <param name="startDate">Start date.</param>
         /// <param name="endDate">End date.</param>
-        public IReadOnlyList<Reservation> GetReservations(DateTime startDate, DateTime endDate)
+        public IReadOnlyList<Booking> GetBookings(DateTime startDate, DateTime endDate)
         {
-            return ObjectApiProvider.Instance.ReservationsApi.GetReservations(_identifier, startDate, endDate).ConvertAll(s => new Reservation(s));
+            return ObjectApiProvider.Instance.BookingsApi.GetBookings(_identifier, startDate, endDate).ConvertAll(s => new Booking(s));
         }
 
         /// <summary>
