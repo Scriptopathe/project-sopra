@@ -16,6 +16,10 @@ namespace SopraProject.Database
 		/// <value>The name of the user.</value>
 		[Key]
 		public string UserName { get; set; }
+        /// <summary>
+        /// Gets or sets the user site.
+        /// </summary>
+        /// <value>The user site.</value>
         public int UserSite { get; set; }
 	}
 
