@@ -13,6 +13,19 @@ namespace SopraProject.ObjectApi
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Gets the reservations affected to this room and occurring between the given
+        /// start date and end date.
+        /// </summary>
+        /// <returns>The reservations.</returns>
+        /// <param name="startDate">Start date.</param>
+        /// <param name="endDate">End date.</param>
+        public IReadOnlyList<Reservation> GetReservations(DateTime startDate, DateTime endDate)
+        {
+            return ObjectApiProvider.Instance.ReservationsApi.GetReservations(_identifier, startDate, endDate).ConvertAll(s => new Reservation(s));
+        }
+
         /// <summary>
         /// Gets the room name.
         /// </summary>
@@ -76,6 +89,17 @@ namespace SopraProject.ObjectApi
         {
             _identifier = id;
         }
+
+        #region Static
+        /// <summary>
+        /// Gets a list containing all rooms of the database.
+        /// </summary>
+        /// <returns>The all rooms.</returns>
+        public static List<Room> GetAllRooms()
+        {
+            return ObjectApiProvider.Instance.SitesApi.GetRooms().ConvertAll(id => new Room(id));
+        }
+        #endregion
     }
 }
 

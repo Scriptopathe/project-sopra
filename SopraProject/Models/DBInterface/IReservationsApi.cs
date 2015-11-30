@@ -21,7 +21,7 @@ namespace SopraProject
         /// <returns>The reservations.</returns>
         /// <param name="startDate">Start date.</param>
         /// <param name="endDate">End date.</param>
-        List<ReservationIdentifier> GetReservations(DateTime startDate, DateTime endDate);
+        List<ReservationIdentifier> GetReservations(RoomIdentifier identifier, DateTime startDate, DateTime endDate);
         /// <summary>
         /// Gets the reservation subject.
         /// </summary>

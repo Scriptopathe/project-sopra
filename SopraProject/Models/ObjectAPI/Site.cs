@@ -75,6 +75,15 @@ namespace SopraProject.ObjectApi
         {
             _identifier = id;
         }
+
+        /// <summary>
+        /// Gets all the sites in the database.
+        /// </summary>
+        /// <returns>The all sites.</returns>
+        public static List<Site> GetAllSites()
+        {
+            return ObjectApiProvider.Instance.SitesApi.GetSites().ConvertAll(id => new Site(id));
+        }
     }
 }
 
