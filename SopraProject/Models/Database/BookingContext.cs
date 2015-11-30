@@ -21,7 +21,7 @@ namespace SopraProject.Database
         /// Gets or sets the room ID.
         /// </summary>
         /// <value>The room ID.</value>
-        public BCRoom RoomID { get; set; }
+        public int RoomID { get; set; }
         /// <summary>
         /// Gets or sets the user ID.
         /// </summary>
@@ -50,51 +50,10 @@ namespace SopraProject.Database
     }
 
     /// <summary>
-    /// The user profile is
-    /// </summary>
-    public class BCUserProfile
-    {
-        /// <summary>
-        /// Gets or sets the name of the user.
-        /// </summary>
-        /// <value>The name of the user.</value>
-        [Key]
-        public string UserName { get; set; }
-        /// <summary>
-        /// Gets or sets the user site.
-        /// </summary>
-        /// <value>The user site.</value>
-        public int UserSite { get; set; }
-    }
-
-    /// <summary>
-    /// Room.
-    /// </summary>
-    public class BCRoom
-    {
-        /// <summary>
-        /// Gets or sets the room ID.
-        /// </summary>
-        /// <value>The room ID.</value>
-        [Key]
-        public int RoomID { get; set; }
-    }
-
-    /// <summary>
     /// Booking context.
     /// </summary>
     public class BookingContext : DbContext
     {
-        /// <summary>
-        /// Gets or sets the users profile.
-        /// </summary>
-        /// <value>The users profile.</value>
-        public DbSet<BCUserProfile> UsersProfile { get; set; }
-        /// <summary>
-        /// Gets or sets the rooms.
-        /// </summary>
-        /// <value>The rooms.</value>
-        public DbSet<BCRoom> Rooms { get; set; }
         /// <summary>
         /// Gets or sets the bookings.
         /// </summary>
