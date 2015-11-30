@@ -17,7 +17,7 @@ namespace SopraProject.Controllers
 
             ViewData["Version"] = mvcName.Version.Major + "." + mvcName.Version.Minor;
             ViewData["Runtime"] = "NET";
-
+            Database.DatabaseWorker.CreateDatabase();
             /*string connectionString = 
                 "Server=localhost;" +
                 "Port=3306;" +
@@ -27,7 +27,7 @@ namespace SopraProject.Controllers
             /*MySql.Data.MySqlClient.MySqlConnection con = new MySql.Data.MySqlClient.MySqlConnection(connectionString);
             con.Open();*/
 
-            using (var ctx = new DBTestContext2("mainContext"))
+            /*using (var ctx = new DBTestContext2("mainContext"))
             {
                 Machin m = new Machin() { UnMachin = "Hhaha" };
 
@@ -61,7 +61,7 @@ namespace SopraProject.Controllers
                         Response.Write(" truc=" + item2.ID);
                     }
                 }
-            }
+            }*/
 
             return View();
         }
