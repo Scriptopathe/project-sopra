@@ -3,11 +3,10 @@
 namespace SopraProject
 {
     /// <summary>
-    /// Represents a Site identifier.
+    /// Represents a Room identifier.
     /// </summary>
-    public class SiteIdentifier : Identifier<string> 
+    public class RoomIdentifier : Identifier<string> 
     { 
-        public SiteIdentifier(string id) : base(id) { }
+        public RoomIdentifier(string id) : base(id) { }
     }
 }
-
