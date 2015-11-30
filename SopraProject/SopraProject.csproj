@@ -116,6 +116,7 @@
     <Compile Include="Models\ObjectAPI\Booking.cs" />
     <Compile Include="Tools\Serializer.cs" />
     <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Models\Database\AuthenticationContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -162,5 +163,4 @@
   <ItemGroup>
     <None Include="Configuration.txt" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" />
 </Project>
