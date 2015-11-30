@@ -90,6 +90,7 @@
   <ItemGroup>
     <Folder Include="Content\" />
     <Folder Include="Scripts\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Database\UserProfileDB.cs" />
@@ -113,6 +114,8 @@
     <Compile Include="Models\Database\MainContext.cs" />
     <Compile Include="Models\ObjectAPI\User.cs" />
     <Compile Include="Models\ObjectAPI\Booking.cs" />
+    <Compile Include="Tools\Serializer.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Models\Database\AuthenticationContext.cs" />
     <Compile Include="Models\Database\BookingContext.cs" />
   </ItemGroup>
