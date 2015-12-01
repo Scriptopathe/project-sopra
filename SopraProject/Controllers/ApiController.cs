@@ -25,8 +25,8 @@ namespace SopraProject.Controllers
         /// </summary>
         public ActionResult Login()
         {
-            string username = Request.QueryString["username"];
-            string password = Request.QueryString["password"];
+            string username = Request["username"];
+            string password = Request["password"];
             if (username == null || password == null)
             {
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
