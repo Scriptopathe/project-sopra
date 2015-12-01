@@ -12,6 +12,9 @@ namespace SopraProject.Tools
         /// <returns>The password SHA1 hash (base64 format)</returns>
         public static string Hash(string password)
         {
+            if (password == null)
+                return "";
+            
             byte[] pwbytes = Encoding.UTF8.GetBytes(password);
             string hashString;
             using (SHA1 sha1 = SHA1.Create())

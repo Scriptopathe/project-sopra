@@ -92,6 +92,7 @@
     <Folder Include="Content\" />
     <Folder Include="Scripts\" />
     <Folder Include="Tools\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DBInterface\IAuthApi.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
     <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
     <Compile Include="Tools\Security.cs" />
+    <Compile Include="Filters\AuthorizationFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />

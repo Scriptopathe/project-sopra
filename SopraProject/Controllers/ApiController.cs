@@ -21,49 +21,68 @@ namespace SopraProject.Controllers
 
         /// <summary>
         /// Authenticates an user.
+        /// The request must have a username and password in the GET parameters.
         /// </summary>
-        public ActionResult Authenticate()
+        public ActionResult Login()
         {
-            SopraProject.ObjectApi.User usr = SopraProject.ObjectApi.User.Authenticate(
-                new SopraProject.UserIdentifier(Request.QueryString["username"]), 
-                Request.QueryString["password"]);
-
-            /*if (usr == null)
+            string username = Request.QueryString["username"];
+            string password = Request.QueryString["password"];
+            if (username == null || password == null)
             {
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
-                    1,                                      // ticket version
-                    Request.QueryString["username"],        // authenticated username
-                    DateTime.Now,                           // issueDate
-                    DateTime.Now.AddDays(30),               // expiryDate
-                    true,                                   // true to persist across browser sessions
-                    null,                                   // can be used to store additional user data
-                    FormsAuthentication.FormsCookiePath);   // the path for the cookie
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
 
-                // Encrypt the ticket using the machine key
-                string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            SopraProject.ObjectApi.User usr = SopraProject.ObjectApi.User.Authenticate(
+                new SopraProject.UserIdentifier(username), 
+                password);
 
-                // Add the cookie to the request to save it
-                HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-                cookie.HttpOnly = true; 
+            // Creates a session ticket for the user.
+            if (usr != null)
+            {
+                string authId = Guid.NewGuid().ToString();  
+                HttpCookie cookie = new HttpCookie("AuthTicket", authId) { HttpOnly = true };
                 Response.Cookies.Add(cookie);
+                Session["AuthTicket"] = authId;
+                Session["Username"] = username;
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+            }
 
-                // Your redirect logic
-                // Response.Redirect(FormsAuthentication.GetRedirectUrl(username, isPersistent));
-            }*/
-
-            return Content(usr == null ? "Wrong Username / Password" : "Authenticated");
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.Unauthorized);
+        }
+        /// <summary>
+        /// Logs out an user.
+        /// </summary>
+        [AuthorizationFilter]
+        public ActionResult Logout()
+        {
+            Session["AuthTicket"] = null;
+            Session["Username"] = null;
+            Response.Cookies.Remove("AuthTicket");
+            return new HttpStatusCodeResult(200);
         }
 
         /// <summary>
         /// Creates the db.
         /// </summary>
         /// <returns>The db.</returns>
+        [AuthorizationFilter]
         public ActionResult CreateDb()
         {
             Database.DatabaseWorker.CreateDatabase();
             return Content("Database successfully created.");
         }
 
+        /// <summary>
+        /// TEST
+        /// </summary>
+        [AuthorizationFilter]
+        public ActionResult PrintUser()
+        {
+            var user = GetUser();
+            return Content("Username is " + user.Username);
+        }
+
+        [AuthorizationFilter]
         public ActionResult Rooms()
         {
             //var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
