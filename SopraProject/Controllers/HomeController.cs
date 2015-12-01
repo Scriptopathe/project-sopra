@@ -14,7 +14,7 @@ namespace SopraProject.Controllers
             var mvcName = typeof(Controller).Assembly.GetName();
             var isMono = Type.GetType("Mono.Runtime") != null;
 
-            return Content("Welcome home ! ");
+            return View("Index");
         }
     }
 }
