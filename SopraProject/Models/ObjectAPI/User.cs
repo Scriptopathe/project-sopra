@@ -24,6 +24,18 @@ namespace SopraProject.ObjectApi
         }
 
         /// <summary>
+        /// Gets this user's username.
+        /// </summary>
+        /// <value>The username.</value>
+        public string Username
+        {
+            get
+            {
+                return _identifier.Value;
+            }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.User"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>

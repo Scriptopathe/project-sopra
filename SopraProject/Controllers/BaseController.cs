@@ -9,11 +9,12 @@ namespace SopraProject.Controllers
     public class BaseController : Controller
     {
         /// <summary>
-        /// Returns the current authenticated user's username.
+        /// Returns the current authenticated user.
         /// </summary>
-        public string GetUsername()
+        protected ObjectApi.User GetUser()
         {
-            throw new NotImplementedException();
+            string username = (string)Session["Username"];
+            return new SopraProject.ObjectApi.User(new UserIdentifier(username));
         }
     }
 }

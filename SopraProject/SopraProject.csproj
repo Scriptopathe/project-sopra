@@ -92,6 +92,7 @@
     <Folder Include="Content\" />
     <Folder Include="Scripts\" />
     <Folder Include="Tools\" />
+    <Folder Include="Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DBInterface\IAuthApi.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
     <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
     <Compile Include="Tools\Security.cs" />
+    <Compile Include="Filters\AuthorizationFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -140,6 +142,24 @@
     <Content Include="packages.config" />
     <Content Include="Views\Shared\Empty.cshtml" />
     <Content Include="Views\Shared\Login.aspx" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="Scripts\jquery-2.1.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -167,5 +187,11 @@
   </ProjectExtensions>
   <ItemGroup>
     <None Include="Configuration.txt" />
+    <None Include="Content\bootstrap-theme.css.map" />
+    <None Include="Content\bootstrap-theme.min.css.map" />
+    <None Include="Content\bootstrap.css.map" />
+    <None Include="Content\bootstrap.min.css.map" />
+    <None Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Scripts\jquery-2.1.4.min.map" />
   </ItemGroup>
 </Project>
