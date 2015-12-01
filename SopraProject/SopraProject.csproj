@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,6 +9,17 @@
     <RootNamespace>SopraProject</RootNamespace>
     <AssemblyName>SopraProject</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,26 +73,55 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
-    <Folder Include="Models\" />
     <Folder Include="Scripts\" />
-    <Folder Include="Models\Database\" />
-    <Folder Include="Models\Identifiers\" />
+    <Folder Include="Tools\" />
   </ItemGroup>
   <ItemGroup>
-  
-    <Compile Include="Models\Database\UserProfileDB.cs" />
     <Compile Include="Models\DBInterface\IAuthApi.cs" />
-    <Compile Include="Models\DBInterface\IReservationsApi.cs" />
+    <Compile Include="Models\DBInterface\IBookingsApi.cs" />
     <Compile Include="Models\DBInterface\ISitesApi.cs" />
     <Compile Include="Models\DBInterface\IUserProfileAPI.cs" />
     <Compile Include="Models\Identifiers\Identifier.cs" />
     <Compile Include="Models\Identifiers\UserIdentifier.cs" />
-    <Compile Include="Models\Identifiers\ReservationIdentifier.cs" />
-    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
     <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
+    <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
+    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
+    <Compile Include="Models\Database\DBTest.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
+    <Compile Include="Models\ObjectAPI\Site.cs" />
+    <Compile Include="Models\ObjectAPI\Room.cs" />
+    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
+    <Compile Include="Models\ObjectAPI\Particularity.cs" />
+    <Compile Include="Models\Database\MainContext.cs" />
+    <Compile Include="Models\ObjectAPI\User.cs" />
+    <Compile Include="Models\ObjectAPI\Booking.cs" />
+    <Compile Include="Tools\Serializer.cs" />
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Models\Database\AuthenticationContext.cs" />
+    <Compile Include="Models\Database\BookingContext.cs" />
+    <Compile Include="Models\Database\DatabaseWorker.cs" />
+    <Compile Include="Models\DBInterface\SitesApi.cs" />
+    <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
+    <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
+    <Compile Include="Tools\Security.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -98,6 +138,8 @@
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
+    <Content Include="Views\Shared\Empty.cshtml" />
+    <Content Include="Views\Shared\Login.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -106,5 +148,24 @@
         <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="True" />
       </Properties>
     </MonoDevelop>
+    <VisualStudio>
+      <FlavorProperties GUID="{349C5851-65DF-11DA-9384-00065B846F21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50512/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
   </ProjectExtensions>
+  <ItemGroup>
+    <None Include="Configuration.txt" />
+  </ItemGroup>
 </Project>

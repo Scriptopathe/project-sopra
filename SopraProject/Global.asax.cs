@@ -19,6 +19,11 @@ namespace SopraProject
                 "{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = "" }
             );
+            routes.MapRoute(
+                "",
+                "home/authenticate/{username}/{password}",
+                new { controller = "Home", action = "Authenticate" }
+            );
 
         }
 

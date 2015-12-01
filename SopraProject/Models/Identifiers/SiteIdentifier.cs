@@ -3,11 +3,11 @@
 namespace SopraProject
 {
     /// <summary>
-    /// Represents a Reservation identifier.
+    /// Represents a Site identifier.
     /// </summary>
-    public class ReservationIdentifier : Identifier<string> 
-    {
-        public ReservationIdentifier(string id) : base(id) { }
+    public class SiteIdentifier : Identifier<string> 
+    { 
+        public SiteIdentifier(string id) : base(id) { }
     }
 }
 
