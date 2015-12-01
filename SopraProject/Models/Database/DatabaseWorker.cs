@@ -58,7 +58,7 @@ namespace SopraProject.Database
             {
                 foreach (string username in usernames)
                 {
-                    ACUser user = new ACUser() { Username = username, Password = username + "pass" };
+                    ACUser user = new ACUser() { Username = username, Password = Tools.Security.Hash(username + "pass") };
                     ctx.Users.Add(user);
                 }
                 ctx.SaveChanges();

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 namespace SopraProject
 {
     /// <summary>
@@ -15,6 +17,7 @@ namespace SopraProject
             
 		}
 
+
         /// <summary>
         /// Authenticate the User with specified username and password.
         /// </summary>
@@ -23,6 +26,8 @@ namespace SopraProject
         public bool Authenticate(UserIdentifier username, string password)
         {
             bool isOk = false;
+            password = Tools.Security.Hash(password);
+            // sha1.ComputeHash();
             using (var ctx = new SopraProject.Database.AuthenticationContext())
             {
                 var query = from user in ctx.Users
