@@ -75,7 +75,7 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_name == String.Empty)
+                if (_name == null)
                 {
                     _name = ObjectApiProvider.Instance.BookingsApi.GetBookingSubject(_identifier);
                 }

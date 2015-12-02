@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using System.Web.Security;
+
 namespace SopraProject.Controllers
 {
     /// <summary>
@@ -78,16 +79,14 @@ namespace SopraProject.Controllers
         public ActionResult PrintUser()
         {
             var user = GetUser();
-            return Content("Username is " + user.Username);
+            return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
         }
 
         [AuthorizationFilter]
         public ActionResult Rooms()
         {
-            //var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
-            // Response.Write(Serializer.Serialize<List<ObjectApi.Room>>(rooms));
-
-            return Content(Tools.Serializer.Serialize<Test>(new Test() { Str = "hahaha", Truc = "kokoko" }));
+            var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
+            return Content(Tools.Serializer.Serialize<List<ObjectApi.Room>>(rooms));
         }
     }
 }

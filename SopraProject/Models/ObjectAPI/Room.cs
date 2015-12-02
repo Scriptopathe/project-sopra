@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
 namespace SopraProject.ObjectApi
 {
     public class Room
@@ -20,7 +20,6 @@ namespace SopraProject.ObjectApi
         public RoomIdentifier Identifier 
         {
             get { return _identifier; }
-
         }
         /// <summary>
         /// Gets the bookings affected to this room and occurring between the given
@@ -42,7 +41,7 @@ namespace SopraProject.ObjectApi
         {
             get
             { 
-                if (_name == String.Empty)
+                if (_name == null)
                 {
                     _name = ObjectApiProvider.Instance.SitesApi.GetRoomName(_identifier);
                 }
@@ -98,6 +97,7 @@ namespace SopraProject.ObjectApi
             _identifier = id;
         }
 
+        public Room() { }
         #region Static
         /// <summary>
         /// Gets a list containing all rooms of the database.

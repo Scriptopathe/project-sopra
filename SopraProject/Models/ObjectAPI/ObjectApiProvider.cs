@@ -42,7 +42,7 @@ namespace SopraProject.ObjectApi
             BookingsApi = new BookingsApiTestImplementation();
             AuthApi = new AuthApiTestImplementation();
             UserProfileApi = new UserProfileApi();
-            BookingsApi = new BookingsApiTestImplementation();
+            SitesApi = new SitesApi();
         }
     }
 }
