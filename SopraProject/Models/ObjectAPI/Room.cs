@@ -13,7 +13,15 @@ namespace SopraProject.ObjectApi
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Gets this room's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public RoomIdentifier Identifier 
+        {
+            get { return _identifier; }
 
+        }
         /// <summary>
         /// Gets the bookings affected to this room and occurring between the given
         /// start date and end date.

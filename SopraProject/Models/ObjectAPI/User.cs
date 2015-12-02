@@ -8,7 +8,7 @@ namespace SopraProject.ObjectApi
         private Site _site;
 
         /// <summary>
-        /// Gets the user's location.
+        /// Gets or sets the user's location.
         /// </summary>
         /// <value>The location.</value>
         public Site Location
@@ -20,6 +20,10 @@ namespace SopraProject.ObjectApi
                     _site = new Site(ObjectApiProvider.Instance.UserProfileApi.GetLocation(_identifier));
                 }
                 return _site;
+            }
+            set
+            {
+                ObjectApiProvider.Instance.UserProfileApi.SetLocation(_identifier, value.Identifier);
             }
         }
 

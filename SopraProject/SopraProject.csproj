@@ -124,6 +124,7 @@
     <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
     <Compile Include="Tools\Security.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
+    <Compile Include="Models\DBInterface\UserProfileApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />

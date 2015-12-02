@@ -14,6 +14,15 @@ namespace SopraProject.ObjectApi
         private List<Room> _rooms;
 
         /// <summary>
+        /// Gets the site's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public SiteIdentifier Identifier
+        {
+            get { return _identifier; }
+        }
+
+        /// <summary>
         /// Gets the site name.
         /// </summary>
         /// <value>The name.</value>

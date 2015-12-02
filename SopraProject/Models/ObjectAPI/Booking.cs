@@ -12,6 +12,14 @@ namespace SopraProject.ObjectApi
         List<string> _contacts;
 
         /// <summary>
+        /// Gets this booking's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public BookingIdentifier Identifier
+        {
+            get { return _identifier; }
+        }
+        /// <summary>
         /// Gets the booking's contact e-mails.
         /// </summary>
         /// <value>The contacts.</value>
