@@ -39,10 +39,10 @@ namespace SopraProject.ObjectApi
 
         private ObjectApiProvider()
         {
-            // TODO : instanciate apis
             BookingsApi = new BookingsApiTestImplementation();
             AuthApi = new AuthApiTestImplementation();
             UserProfileApi = new UserProfileApi();
+            BookingsApi = new BookingsApiTestImplementation();
         }
     }
 }
