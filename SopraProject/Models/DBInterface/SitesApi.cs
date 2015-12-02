@@ -37,8 +37,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from site in ctx.Sites
-						where site.SiteID.ToString().Equals(siteId.Value)
-					select site.Name;
+						    where site.SiteID.ToString().Equals(siteId.Value)
+					        select site.Name;
 				val = query.First();
 			}
 			return val;
@@ -138,9 +138,9 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from room in ctx.Rooms
-						where room.RoomID.ToString().Equals(roomId.Value)
-					select room.Particularities;
-				val = query.ToList().ConvertAll(id => new ParticularityIdentifier(id.ToString()));
+						    where room.RoomID.ToString().Equals(roomId.Value)
+                            select room.Particularities;
+                val = query.First().ToList().ConvertAll(part => new ParticularityIdentifier(part.ParticularityID.ToString()));
 			}
 			return val;	
 		}
@@ -155,8 +155,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from particularity in ctx.Particularities
-						where particularity.ParticularityID.ToString().Equals(partId.Value)
-					select particularity.Name;
+						    where particularity.ParticularityID.ToString().Equals(partId.Value)
+					        select particularity.Name;
 				val = query.First();
 			}
 			return val;	
