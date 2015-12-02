@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 namespace SopraProject.ObjectApi
 {
     /// <summary>
@@ -13,6 +14,7 @@ namespace SopraProject.ObjectApi
         private string _address;
         private List<Room> _rooms;
 
+        #region Properties
         /// <summary>
         /// Gets the site's identifier.
         /// </summary>
@@ -76,6 +78,38 @@ namespace SopraProject.ObjectApi
             }
         }
 
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new SiteIdentifier(value); }
+        }
+
+        [XmlElement("Name")]
+        public string XMLName
+        {
+            get { return Name; }
+            set { }
+        }
+        [XmlElement("Address")]
+        public string XMLAddress
+        {
+            get { return Address; }
+            set { }
+        }
+
+        [XmlArray("Rooms")]
+        public List<Room> XMLParticularities
+        {
+            get { return (List<Room>)Rooms; }
+            set { }
+        }
+
+        public Site() { }
+        #endregion
+
+        #endregion
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.Site"/> class.
         /// </summary>
@@ -84,6 +118,7 @@ namespace SopraProject.ObjectApi
         {
             _identifier = id;
         }
+
 
         /// <summary>
         /// Gets all the sites in the database.

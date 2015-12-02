@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
 namespace SopraProject.ObjectApi
 {
     public class Booking
@@ -11,6 +11,7 @@ namespace SopraProject.ObjectApi
         string _name;
         List<string> _contacts;
 
+        #region Properties
         /// <summary>
         /// Gets this booking's identifier.
         /// </summary>
@@ -82,6 +83,43 @@ namespace SopraProject.ObjectApi
                 return _name;
             }
         }
+        #endregion
+
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new BookingIdentifier(value); }
+        }
+
+        [XmlElement("Contacts")]
+        public List<string> XMLContacts 
+        {
+            get { return (List<string>)Contacts; }
+            set { }
+        }
+
+        [XmlElement("StartDate")]
+        public DateTime XMLStartDate
+        {
+            get { return StartDate; }
+            set { }
+        }
+        [XmlElement("EndDate")]
+        public DateTime XMLEndDate
+        {
+            get { return EndDate; }
+            set { }
+        }
+        [XmlElement("Subject")]
+        public string XMLSubject
+        {
+            get { return Subject; }
+            set { }
+        }
+        public Booking() { }
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.Booking"/> class.

@@ -88,6 +88,37 @@ namespace SopraProject.ObjectApi
         }
         #endregion
 
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new RoomIdentifier(value); }
+        }
+
+        [XmlElement("Name")]
+        public string XMLName
+        {
+            get { return Name; }
+            set { }
+        }
+        [XmlElement("Capacity")]
+        public int XMLCapacity
+        {
+            get { return Capacity; }
+            set { }
+        }
+
+        [XmlArray("Particularities")]
+        public List<Particularity> XMLParticularities
+        {
+            get { return (List<Particularity>)Particularities; }
+            set { }
+        }
+
+        public Room() { }
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.Room"/> class.
         /// </summary>
@@ -97,7 +128,9 @@ namespace SopraProject.ObjectApi
             _identifier = id;
         }
 
-        public Room() { }
+
+
+
         #region Static
         /// <summary>
         /// Gets a list containing all rooms of the database.
