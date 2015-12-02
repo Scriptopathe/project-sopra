@@ -8,6 +8,14 @@ namespace SopraProject.ObjectApi
         string _name;
 
         /// <summary>
+        /// Gets the particularity's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public ParticularityIdentifier Identifier
+        {
+            get { return _identifier; }
+        }
+        /// <summary>
         /// Gets the particularity name.
         /// </summary>
         /// <value>The name.</value>
