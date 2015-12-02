@@ -86,7 +86,7 @@ namespace SopraProject.Controllers
         public ActionResult Rooms()
         {
             var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
-            return Content(Tools.Serializer.Serialize<List<ObjectApi.Room>>(rooms));
+            return Content(Tools.Serializer.Serialize(rooms));
         }
     }
 }

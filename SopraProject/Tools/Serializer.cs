@@ -15,9 +15,9 @@ namespace SopraProject.Tools
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <param name="output"></param>
-        public static string Serialize<T>(object obj)
+        public static string Serialize(object obj)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            XmlSerializer serializer = new XmlSerializer(obj.GetType());
             StringWriter stream = new StringWriter();
             try
             {
