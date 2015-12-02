@@ -33,7 +33,7 @@ namespace SopraProject
         /// Gets a list of RoomIdentifier corresponding to the rooms in the given site.
         /// </summary>
         /// <returns>The rooms.</returns>
-        List<RoomIdentifier> GetRooms(SiteIdentifier id);
+		List<RoomIdentifier> GetRooms(SiteIdentifier siteID);
         /// <summary>
         /// Gets the name of the given room.
         /// </summary>

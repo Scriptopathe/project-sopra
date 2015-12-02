@@ -65,7 +65,7 @@ namespace SopraProject.Controllers
         /// Creates the db.
         /// </summary>
         /// <returns>The db.</returns>
-        [AuthorizationFilter]
+        
         public ActionResult CreateDb()
         {
             Database.DatabaseWorker.CreateDatabase();
