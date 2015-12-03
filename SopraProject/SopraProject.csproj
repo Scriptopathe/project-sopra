@@ -125,6 +125,7 @@
     <Compile Include="Tools\Security.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Models\DBInterface\UserProfileApi.cs" />
+    <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />

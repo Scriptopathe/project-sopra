@@ -17,9 +17,16 @@ namespace SopraProject.ObjectApi
         /// Gets this room's identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        [XmlIgnore()]
         public RoomIdentifier Identifier 
         {
             get { return _identifier; }
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.SitesApi.RoomExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
         }
         /// <summary>
         /// Gets the bookings affected to this room and occurring between the given
@@ -37,6 +44,7 @@ namespace SopraProject.ObjectApi
         /// Gets the room name.
         /// </summary>
         /// <value>The name.</value>
+        [XmlIgnore()]
         public string Name
         {
             get
@@ -53,6 +61,7 @@ namespace SopraProject.ObjectApi
         /// Gets the room capacity (maximum number of people present in the room).
         /// </summary>
         /// <value>The capacity.</value>
+        [XmlIgnore()]
         public int Capacity
         {
             get
@@ -69,6 +78,7 @@ namespace SopraProject.ObjectApi
         /// Gets the list of particularties of this room.
         /// </summary>
         /// <value>The particularities.</value>
+        [XmlIgnore()]
         public IReadOnlyList<Particularity> Particularities
         {
             get
@@ -125,7 +135,7 @@ namespace SopraProject.ObjectApi
         /// <param name="id">Identifier.</param>
         public Room(RoomIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
 
 

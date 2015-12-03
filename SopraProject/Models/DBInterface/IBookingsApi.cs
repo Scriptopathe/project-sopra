@@ -23,6 +23,11 @@ namespace SopraProject
         /// <param name="endDate">End date.</param>
         List<BookingIdentifier> GetBookings(RoomIdentifier identifier, DateTime startDate, DateTime endDate);
         /// <summary>
+        /// Checks if the given booking exists.
+        /// </summary>
+        /// <param name="bookingId">Booking identifier.</param>
+        bool BookingExists(BookingIdentifier bookingId);
+        /// <summary>
         /// Gets the booking subject.
         /// </summary>
         /// <returns>The booking subject.</returns>

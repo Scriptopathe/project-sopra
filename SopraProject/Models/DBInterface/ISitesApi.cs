@@ -13,6 +13,21 @@ namespace SopraProject
         /// <returns>The sites.</returns>
         List<SiteIdentifier> GetSites();
         /// <summary>
+        /// Checks if the given site exists.
+        /// </summary>
+        /// <param name="siteId">Site identifier.</param>
+        bool SiteExists(SiteIdentifier siteId);
+        /// <summary>
+        /// Checks if the given room exists.
+        /// </summary>
+        /// <param name="roomId">room identifier.</param>
+        bool RoomExists(RoomIdentifier roomId);
+        /// <summary>
+        /// Checks if the given particularity exists.
+        /// </summary>
+        /// <param name="particularityId">particularity identifier.</param>
+        bool ParticularityExists(ParticularityIdentifier particularityId);
+        /// <summary>
         /// Gets the name of the given site.
         /// </summary>
         /// <returns>The site name.</returns>

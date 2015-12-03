@@ -19,15 +19,23 @@ namespace SopraProject.ObjectApi
         /// Gets the site's identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        [XmlIgnore()]
         public SiteIdentifier Identifier
         {
-            get { return _identifier; }
+            get { return _identifier; }            
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.SitesApi.SiteExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
         }
 
         /// <summary>
         /// Gets the site name.
         /// </summary>
         /// <value>The name.</value>
+        [XmlIgnore()]
         public string Name
         {
             get 
@@ -44,6 +52,7 @@ namespace SopraProject.ObjectApi
         /// Gets the site address.
         /// </summary>
         /// <value>The address.</value>
+        [XmlIgnore()]
         public string Address
         {
             get
@@ -60,6 +69,7 @@ namespace SopraProject.ObjectApi
         /// Gets the list of rooms in this site.
         /// </summary>
         /// <value>The rooms.</value>
+        [XmlIgnore()]
         public IReadOnlyList<Room> Rooms
         {
             get
@@ -116,7 +126,7 @@ namespace SopraProject.ObjectApi
         /// <param name="id">Identifier.</param>
         public Site(SiteIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
 
 

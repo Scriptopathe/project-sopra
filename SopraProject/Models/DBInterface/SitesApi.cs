@@ -20,7 +20,7 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from site in ctx.Sites
-					select site.SiteID;
+					        select site.SiteID;
 
 				val = query.ToList().ConvertAll(id => new SiteIdentifier(id.ToString()));
 			}
@@ -54,8 +54,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from site in ctx.Sites
-						where site.SiteID.ToString().Equals(siteId.Value)
-					select site.Address;
+					    	where site.SiteID.ToString().Equals(siteId.Value)
+					        select site.Address;
 				val = query.First();
 			}
 			return val;
@@ -70,7 +70,7 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from room in ctx.Rooms
-					select room.RoomID;
+					        select room.RoomID;
 
 				val = query.ToList().ConvertAll(id => new RoomIdentifier(id.ToString()));
 			}
@@ -86,8 +86,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from room in ctx.Rooms
-						where room.RoomID.ToString().Equals(siteID.Value)
-					select room.RoomID;
+						    where room.RoomID.ToString().Equals(siteID.Value)
+					        select room.RoomID;
 
 				val = query.ToList().ConvertAll(id => new RoomIdentifier(id.ToString()));
 			}
@@ -104,8 +104,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from room in ctx.Rooms
-						where room.RoomID.ToString().Equals(roomId.Value)
-					select room.Name;
+						    where room.RoomID.ToString().Equals(roomId.Value)
+					        select room.Name;
 				val = query.First();
 			}
 			return val;			
@@ -121,8 +121,8 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from room in ctx.Rooms
-						where room.RoomID.ToString().Equals(roomId.Value)
-					select room.Capacity;
+						    where room.RoomID.ToString().Equals(roomId.Value)
+					        select room.Capacity;
 				val = query.First();
 			}
 			return val;	
@@ -172,12 +172,61 @@ namespace SopraProject
 			using (var ctx = new Database.MainContext())
 			{
 				var query = from particularity in ctx.Particularities
-						where particularity.ParticularityID.ToString().Equals(partId.Value)
-					select particularity.Description;
+						    where particularity.ParticularityID.ToString().Equals(partId.Value)
+					        select particularity.Description;
 				val = query.First();
 			}
 			return val;	
 		}
+
+        /// <summary>
+        /// Checks if the given site exists.
+        /// </summary>
+        /// <param name="siteId">Site identifier.</param>
+        public bool SiteExists(SiteIdentifier siteId)
+        {
+            bool val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from site in ctx.Sites
+                            where site.SiteID.ToString().Equals(siteId.Value.ToString())
+                            select site;
+                val = query.Count() > 0;
+            }
+            return val;
+        }
+        /// <summary>
+        /// Checks if the given room exists.
+        /// </summary>
+        /// <param name="roomId">room identifier.</param>
+        public bool RoomExists(RoomIdentifier roomId)
+        {
+            bool val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from room in ctx.Rooms
+                            where room.RoomID.ToString().Equals(roomId.Value.ToString())
+                            select room;
+                val = query.Count() > 0;
+            }
+            return val;
+        }
+        /// <summary>
+        /// Checks if the given particularity exists.
+        /// </summary>
+        /// <param name="particularityId">particularity identifier.</param>
+        public bool ParticularityExists(ParticularityIdentifier particularityId)
+        {
+            bool val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from particularity in ctx.Particularities
+                            where particularity.ParticularityID.ToString().Equals(particularityId.Value.ToString())
+                            select particularity;
+                val = query.Count() > 0;
+            }
+            return val;
+        }
 	}
 }
 

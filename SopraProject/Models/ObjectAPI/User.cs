@@ -13,6 +13,7 @@ namespace SopraProject.ObjectApi
         /// Gets this site's identifier.
         /// </summary>
         /// <value>The location.</value>
+        [XmlIgnore()]
         public UserIdentifier Identifier 
         {
             get { return _identifier; }
@@ -22,6 +23,7 @@ namespace SopraProject.ObjectApi
         /// Gets or sets the user's location.
         /// </summary>
         /// <value>The location.</value>
+        [XmlIgnore()]
         public Site Location
         {
             get 
@@ -42,6 +44,7 @@ namespace SopraProject.ObjectApi
         /// Gets this user's username.
         /// </summary>
         /// <value>The username.</value>
+        [XmlIgnore()]
         public string Username
         {
             get
@@ -80,7 +83,7 @@ namespace SopraProject.ObjectApi
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.User"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public User(UserIdentifier id)
+        private User(UserIdentifier id)
         {
             _identifier = id;
         }

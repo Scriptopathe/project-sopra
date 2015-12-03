@@ -12,14 +12,22 @@ namespace SopraProject.ObjectApi
         /// Gets the particularity's identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        [XmlIgnore()]
         public ParticularityIdentifier Identifier
         {
             get { return _identifier; }
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.SitesApi.ParticularityExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
         }
         /// <summary>
         /// Gets the particularity name.
         /// </summary>
         /// <value>The name.</value>
+        [XmlIgnore()]
         public string Name
         {
             get 
@@ -51,7 +59,7 @@ namespace SopraProject.ObjectApi
 
         public Particularity(ParticularityIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
     }
 }

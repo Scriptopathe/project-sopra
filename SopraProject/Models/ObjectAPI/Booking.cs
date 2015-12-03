@@ -16,14 +16,22 @@ namespace SopraProject.ObjectApi
         /// Gets this booking's identifier.
         /// </summary>
         /// <value>The identifier.</value>
+        [XmlIgnore()]
         public BookingIdentifier Identifier
         {
             get { return _identifier; }
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.BookingsApi.BookingExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
         }
         /// <summary>
         /// Gets the booking's contact e-mails.
         /// </summary>
         /// <value>The contacts.</value>
+        [XmlIgnore()]
         public IReadOnlyList<string> Contacts
         {
             get 
@@ -40,6 +48,7 @@ namespace SopraProject.ObjectApi
         /// Gets the booking's start date.
         /// </summary>
         /// <value>The start date.</value>
+        [XmlIgnore()]
         public DateTime StartDate
         {
             get 
@@ -56,6 +65,7 @@ namespace SopraProject.ObjectApi
         /// Gets the booking's end date.
         /// </summary>
         /// <value>The end date.</value>
+        [XmlIgnore()]
         public DateTime EndDate
         {
             get 
@@ -72,6 +82,7 @@ namespace SopraProject.ObjectApi
         /// Gets the booking's subject.
         /// </summary>
         /// <value>The subject.</value>
+        [XmlIgnore()]
         public string Subject
         {
             get
@@ -127,7 +138,7 @@ namespace SopraProject.ObjectApi
         /// <param name="id">Identifier.</param>
         public Booking(BookingIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
     }
 }

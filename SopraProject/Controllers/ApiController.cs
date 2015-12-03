@@ -45,6 +45,7 @@ namespace SopraProject.Controllers
                 Response.Cookies.Add(cookie);
                 Session["AuthTicket"] = authId;
                 Session["Username"] = username;
+                Session["User"] = usr;
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
             }
 
@@ -58,6 +59,7 @@ namespace SopraProject.Controllers
         {
             Session["AuthTicket"] = null;
             Session["Username"] = null;
+            Session["User"] = null;
             Response.Cookies.Remove("AuthTicket");
             return new HttpStatusCodeResult(200);
         }
@@ -80,6 +82,23 @@ namespace SopraProject.Controllers
         {
             var user = GetUser();
             return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
+        }
+
+        [HttpPost]
+        [AuthorizationFilter]
+        public ActionResult Location(int siteId)
+        {
+            var user = GetUser();
+            user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [AuthorizationFilter]
+        public ActionResult Location()
+        {
+            var user = GetUser();
+            return Content(Tools.Serializer.Serialize(user.Location));
         }
 
         [AuthorizationFilter]
