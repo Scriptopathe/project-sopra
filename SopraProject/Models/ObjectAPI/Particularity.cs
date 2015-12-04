@@ -61,6 +61,11 @@ namespace SopraProject.ObjectApi
         {
             Identifier = id;
         }
+
+        public ParticularityIdentifier GetParticularityId()
+        {
+            return Identifier;
+        }
     }
 }
 

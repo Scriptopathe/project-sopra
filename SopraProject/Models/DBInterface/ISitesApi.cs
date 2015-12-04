@@ -13,6 +13,11 @@ namespace SopraProject
         /// <returns>The sites.</returns>
         List<SiteIdentifier> GetSites();
         /// <summary>
+        /// The numbers of sites.
+        /// </summary>
+        /// <returns>The count.</returns>
+        int SitesCount();
+        /// <summary>
         /// Checks if the given site exists.
         /// </summary>
         /// <param name="siteId">Site identifier.</param>
