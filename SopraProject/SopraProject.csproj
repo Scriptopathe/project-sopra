@@ -93,6 +93,8 @@
     <Folder Include="Scripts\" />
     <Folder Include="Tools\" />
     <Folder Include="Filters\" />
+    <Folder Include="Views\Site\" />
+    <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\DBInterface\IAuthApi.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Models\DBInterface\UserProfileApi.cs" />
     <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
+    <Compile Include="Controllers\SiteController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -135,10 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
@@ -162,6 +162,18 @@
     <Content Include="Scripts\jquery-2.1.4-vsdoc.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular.js" />
+    <Content Include="Scripts\angular.min.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\_Layout.cshtml" />
+    <Content Include="Views\Site\_Layout.cshtml" />
+    <Content Include="Views\Home\_ViewStart.cshtml" />
+    <Content Include="Views\Site\Index.cshtml" />
+    <Content Include="Views\Site\_ViewStart.cshtml" />
+    <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\controllers\indexController.js" />
+    <Content Include="Scripts\app\services\serverService.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -195,5 +207,6 @@
     <None Include="Content\bootstrap.min.css.map" />
     <None Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-2.1.4.min.map" />
+    <None Include="Scripts\angular.min.js.map" />
   </ItemGroup>
 </Project>
