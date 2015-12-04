@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Xml.Serialization;
 namespace SopraProject.ObjectApi
 {
     public class Room
@@ -13,7 +13,21 @@ namespace SopraProject.ObjectApi
         #endregion
 
         #region Properties
-
+        /// <summary>
+        /// Gets this room's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        [XmlIgnore()]
+        public RoomIdentifier Identifier 
+        {
+            get { return _identifier; }
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.SitesApi.RoomExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
+        }
         /// <summary>
         /// Gets the bookings affected to this room and occurring between the given
         /// start date and end date.
@@ -30,11 +44,12 @@ namespace SopraProject.ObjectApi
         /// Gets the room name.
         /// </summary>
         /// <value>The name.</value>
+        [XmlIgnore()]
         public string Name
         {
             get
             { 
-                if (_name == String.Empty)
+                if (_name == null)
                 {
                     _name = ObjectApiProvider.Instance.SitesApi.GetRoomName(_identifier);
                 }
@@ -46,6 +61,7 @@ namespace SopraProject.ObjectApi
         /// Gets the room capacity (maximum number of people present in the room).
         /// </summary>
         /// <value>The capacity.</value>
+        [XmlIgnore()]
         public int Capacity
         {
             get
@@ -62,6 +78,7 @@ namespace SopraProject.ObjectApi
         /// Gets the list of particularties of this room.
         /// </summary>
         /// <value>The particularities.</value>
+        [XmlIgnore()]
         public IReadOnlyList<Particularity> Particularities
         {
             get
@@ -81,14 +98,48 @@ namespace SopraProject.ObjectApi
         }
         #endregion
 
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new RoomIdentifier(value); }
+        }
+
+        [XmlElement("Name")]
+        public string XMLName
+        {
+            get { return Name; }
+            set { }
+        }
+        [XmlElement("Capacity")]
+        public int XMLCapacity
+        {
+            get { return Capacity; }
+            set { }
+        }
+
+        [XmlArray("Particularities")]
+        public List<Particularity> XMLParticularities
+        {
+            get { return (List<Particularity>)Particularities; }
+            set { }
+        }
+
+        public Room() { }
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.Room"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
         public Room(RoomIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
+
+
+
 
         #region Static
         /// <summary>

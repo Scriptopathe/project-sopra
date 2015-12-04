@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace SopraProject.ObjectApi
 {
@@ -7,10 +8,22 @@ namespace SopraProject.ObjectApi
         private UserIdentifier _identifier;
         private Site _site;
 
+        #region Properties
         /// <summary>
-        /// Gets the user's location.
+        /// Gets this site's identifier.
         /// </summary>
         /// <value>The location.</value>
+        [XmlIgnore()]
+        public UserIdentifier Identifier 
+        {
+            get { return _identifier; }
+        }
+
+        /// <summary>
+        /// Gets or sets the user's location.
+        /// </summary>
+        /// <value>The location.</value>
+        [XmlIgnore()]
         public Site Location
         {
             get 
@@ -21,12 +34,17 @@ namespace SopraProject.ObjectApi
                 }
                 return _site;
             }
+            set
+            {
+                ObjectApiProvider.Instance.UserProfileApi.SetLocation(_identifier, value.Identifier);
+            }
         }
 
         /// <summary>
         /// Gets this user's username.
         /// </summary>
         /// <value>The username.</value>
+        [XmlIgnore()]
         public string Username
         {
             get
@@ -34,12 +52,38 @@ namespace SopraProject.ObjectApi
                 return _identifier.Value;
             }
         }
+        #endregion
+
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new UserIdentifier(value); }
+        }
+
+        [XmlElement("Username")]
+        public string XMLUsername
+        {
+            get { return Username; }
+            set { }
+        }
+
+        [XmlElement("Location")]
+        public Site XMLLocation
+        {
+            get { return Location; }
+            set { }
+        }
+
+        public User() { }
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.User"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public User(UserIdentifier id)
+        private User(UserIdentifier id)
         {
             _identifier = id;
         }

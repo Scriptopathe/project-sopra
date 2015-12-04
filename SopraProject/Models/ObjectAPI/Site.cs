@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 namespace SopraProject.ObjectApi
 {
     /// <summary>
@@ -13,15 +14,33 @@ namespace SopraProject.ObjectApi
         private string _address;
         private List<Room> _rooms;
 
+        #region Properties
+        /// <summary>
+        /// Gets the site's identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        [XmlIgnore()]
+        public SiteIdentifier Identifier
+        {
+            get { return _identifier; }            
+            private set
+            {
+                _identifier = value;
+                if (!ObjectApiProvider.Instance.SitesApi.SiteExists(_identifier))
+                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+            }
+        }
+
         /// <summary>
         /// Gets the site name.
         /// </summary>
         /// <value>The name.</value>
+        [XmlIgnore()]
         public string Name
         {
             get 
             { 
-                if (_name == String.Empty)
+                if (_name == null)
                 {
                     _name = ObjectApiProvider.Instance.SitesApi.GetSiteName(_identifier);
                 }
@@ -33,11 +52,12 @@ namespace SopraProject.ObjectApi
         /// Gets the site address.
         /// </summary>
         /// <value>The address.</value>
+        [XmlIgnore()]
         public string Address
         {
             get
             {
-                if (_address == String.Empty)
+                if (_address == null)
                 {
                     _address = ObjectApiProvider.Instance.SitesApi.GetSiteAddress(_identifier);
                 }
@@ -49,6 +69,7 @@ namespace SopraProject.ObjectApi
         /// Gets the list of rooms in this site.
         /// </summary>
         /// <value>The rooms.</value>
+        [XmlIgnore()]
         public IReadOnlyList<Room> Rooms
         {
             get
@@ -67,14 +88,47 @@ namespace SopraProject.ObjectApi
             }
         }
 
+        #region XML
+        [XmlAttribute("id")]
+        public string XMLIdentifier
+        {
+            get { return Identifier.Value; }
+            set { _identifier = new SiteIdentifier(value); }
+        }
+
+        [XmlElement("Name")]
+        public string XMLName
+        {
+            get { return Name; }
+            set { }
+        }
+        [XmlElement("Address")]
+        public string XMLAddress
+        {
+            get { return Address; }
+            set { }
+        }
+
+        [XmlArray("Rooms")]
+        public List<Room> XMLParticularities
+        {
+            get { return (List<Room>)Rooms; }
+            set { }
+        }
+
+        public Site() { }
+        #endregion
+
+        #endregion
         /// <summary>
         /// Initializes a new instance of the <see cref="SopraProject.Site"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
         public Site(SiteIdentifier id)
         {
-            _identifier = id;
+            Identifier = id;
         }
+
 
         /// <summary>
         /// Gets all the sites in the database.

@@ -13,7 +13,8 @@
             <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" />
         </environment>
     </head>
-    <body>
+
+    <body ng-app="app">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -32,6 +33,7 @@
                 </div>
             </div>
         </nav>
+
         <div class="container">
             @RenderBody()
             <hr />
@@ -40,17 +42,20 @@
             </footer>
         </div>
 
-        <!--
-        <environment names="Development">
-            <script src="~/Scripts/jquery.minjs"></script>
-            <script src="~/Scripts/bootstrap.min.js"></script>
-        </environment> 
-        -->
-        <environment names="Staging,Production">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
-        </environment>
 
-        @RenderSection("scripts", required: false)
+
+        <!-- Angular / Bootstrap / JQuery -->
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+        <script src="~/Scripts/angular.js"></script>
+        <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+
+
+        <!-- Scripts angular -->
+        <script src="~/Scripts/app/app.js"></script>
+        <!-- Services -->
+        <script src="~/Scripts/app/services/serverService.js"></script>
+        <!-- Controllers -->
+        <script src="~/Scripts/app/controllers/indexController.js"></script>	
     </body>
 </html>

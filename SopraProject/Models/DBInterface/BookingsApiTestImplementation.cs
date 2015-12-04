@@ -14,6 +14,22 @@ namespace SopraProject
             
         }
         /// <summary>
+        /// Checks if the given booking exists.
+        /// </summary>
+        /// <param name="bookingId">Booking identifier.</param>
+        public bool BookingExists(BookingIdentifier bookingId)
+        {
+            bool val;
+            using (var ctx = new Database.BookingContext())
+            {
+                var query = from booking in ctx.Bookings
+                            where booking.BookingID.ToString().Equals(bookingId.Value.ToString())
+                            select booking;
+                val = query.Count() > 0;
+            }
+            return val;
+        }
+        /// <summary>
         /// Gets a list containing every booking between the given startDate and endDate.
         /// The bookings which are not totally covered by the given time period (startDate -> endDate)
         /// are also included.

@@ -12,7 +12,7 @@ namespace SopraProject.Database
         public static void CreateDatabase()
         {
             List<string> usernames = new List<string>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 1; i < 10; i++)
                 usernames.Add("User" + i);
             
             List<MCSite> allsites = new List<MCSite>();
@@ -28,10 +28,10 @@ namespace SopraProject.Database
 
 
 
-                for (int i = 0; i < 10; i++)
+                for (int i = 1; i < 10; i++)
                 {
                     List<MCRoom> rooms = new List<MCRoom>();
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 1; j < 10; j++)
                     {
                         rooms.Add(CreateRoom("Site" + i + "Room" + j, allparts));
                     }
@@ -66,7 +66,7 @@ namespace SopraProject.Database
 
             using (var ctx = new BookingContext())
             {
-                for(int i = 0; i < 120; i++)
+                for(int i = 1; i < 120; i++)
                     ctx.Bookings.Add(CreateBooking(usernames, allrooms.Count, "Subject" + i));
                 ctx.SaveChanges();
             }
@@ -102,7 +102,7 @@ namespace SopraProject.Database
         }
         static MCUserProfile CreateUserProfile(string username, List<MCSite> allsites)
         {
-            return new MCUserProfile() { Username = username, SiteID = s_rand.Next(allsites.Count) };
+            return new MCUserProfile() { Username = username, SiteID = s_rand.Next(1, allsites.Count) };
         }
 
         static BCBooking CreateBooking(List<string> usernames, int rooms, string subject)

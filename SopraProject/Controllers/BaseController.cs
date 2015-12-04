@@ -13,8 +13,7 @@ namespace SopraProject.Controllers
         /// </summary>
         protected ObjectApi.User GetUser()
         {
-            string username = (string)Session["Username"];
-            return new SopraProject.ObjectApi.User(new UserIdentifier(username));
+            return (ObjectApi.User)Session["User"];
         }
     }
 }

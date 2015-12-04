@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using System.Web.Security;
+
 namespace SopraProject.Controllers
 {
     /// <summary>
@@ -44,6 +45,7 @@ namespace SopraProject.Controllers
                 Response.Cookies.Add(cookie);
                 Session["AuthTicket"] = authId;
                 Session["Username"] = username;
+                Session["User"] = usr;
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
             }
 
@@ -57,6 +59,7 @@ namespace SopraProject.Controllers
         {
             Session["AuthTicket"] = null;
             Session["Username"] = null;
+            Session["User"] = null;
             Response.Cookies.Remove("AuthTicket");
             return new HttpStatusCodeResult(200);
         }
@@ -65,7 +68,6 @@ namespace SopraProject.Controllers
         /// Creates the db.
         /// </summary>
         /// <returns>The db.</returns>
-        [AuthorizationFilter]
         public ActionResult CreateDb()
         {
             Database.DatabaseWorker.CreateDatabase();
@@ -79,16 +81,31 @@ namespace SopraProject.Controllers
         public ActionResult PrintUser()
         {
             var user = GetUser();
-            return Content("Username is " + user.Username);
+            return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
+        }
+
+        [HttpPost]
+        [AuthorizationFilter]
+        public ActionResult Location(int siteId)
+        {
+            var user = GetUser();
+            user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        [AuthorizationFilter]
+        public ActionResult Location()
+        {
+            var user = GetUser();
+            return Content(Tools.Serializer.Serialize(user.Location));
         }
 
         [AuthorizationFilter]
         public ActionResult Rooms()
         {
-            //var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
-            // Response.Write(Serializer.Serialize<List<ObjectApi.Room>>(rooms));
-
-            return Content(Tools.Serializer.Serialize<Test>(new Test() { Str = "hahaha", Truc = "kokoko" }));
+            var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
+            return Content(Tools.Serializer.Serialize(rooms));
         }
     }
 }
