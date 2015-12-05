@@ -11,6 +11,6 @@
 	//  .always(...)		[ Optional ]
 	this.getRessource = function(partialUri, args)
 	{
-		return $.get("api/" + partialUri, args)
+		return $.get("../api/" + partialUri, args)
 	};
 });

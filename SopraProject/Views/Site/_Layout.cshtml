@@ -4,14 +4,8 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>@ViewData["Title"]</title>
-        <!---
-        <environment names="Development">
-            <link rel="stylesheet" href="~/Content/bootstrap.css" />
-        </environment>
-        -->
-        <environment names="Staging,Production">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/css/bootstrap.min.css" />
-        </environment>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     </head>
 
     <body ng-app="app">
@@ -28,9 +22,43 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#">Home</a></li>
+                        <li><a href="@Url.Action("Index", "Site", new { })">Home</a></li>
                     </ul>
+                    <ul class="nav navbar-nav navbar-right">
+
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" 
+								data-toggle="dropdown" role="button" 
+								aria-haspopup="true" aria-expanded="false">
+								<span class="glyphicon glyphicon-home"></span> Username 
+								<span class="badge badge-custom" id="notifications_badge"></span>
+								<span class="caret"></span>
+							</a>
+							
+							<ul class="dropdown-menu">
+
+								<li>
+									<a href="#">
+									<span class="glyphicon glyphicon-bell"></span> Notifications 
+									</a>
+								</li>
+
+		  						<li role="separator" class="divider"></li>
+								<li>
+									<a href="#">
+										<span class="glyphicon glyphicon-user"></span> <b>Administration</b>
+									</a>
+								</li>				
+								<li><a href="@Url.Action("SignIn", "Site", new { })"><span class="glyphicon glyphicon-log-out"></span> Sign in</a></li>
+							</ul>
+						</li>
+						{% endif %}
+				
+					</ul>
                 </div>
+
+
+
             </div>
         </nav>
 
@@ -46,7 +74,7 @@
 
         <!-- Angular / Bootstrap / JQuery -->
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.5/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <script src="~/Scripts/angular.js"></script>
         <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
 
