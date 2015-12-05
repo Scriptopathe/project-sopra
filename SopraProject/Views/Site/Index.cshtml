@@ -1,5 +1,21 @@
 ﻿<div class="container" ng-controller="indexController">
 	Je suis le body du site
 	{{ test }}
+	<button class="btn btn-success" ng-click="updateRooms()">Click me !</button>
+	<h2>Rooms</h2>
+	<table class="table table-bordered table-striped table-hover">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="room in rooms">
+				<td>{{ room.id }}</td>
+				<td>{{ room.name}}</td>
+			</tr>
+		</tbody>
+	</table>
 
 </div>
