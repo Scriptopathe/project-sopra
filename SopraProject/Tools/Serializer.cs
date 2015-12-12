@@ -9,6 +9,8 @@ namespace SopraProject.Tools
 {
     public class Serializer
     {
+        static Dictionary<Type, XmlSerializer> _serializers = new Dictionary<Type, XmlSerializer>();
+
         /// <summary>
         /// Serializes an object to a file.
         /// </summary>
@@ -17,7 +19,12 @@ namespace SopraProject.Tools
         /// <param name="output"></param>
         public static string Serialize(object obj)
         {
-            XmlSerializer serializer = new XmlSerializer(obj.GetType());
+            XmlSerializer serializer;
+            if(_serializers.ContainsKey(obj.GetType()))
+                serializer = _serializers[obj.GetType()];
+            else
+                serializer = new XmlSerializer(obj.GetType());
+
             StringWriter stream = new StringWriter();
             try
             {

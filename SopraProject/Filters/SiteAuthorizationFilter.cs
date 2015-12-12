@@ -7,7 +7,7 @@ namespace SopraProject
     /// <summary>
     /// Authorization filter attribute.
     /// </summary>
-    public class AuthorizationFilterAttribute : ActionFilterAttribute
+    public class SiteAuthorizationFilterAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// Value indicating if authorization filtering is active.
@@ -17,7 +17,7 @@ namespace SopraProject
         /// </summary>
         public const bool ENABLE_FILTERING = true;
 
-        public AuthorizationFilterAttribute()
+        public SiteAuthorizationFilterAttribute()
         {
         }
 
@@ -31,7 +31,7 @@ namespace SopraProject
                 if (authTicket == null || authCookie == null || authTicket != authCookie.Value)
                 {
                     // filterContext.Result = new ContentResult() { Content = "Authentication failed" };
-                    filterContext.Result = new HttpStatusCodeResult(System.Net.HttpStatusCode.Unauthorized);
+                    filterContext.Result = new RedirectResult("/site/signin?next=" + filterContext.HttpContext.Request.Url.AbsoluteUri);
                 }
             }
             else

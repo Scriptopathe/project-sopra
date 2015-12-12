@@ -37,6 +37,7 @@ namespace SopraProject.ObjectApi
             set
             {
                 ObjectApiProvider.Instance.UserProfileApi.SetLocation(_identifier, value.Identifier);
+                _site = value;
             }
         }
 

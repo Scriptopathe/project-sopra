@@ -74,6 +74,7 @@ namespace SopraProject.Controllers
             return Content("Database successfully created.");
         }
 
+
         /// <summary>
         /// TEST
         /// </summary>
@@ -84,9 +85,20 @@ namespace SopraProject.Controllers
             return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
         }
 
+        /// <summary>
+        /// Gets the current logged user name.
+        /// </summary>
+        /// <returns>The user.</returns>
+        [AuthorizationFilter]
+        public ActionResult User()
+        {
+            var user = GetUser();
+            return Content(user.Username);
+        }
+
         [HttpPost]
         [AuthorizationFilter]
-        public ActionResult Location(int siteId)
+        public ActionResult Location(string siteId)
         {
             var user = GetUser();
             user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
@@ -98,7 +110,7 @@ namespace SopraProject.Controllers
         public ActionResult Location()
         {
             var user = GetUser();
-            return Content(Tools.Serializer.Serialize(user.Location));
+            return Content(user.Location.Identifier.Value);
         }
 
         [AuthorizationFilter]
@@ -106,6 +118,13 @@ namespace SopraProject.Controllers
         {
             var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
             return Content(Tools.Serializer.Serialize(rooms));
+        }
+
+        [AuthorizationFilter]
+        public ActionResult Sites()
+        {
+            var sites = SopraProject.ObjectApi.Site.GetAllSites();
+            return Content(Tools.Serializer.Serialize(sites));
         }
     }
 }
