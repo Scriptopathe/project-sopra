@@ -1,25 +1,46 @@
 ﻿<div class="container" ng-controller="indexController">
-	Je suis le body du site {{ test }}
-	<select class="form-control" ng-model="userLocation">
-		<option ng-repeat="site in sites" value="{{site.id}}">{{site.name}}</option>
-	</select>
-	User location : {{ userLocation }}
+	
 
-	<h2>Rooms</h2>
-	<table class="table table-bordered table-striped table-hover">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="room in rooms">
-				<td>{{ room.id }}</td>
-				<td>{{ room.name}}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="panel panel-default">
+		<div class="panel-heading">User default location</div>
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<!-- FORM GROUP LOCATION -->
+				<div class="form-group">
+					<label class="control-label col-sm-2">Location : </label>
+					<div class="col-sm-5">
+						<select class="form-control" ng-model="userLocation">
+							<option ng-repeat="(id, site) in sites" value="{{site.id}}">{{site.name}}</option>
+						</select>
+					</div>
+					<div class="col-sm-5">
+						<strong>Address : </strong> {{ sites[userLocation].address }}
+					</div>
+				</div>
 
+				User location : {{ userLocation }} {{ sites[userLocation].name }}
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">Rooms</div>
+		<div class="panel-body">
+			<table class="table table-bordered table-striped table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="(id, room) in rooms">
+						<td>{{ room.id }}</td>
+						<td>{{ room.name}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
 </div>

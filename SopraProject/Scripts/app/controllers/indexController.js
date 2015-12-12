@@ -2,12 +2,11 @@
 ['serverService', '$scope', '$timeout',
 function(serverService, $scope, $timeout) {
 	$scope.server = serverService;
-	$scope.test = "Message depuis indexController " + $scope.server.serviceData;
 	// User location (site identifier). -1 for none => not loaded.
 	$scope.userLocation = "-1";
 	// Existing sites
-	$scope.sites = [{ id : "-1", name : "none" }, { id : "0", name : "blbl" }];
-	$scope.rooms = [];
+	$scope.sites = {};
+	$scope.rooms = {};
 
 	$scope.load = function() 
 	{
@@ -18,13 +17,13 @@ function(serverService, $scope, $timeout) {
 		});
 	};
 
-	// Fonction de test ! :p
+	// Fonction de test ! 
 	$scope.updateRooms = function() 
 	{
 		$scope.server.getRessource("rooms", {})
 		.done(function(data, statusCode)
 		{
-			$scope.rooms = [];
+			$scope.rooms = {};
 			// On parse le XML qu'on a récupéré du serveur.
 			var xml = $( $.parseXML( data ) )
 
@@ -44,43 +43,34 @@ function(serverService, $scope, $timeout) {
 					// On récupère le texte contenu dans le champ "Name"
 					var roomName = room.children("Name").text();
 					// On ajoute le tout dans $scope.rooms
-					$scope.rooms.push({ "id" : roomId, "name" : roomName });
+					$scope.rooms[roomId] = { "id" : roomId, "name" : roomName };
 				});
 			});
 		});
 	};
 
-	// Fonction de test ! :p
+	// Loads the site list into the $scope.sites variable.
 	$scope.updateSites = function() 
 	{
 		$scope.server.getRessource("sites", {})
 		.done(function(data, statusCode)
 		{
-			$scope.sites = [];
-			// On parse le XML qu'on a récupéré du serveur.
+			$scope.sites = {};
 			var xml = $( $.parseXML( data ) );
-
-			// On parcours tous les noeuds "Room"
 			xml.find("Site").each(function()
 			{
-				// On obtient une représentation du Noeud <Room>
 				var site = $(this);
-
-				// $scope.$apply permet de faire en sorte qu'angular
-				// force la vérification des modifications et mette à jour
-				// la vue une fois qu'on a modifié $scope.rooms !
 				$scope.$apply(function() 
 				{
-					// On prend l'attribut id de la room
 					var siteId = site.attr("id");
-					// On récupère le texte contenu dans le champ "Name"
 					var siteName = site.children("Name").text();
-					// On ajoute le tout dans $scope.rooms
-					$scope.sites.push({ "id" : siteId, "name" : siteName });
+					var siteAddress = site.children("Address").text();
+					$scope.sites[siteId] = { "id" : siteId, "name" : siteName, "address" : siteAddress };
 				});
 			});
 		});
 	};
+
 	// Loads the data later
 	$timeout(function() { $scope.load(); });
 }]);

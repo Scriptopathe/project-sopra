@@ -93,7 +93,7 @@ namespace SopraProject.Database
 
         static MCSite CreateSite(string name, List<MCRoom> rooms)
         {
-            return new MCSite() { Name = name, Address = "@dress", Rooms = rooms };
+            return new MCSite() { Name = name, Address = "10 allée des trucs machin chouettes,\nbâtiment P565,\n31400 Toulouse CEDEX 6", Rooms = rooms };
         }
 
         static ACUser CreateUser(string username)
