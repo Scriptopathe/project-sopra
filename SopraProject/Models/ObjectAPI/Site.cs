@@ -109,12 +109,12 @@ namespace SopraProject.ObjectApi
             set { }
         }
 
-        [XmlArray("Rooms")]
-        public List<Room> XMLParticularities
+        /*[XmlArray("Rooms")]
+        public List<Room> XMLRooms
         {
             get { return (List<Room>)Rooms; }
             set { }
-        }
+        }*/
 
         public Site() { }
         #endregion
