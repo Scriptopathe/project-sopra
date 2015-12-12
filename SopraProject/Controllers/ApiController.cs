@@ -87,7 +87,7 @@ namespace SopraProject.Controllers
 
         [HttpPost]
         [AuthorizationFilter]
-        public ActionResult Location(int siteId)
+        public ActionResult Location(string siteId)
         {
             var user = GetUser();
             user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
@@ -99,7 +99,7 @@ namespace SopraProject.Controllers
         public ActionResult Location()
         {
             var user = GetUser();
-            return Content(Tools.Serializer.Serialize(user.Location));
+            return Content(user.Location.Identifier.Value);
         }
 
         [AuthorizationFilter]
