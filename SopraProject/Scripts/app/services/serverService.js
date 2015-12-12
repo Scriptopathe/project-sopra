@@ -13,4 +13,9 @@
 	{
 		return $.get("../api/" + partialUri, args)
 	};
+
+	this.postRessource = function(partialUri, args)
+	{
+		return $.post("../api/" + partialUri, args)
+	};
 });

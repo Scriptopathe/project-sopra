@@ -3,6 +3,7 @@
 function(serverService, $scope, $timeout) {
 	$scope.server = serverService;
 	// User location (site identifier). -1 for none => not loaded.
+	$scope.defaultUserLocation = "-1";
 	$scope.userLocation = "-1";
 	// Existing sites
 	$scope.sites = {};
@@ -14,6 +15,7 @@ function(serverService, $scope, $timeout) {
 		{
 			$scope.updateRooms();
 			$scope.updateSites();
+			$scope.updateLocation();
 		});
 	};
 
@@ -67,6 +69,33 @@ function(serverService, $scope, $timeout) {
 					var siteAddress = site.children("Address").text();
 					$scope.sites[siteId] = { "id" : siteId, "name" : siteName, "address" : siteAddress };
 				});
+			});
+		});
+	};
+
+	// Loads the user's default location.
+	$scope.updateLocation = function() 
+	{
+		$scope.server.getRessource("location", {})
+		.done(function(data, statusCode)
+		{
+			$scope.$apply(function()
+			{
+				$scope.defaultUserLocation = data;
+				$scope.userLocation = data;
+			});
+		});
+	};
+
+	// Set default location.
+	$scope.setDefaultLocation = function(loc)
+	{
+		$scope.server.postRessource("location", { siteId : loc })
+		.done(function(data, statusCode)
+		{
+			$scope.$apply(function()
+			{
+				$scope.defaultUserLocation = loc;
 			});
 		});
 	};

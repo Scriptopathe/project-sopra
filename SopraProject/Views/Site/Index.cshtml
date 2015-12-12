@@ -6,18 +6,31 @@
 		<div class="panel-body">
 			<form role="form" class="form form-horizontal">
 				<!-- FORM GROUP LOCATION -->
-				<div class="form-group">
+				<div class="form-group form-group-sm">
 					<label class="control-label col-sm-2">Location : </label>
-					<div class="col-sm-5">
-						<select class="form-control" ng-model="userLocation">
-							<option ng-repeat="(id, site) in sites" value="{{site.id}}">{{site.name}}</option>
+					<div class="col-sm-3">
+						<select class="form-control form-control-sm" ng-model="userLocation">
+							<option ng-repeat="(id, site) in sites" value="{{site.id}}">
+							
+							{{ site.id == defaultUserLocation ? site.name + " (default)" : site.name }}
+
+							</option>
 						</select>
+					</div>
+					<div class="col-sm-2">
+						<button ng-click="setDefaultLocation(userLocation)" class="btn btn-primary btn-sm">Set as default.</button> 
 					</div>
 					<div class="col-sm-5">
 						<strong>Address : </strong> {{ sites[userLocation].address }}
 					</div>
 				</div>
-
+				<!-- SET AS DEFAULT -->
+				<div class="form-group form-group-sm">
+					<div class="col-sm-7"></div>
+					<div class="col-sm-5">
+						<strong>Default location : </strong> {{ sites[defaultUserLocation].name }}.
+					</div>
+				</div>
 				User location : {{ userLocation }} {{ sites[userLocation].name }}
 			</form>
 		</div>
