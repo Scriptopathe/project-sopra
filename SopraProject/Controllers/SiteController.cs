@@ -28,6 +28,19 @@ namespace SopraProject.Controllers
         }
 
         /// <summary>
+        /// Views the sign in page.
+        /// </summary>
+        /// <returns>The in.</returns>
+        [HttpGet]
+        public ActionResult SignOut(string next="", string status="")
+        {
+            Session["AuthTicket"] = null;
+            Session["Username"] = null;
+            Session["User"] = null;
+            Response.Cookies.Remove("AuthTicket");
+            return View("SignIn");
+        }
+        /// <summary>
         /// Authenticates an user.
         /// The request must have a username and password in the POST parameters.
         /// </summary>
