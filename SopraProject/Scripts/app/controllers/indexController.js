@@ -16,6 +16,7 @@ function(serverService, $scope, $timeout) {
 			$scope.updateRooms();
 			$scope.updateSites();
 			$scope.updateLocation();
+			$scope.updateUser();
 		});
 	};
 
@@ -86,6 +87,7 @@ function(serverService, $scope, $timeout) {
 			});
 		});
 	};
+
 
 	// Set default location.
 	$scope.setDefaultLocation = function(loc)

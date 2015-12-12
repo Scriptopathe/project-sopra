@@ -85,6 +85,17 @@ namespace SopraProject.Controllers
             return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
         }
 
+        /// <summary>
+        /// Gets the current logged user name.
+        /// </summary>
+        /// <returns>The user.</returns>
+        [AuthorizationFilter]
+        public ActionResult User()
+        {
+            var user = GetUser();
+            return Content(user.Username);
+        }
+
         [HttpPost]
         [AuthorizationFilter]
         public ActionResult Location(string siteId)

@@ -1,6 +1,4 @@
 ﻿app.service("serverService", function() {
-	this.serviceData = "truc";
-
 	// Gets the ressource under api/ with the given partial URI and arguments.
 	// For instance : getRessource("rooms", { "id" : 1 }) will direct to 
 	// 				  www.domain.com/api/rooms?id=1

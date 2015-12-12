@@ -175,6 +175,7 @@
     <Content Include="Scripts\app\controllers\indexController.js" />
     <Content Include="Scripts\app\services\serverService.js" />
     <Content Include="Views\Site\SignIn.cshtml" />
+    <Content Include="Scripts\app\controllers\mainController.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

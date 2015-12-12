@@ -1,6 +1,16 @@
 ﻿<div class="well">
 	<h4>Login</h4>
-	<p>@Request["Status"]</p>
+	<!-- Logged alert -->
+	<div class="alert alert-success" ng-show="logged">
+		You are currently logged in as {{ username }}
+	</div>
+
+	<!-- Not logged alert -->
+	<div class="alert alert-danger" ng-show="!logged">
+		You are currently not logged in.
+	</div>
+
+
 	<form class="form-horizontal" role="form" action="@Url.Action("Login", "Site", new { })" method="post">
 		<input style="display: none;" name="next" value="@Request["next"]"></input>
 		<div class="form-group">
@@ -26,8 +36,15 @@
 		-->
 		<div class="form-group">
 			<div class="col-sm-offset-1 col-sm-10">
+			<strong style="color: #AA0000;">@Request["Status"]</strong>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-1 col-sm-10">
 			  <button type="submit" class="btn btn-primary">Submit</button>
 			</div>
 		</div>
+
 	</form>
 </div>
