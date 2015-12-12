@@ -15,7 +15,7 @@ namespace SopraProject
         /// 
         /// Set it to false to be able to debug programs quickly.
         /// </summary>
-        public const bool ENABLE_FILTERING = false;
+        public const bool ENABLE_FILTERING = true;
 
         public AuthorizationFilterAttribute()
         {
