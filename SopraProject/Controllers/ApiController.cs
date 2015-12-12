@@ -107,6 +107,13 @@ namespace SopraProject.Controllers
             var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
             return Content(Tools.Serializer.Serialize(rooms));
         }
+
+        [AuthorizationFilter]
+        public ActionResult Sites()
+        {
+            var sites = SopraProject.ObjectApi.Site.GetAllSites();
+            return Content(Tools.Serializer.Serialize(sites));
+        }
     }
 }
 
