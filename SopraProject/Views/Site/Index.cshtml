@@ -1,7 +1,10 @@
 ﻿<div class="container" ng-controller="indexController">
-	Je suis le body du site
-	{{ test }}
-	<button class="btn btn-success" ng-click="updateRooms()">Click me !</button>
+	Je suis le body du site {{ test }}
+	<select class="form-control" ng-model="userLocation">
+		<option ng-repeat="site in sites" value="{{site.id}}">{{site.name}}</option>
+	</select>
+	User location : {{ userLocation }}
+
 	<h2>Rooms</h2>
 	<table class="table table-bordered table-striped table-hover">
 		<thead>
@@ -17,5 +20,6 @@
 			</tr>
 		</tbody>
 	</table>
+
 
 </div>
