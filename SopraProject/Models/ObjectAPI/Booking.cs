@@ -40,7 +40,7 @@ namespace SopraProject.ObjectApi
             { 
                 if (_room == null)
                 {
-                    _room = ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier);
+                    _room = new Room (ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
                 }
                 return _room; 
             }
