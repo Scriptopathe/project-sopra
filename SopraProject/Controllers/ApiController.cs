@@ -132,7 +132,7 @@ namespace SopraProject.Controllers
                         var sites = new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString()));
                         for (int j = 0; j < sites.Rooms.Count(); j++)
                         {
-                            rooms.Remove(sites.Rooms.ElementAt(j));
+                            rooms.Remove(sites.Rooms[j]);
                         }
                         //rooms.RemoveAll(new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString())).Rooms);
                     }
@@ -143,9 +143,9 @@ namespace SopraProject.Controllers
             {
                 for (int i = 0; i < rooms.Count(); i++)
                 {
-                    if (rooms.ElementAt(i).Capacity > personCount)
+                    if (rooms[i].Capacity > personCount)
                     {
-                        rooms.Remove(rooms.ElementAt(i));
+                        rooms.Remove(rooms[i]);
                     }
                 }
             }
@@ -154,8 +154,9 @@ namespace SopraProject.Controllers
                 for (int i = 0; i < rooms.Count(); i++)
                 {
                     //rooms.ElementAt(i).Particularities.Count();
-                    rooms.ElementAt(i).GetParticularities().Union(particularities);
-                    if (rooms.ElementAt(i).Particularities.Union(particularities) != rooms.ElementAt(i).Particularities.Count())
+                    // rooms[i].GetParticularities().Union(particularities);
+                    var parts = rooms[i].Particularities.ToList().ConvertAll(p => p.Identifier);
+                    if (parts.Union(particularities).Count() != rooms[i].Particularities.Count())
                     {
                         rooms.Remove(rooms.ElementAt(i));
                     }
