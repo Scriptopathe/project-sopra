@@ -84,6 +84,7 @@ namespace SopraProject.Controllers
             return Content("Username is " + user.Username + " Location : " + user.Location.Name  + "@" + user.Location.Address);
         }
 
+
         [HttpPost]
         [AuthorizationFilter]
         public ActionResult Location(int siteId)
