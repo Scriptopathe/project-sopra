@@ -89,7 +89,7 @@ namespace SopraProject.Controllers
         /// </summary>
         /// <returns>The user.</returns>
         [AuthorizationFilter]
-        public ActionResult User()
+        public new ActionResult User()
         {
             var user = GetUser();
             return Content(user.Username);
@@ -176,12 +176,6 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(rooms));
         }
 
-        /*[HttpPost]
-        [AuthorizationFilter]
-        public ActionResult Users(int userId)
-        {
-
-        }*/
 
         [AuthorizationFilter]
         public ActionResult Sites()
