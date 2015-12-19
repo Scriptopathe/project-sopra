@@ -130,6 +130,7 @@
     <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Filters\SiteAuthorizationFilter.cs" />
+    <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -211,4 +212,5 @@
     <None Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\angular.min.js.map" />
   </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" />
 </Project>
