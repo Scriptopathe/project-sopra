@@ -10,6 +10,7 @@ namespace SopraProject.ObjectApi
         DateTime? _endDate;
         string _name;
         List<string> _contacts;
+        Room _room;
 
         #region Properties
         /// <summary>
@@ -27,6 +28,24 @@ namespace SopraProject.ObjectApi
                     throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
             }
         }
+
+        /// <summary>
+        /// Gets the room.
+        /// </summary>
+        /// <value>The room.</value>
+        [XmlIgnore()]
+        public Room Room
+        {
+            get 
+            { 
+                if (_room == null)
+                {
+                    _room = new Room (ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
+                }
+                return _room; 
+            }
+        }
+
         /// <summary>
         /// Gets the booking's contact e-mails.
         /// </summary>
@@ -102,6 +121,13 @@ namespace SopraProject.ObjectApi
         {
             get { return Identifier.Value; }
             set { _identifier = new BookingIdentifier(value); }
+        }
+
+        [XmlElement("Room")]
+        public Room XMLRoom
+        {
+            get { return Room;}
+            set { }
         }
 
         [XmlElement("Contacts")]

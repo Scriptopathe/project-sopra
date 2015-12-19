@@ -138,6 +138,11 @@ namespace SopraProject.ObjectApi
         {
             return ObjectApiProvider.Instance.SitesApi.GetSites().ConvertAll(id => new Site(id));
         }
+
+        public static int GetSitesCount()
+        {
+            return ObjectApiProvider.Instance.SitesApi.SitesCount();
+        }
     }
 }
 

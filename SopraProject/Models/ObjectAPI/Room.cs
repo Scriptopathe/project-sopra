@@ -150,6 +150,17 @@ namespace SopraProject.ObjectApi
         {
             return ObjectApiProvider.Instance.SitesApi.GetRooms().ConvertAll(id => new Room(id));
         }
+
+        /*public List<ParticularityIdentifier> GetParticularities()
+        {
+            List<ParticularityIdentifier> val = null;
+            foreach (var part in Particularities)
+            {
+                val.Add(part.Identifier);
+            }
+            //Particularities.
+            return val;
+        }*/
         #endregion
     }
 }

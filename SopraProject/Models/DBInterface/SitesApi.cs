@@ -26,6 +26,19 @@ namespace SopraProject
 			}
 			return val;
 		}
+
+        public int SitesCount()
+        {
+            int val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from site in ctx.Sites
+                            select site.SiteID;
+                val = query.Count();
+            }
+            return val;
+        }
+
 		/// <summary>
 		/// Gets the name of the given site.
 		/// </summary>
