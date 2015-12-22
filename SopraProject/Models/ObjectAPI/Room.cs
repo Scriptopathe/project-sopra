@@ -8,7 +8,7 @@ namespace SopraProject.ObjectApi
     {
         #region Variables
         RoomIdentifier _identifier;
-        int? _capacity = -1;
+        int? _capacity = null;
         string _name;
         List<Particularity> _particularities;
         object _lock = new object();
