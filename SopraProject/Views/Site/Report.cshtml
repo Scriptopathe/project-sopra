@@ -1,0 +1,23 @@
+﻿<div class="container" ng-controller="reportController">
+
+
+    <div class="panel panel-default" ng-repeat="(key, value) in metrics" id="{{key}}Tab">
+        <div class="panel-heading">
+            <h4>{{chartNames[key]}}</h4>
+        </div>
+        <div class="panel-body">
+            <div class="container">
+                <div class="col-md-2" ng-repeat="(statkey, statvalue) in stats[key]">
+                    <strong>{{statkey}}</strong><br /> {{statvalue}}
+
+                </div>
+            </div>
+            <hr />
+            <div class="container-fluid" style="margin-right: 1.5em;"><canvas id="{{key}}Chart" width="600" height="120"></canvas></div>
+
+
+        </div>
+    </div>
+
+
+</div>

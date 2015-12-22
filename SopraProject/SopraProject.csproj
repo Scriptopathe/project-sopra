@@ -153,12 +153,16 @@
     <Compile Include="Models\ObjectAPI\Booking.cs" />
     <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
     <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
+    <Compile Include="Models\ObjectAPI\ObjectCache.cs" />
     <Compile Include="Models\ObjectAPI\Particularity.cs" />
     <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
     <Compile Include="Models\ObjectAPI\Room.cs" />
     <Compile Include="Models\ObjectAPI\Site.cs" />
+    <Compile Include="Models\ObjectAPI\UsageReport.cs" />
     <Compile Include="Models\ObjectAPI\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
+    <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
     <Compile Include="Tools\Security.cs" />
     <Compile Include="Tools\Serializer.cs" />
   </ItemGroup>
@@ -182,26 +186,13 @@
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\controllers\indexController.js" />
     <Content Include="Scripts\app\controllers\mainController.js" />
+    <Content Include="Scripts\app\controllers\reportController.js" />
     <Content Include="Scripts\app\services\serverService.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\angular.min.js.map" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Views\Shared\Login.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -221,13 +212,14 @@
     <Content Include="Views\Site\_Layout.cshtml" />
     <Content Include="Views\Site\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Views\Site\Report.cshtml" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

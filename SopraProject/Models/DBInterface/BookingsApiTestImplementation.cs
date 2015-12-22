@@ -34,6 +34,7 @@ namespace SopraProject
         /// The bookings which are not totally covered by the given time period (startDate -> endDate)
         /// are also included.
         /// The bookings are represented by their id.
+        /// The bookings must be sorted by StartDate (ascending).
         /// </summary>
         /// <returns>The bookings.</returns>
         /// <param name="startDate">Start date.</param>
@@ -45,6 +46,7 @@ namespace SopraProject
             {
                 var query = from booking in ctx.Bookings
                             where booking.EndDate > startDate && booking.StartDate < endDate
+                            orderby booking.StartDate ascending
                             select booking.BookingID;
                 
                 val = query.ToList().ConvertAll(id => new BookingIdentifier(id.ToString()));
@@ -132,6 +134,23 @@ namespace SopraProject
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
                             select booking.Contacts;
+                val = query.First();
+            }
+            return val;
+        }
+
+
+        /// <summary>
+        /// Gets the number of participants to the given booking.
+        /// </summary>
+        public int GetBookingParticipantsCount(BookingIdentifier bookingId)
+        {
+            int val;
+            using (var ctx = new Database.BookingContext())
+            {
+                var query = from booking in ctx.Bookings
+                            where booking.BookingID.ToString().Equals(bookingId.Value)
+                            select booking.ParticipantsCount;
                 val = query.First();
             }
             return val;

@@ -11,8 +11,17 @@ namespace SopraProject.ObjectApi
         string _name;
         List<string> _contacts;
         Room _room;
+        int? _participantsCount;
 
         #region Properties
+        /// <summary>
+        /// Gets the duration of the booking in hours.
+        /// </summary>
+        public float Duration
+        {
+            get { return (this.EndDate - this.StartDate).Minutes / 60.0f; }
+        }
+
         /// <summary>
         /// Gets this booking's identifier.
         /// </summary>
@@ -40,7 +49,7 @@ namespace SopraProject.ObjectApi
             { 
                 if (_room == null)
                 {
-                    _room = new Room (ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
+                    _room = Room.Get(ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
                 }
                 return _room; 
             }
@@ -111,6 +120,22 @@ namespace SopraProject.ObjectApi
                     _name = ObjectApiProvider.Instance.BookingsApi.GetBookingSubject(_identifier);
                 }
                 return _name;
+            }
+        }
+
+        /// <summary>
+        /// Gets the number of participants of the booking.
+        /// </summary>
+        [XmlIgnore()]
+        public int ParticipantsCount
+        {
+            get
+            {
+                if(!_participantsCount.HasValue)
+                {
+                    _participantsCount = ObjectApiProvider.Instance.BookingsApi.GetBookingParticipantsCount(_identifier);
+                }
+                return _participantsCount.Value;
             }
         }
         #endregion

@@ -133,15 +133,24 @@ namespace SopraProject.ObjectApi
         /// Initializes a new instance of the <see cref="SopraProject.ObjectApi.Room"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public Room(RoomIdentifier id)
+        private Room(RoomIdentifier id)
         {
             Identifier = id;
         }
 
 
 
-
         #region Static
+        private static ObjectCache<Room, string> s_cache = new ObjectCache<Room, string>();
+
+        /// <summary>
+        /// Gets the room from the database with the given identifier.
+        /// </summary>
+        public static Room Get(RoomIdentifier id)
+        {
+            return s_cache.Get(id);
+        }
+
         /// <summary>
         /// Gets a list containing all rooms of the database.
         /// </summary>
@@ -161,6 +170,9 @@ namespace SopraProject.ObjectApi
             //Particularities.
             return val;
         }*/
+
+
+
         #endregion
     }
 }

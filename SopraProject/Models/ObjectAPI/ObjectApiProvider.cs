@@ -7,7 +7,6 @@ namespace SopraProject.ObjectApi
     /// </summary>
     public class ObjectApiProvider
     {
-
         #region Static
         private static ObjectApiProvider _instance;
 

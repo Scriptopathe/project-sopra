@@ -80,7 +80,7 @@ namespace SopraProject.ObjectApi
                     var roomIds = ObjectApiProvider.Instance.SitesApi.GetRooms(_identifier);
                     foreach (var roomId in roomIds)
                     {
-                        _rooms.Add(new Room(roomId));
+                        _rooms.Add(Room.Get(roomId));
                     }
                 }
 
