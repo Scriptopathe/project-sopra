@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SopraProject.ObjectApi.Cache;
 namespace SopraProject.ObjectApi
 {
     public class Room
     {
         #region Variables
         RoomIdentifier _identifier;
-        int _capacity = -1;
+        int? _capacity = -1;
         string _name;
         List<Particularity> _particularities;
+        object _lock = new object();
         #endregion
 
         #region Properties
@@ -23,9 +25,12 @@ namespace SopraProject.ObjectApi
             get { return _identifier; }
             private set
             {
-                _identifier = value;
-                if (!ObjectApiProvider.Instance.SitesApi.RoomExists(_identifier))
-                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                lock(_lock)
+                {
+                    _identifier = value;
+                    if (!ObjectApiProvider.Instance.SitesApi.RoomExists(_identifier))
+                        throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                }
             }
         }
         /// <summary>
@@ -37,7 +42,7 @@ namespace SopraProject.ObjectApi
         /// <param name="endDate">End date.</param>
         public IReadOnlyList<Booking> GetBookings(DateTime startDate, DateTime endDate)
         {
-            return ObjectApiProvider.Instance.BookingsApi.GetBookings(_identifier, startDate, endDate).ConvertAll(s => new Booking(s));
+            return ObjectApiProvider.Instance.BookingsApi.GetBookings(_identifier, startDate, endDate).ConvertAll(s =>  Booking.Get(s));
         }
 
         /// <summary>
@@ -49,9 +54,12 @@ namespace SopraProject.ObjectApi
         {
             get
             { 
-                if (_name == null)
+                lock(_lock)
                 {
-                    _name = ObjectApiProvider.Instance.SitesApi.GetRoomName(_identifier);
+                    if (_name == null)
+                    {
+                        _name = ObjectApiProvider.Instance.SitesApi.GetRoomName(_identifier);
+                    }
                 }
                 return _name;
             }
@@ -66,11 +74,14 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_capacity == -1)
+                lock(_lock)
                 {
-                    _capacity = ObjectApiProvider.Instance.SitesApi.GetRoomCapacity(_identifier);
+                    if (!_capacity.HasValue)
+                    {
+                        _capacity = ObjectApiProvider.Instance.SitesApi.GetRoomCapacity(_identifier);
+                    }
                 }
-                return _capacity;
+                return _capacity.Value;
             }
         }
 
@@ -83,16 +94,19 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_particularities == null)
+                lock(_lock)
                 {
-                    _particularities = new List<Particularity>();
-                    var roomIds = ObjectApiProvider.Instance.SitesApi.GetRoomParticularities(_identifier);
-                    foreach (var roomId in roomIds)
+                    if (_particularities == null)
                     {
-                        _particularities.Add(new Particularity(roomId));
+                        _particularities = new List<Particularity>();
+                        var roomIds = ObjectApiProvider.Instance.SitesApi.GetRoomParticularities(_identifier);
+                        foreach (var roomId in roomIds)
+                        {
+                            _particularities.Add(Particularity.Get(roomId));
+                        }
                     }
                 }
-
+                
                 return _particularities;
             }
         }
@@ -141,8 +155,9 @@ namespace SopraProject.ObjectApi
 
 
         #region Static
-        private static ObjectCache<Room, string> s_cache = new ObjectCache<Room, string>();
 
+        #region Cache
+        private static ObjectCache<string, Room> s_cache = new ObjectCache<string, Room>();
         /// <summary>
         /// Gets the room from the database with the given identifier.
         /// </summary>
@@ -151,13 +166,15 @@ namespace SopraProject.ObjectApi
             return s_cache.Get(id);
         }
 
+        #endregion
+
         /// <summary>
         /// Gets a list containing all rooms of the database.
         /// </summary>
         /// <returns>The all rooms.</returns>
         public static List<Room> GetAllRooms()
         {
-            return ObjectApiProvider.Instance.SitesApi.GetRooms().ConvertAll(id => new Room(id));
+            return ObjectApiProvider.Instance.SitesApi.GetRooms().ConvertAll(id => Room.Get(id));
         }
 
         /*public List<ParticularityIdentifier> GetParticularities()

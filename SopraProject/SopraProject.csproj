@@ -151,9 +151,11 @@
     <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
     <Compile Include="Models\Identifiers\UserIdentifier.cs" />
     <Compile Include="Models\ObjectAPI\Booking.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\CachePolicy.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\FastCachePolicy.cs" />
     <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
     <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
-    <Compile Include="Models\ObjectAPI\ObjectCache.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\ObjectCache.cs" />
     <Compile Include="Models\ObjectAPI\Particularity.cs" />
     <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
     <Compile Include="Models\ObjectAPI\Room.cs" />

@@ -98,7 +98,7 @@ namespace SopraProject.Controllers
         public ActionResult Location(string siteId)
         {
             var user = GetUser();
-            user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
+            user.Location = ObjectApi.Site.Get(new SiteIdentifier(siteId.ToString()));
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
         }
 
@@ -158,7 +158,7 @@ namespace SopraProject.Controllers
                 {
                     if (i != siteId)
                     {
-                        var sites = new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString()));
+                        var sites = SopraProject.ObjectApi.Site.Get(new SiteIdentifier(i.ToString()));
                         for (int j = 0; j < sites.Rooms.Count(); j++)
                         {
                             rooms.Remove(sites.Rooms[j]);

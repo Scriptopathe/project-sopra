@@ -194,7 +194,7 @@ namespace SopraProject.ObjectApi
         {
             // Gets the bookings corresponding to this period.
             List<Booking> bookings = ObjectApiProvider.Instance.BookingsApi.GetBookings(Room.Identifier, StartDate, EndDate)
-                                     .ConvertAll(bookingId => new Booking(bookingId));
+                                     .ConvertAll(bookingId => Booking.Get(bookingId));
 
             if (bookings.Count != 0)
             {

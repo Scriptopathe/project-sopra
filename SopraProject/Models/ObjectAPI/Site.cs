@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SopraProject.ObjectApi.Cache;
 namespace SopraProject.ObjectApi
 {
     /// <summary>
@@ -13,6 +14,7 @@ namespace SopraProject.ObjectApi
         private string _name;
         private string _address;
         private List<Room> _rooms;
+        private object _lock = new object();
 
         #region Properties
         /// <summary>
@@ -25,9 +27,12 @@ namespace SopraProject.ObjectApi
             get { return _identifier; }            
             private set
             {
-                _identifier = value;
-                if (!ObjectApiProvider.Instance.SitesApi.SiteExists(_identifier))
-                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                lock(_lock)
+                {
+                    _identifier = value;
+                    if (!ObjectApiProvider.Instance.SitesApi.SiteExists(_identifier))
+                        throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                }
             }
         }
 
@@ -40,9 +45,12 @@ namespace SopraProject.ObjectApi
         {
             get 
             { 
-                if (_name == null)
+                lock(_lock)
                 {
-                    _name = ObjectApiProvider.Instance.SitesApi.GetSiteName(_identifier);
+                    if (_name == null)
+                    {
+                        _name = ObjectApiProvider.Instance.SitesApi.GetSiteName(_identifier);
+                    }
                 }
                 return _name;
             }
@@ -57,9 +65,12 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_address == null)
+                lock(_lock)
                 {
-                    _address = ObjectApiProvider.Instance.SitesApi.GetSiteAddress(_identifier);
+                    if (_address == null)
+                    {
+                        _address = ObjectApiProvider.Instance.SitesApi.GetSiteAddress(_identifier);
+                    }
                 }
                 return _address;
             }
@@ -74,15 +85,19 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_rooms == null)
+                lock(_lock)
                 {
-                    _rooms = new List<Room>();
-                    var roomIds = ObjectApiProvider.Instance.SitesApi.GetRooms(_identifier);
-                    foreach (var roomId in roomIds)
+                    if (_rooms == null)
                     {
-                        _rooms.Add(Room.Get(roomId));
+                        _rooms = new List<Room>();
+                        var roomIds = ObjectApiProvider.Instance.SitesApi.GetRooms(_identifier);
+                        foreach (var roomId in roomIds)
+                        {
+                            _rooms.Add(Room.Get(roomId));
+                        }
                     }
                 }
+
 
                 return _rooms;
             }
@@ -124,7 +139,7 @@ namespace SopraProject.ObjectApi
         /// Initializes a new instance of the <see cref="SopraProject.Site"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public Site(SiteIdentifier id)
+        private Site(SiteIdentifier id)
         {
             Identifier = id;
         }
@@ -136,13 +151,25 @@ namespace SopraProject.ObjectApi
         /// <returns>The all sites.</returns>
         public static List<Site> GetAllSites()
         {
-            return ObjectApiProvider.Instance.SitesApi.GetSites().ConvertAll(id => new Site(id));
+            return ObjectApiProvider.Instance.SitesApi.GetSites().ConvertAll(id => Site.Get(id));
         }
 
         public static int GetSitesCount()
         {
             return ObjectApiProvider.Instance.SitesApi.SitesCount();
         }
+
+        #region Cache
+        private static ObjectCache<string, Site> s_cache = new ObjectCache<string, Site>();
+
+        /// <summary>
+        /// Gets the booking from the database with the given identifier.
+        /// </summary>
+        public static Site Get(SiteIdentifier id)
+        {
+            return s_cache.Get(id);
+        }
+        #endregion
     }
 }
 

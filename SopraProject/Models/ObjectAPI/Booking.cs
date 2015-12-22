@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using SopraProject.ObjectApi.Cache;
 namespace SopraProject.ObjectApi
 {
     public class Booking
@@ -12,7 +13,7 @@ namespace SopraProject.ObjectApi
         List<string> _contacts;
         Room _room;
         int? _participantsCount;
-
+        object _lock = new object();
         #region Properties
         /// <summary>
         /// Gets the duration of the booking in hours.
@@ -32,9 +33,12 @@ namespace SopraProject.ObjectApi
             get { return _identifier; }
             private set
             {
-                _identifier = value;
-                if (!ObjectApiProvider.Instance.BookingsApi.BookingExists(_identifier))
-                    throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                lock(_lock)
+                {
+                    _identifier = value;
+                    if (!ObjectApiProvider.Instance.BookingsApi.BookingExists(_identifier))
+                        throw new InvalidIdentifierException(this.GetType(), _identifier.Value.ToString());
+                }
             }
         }
 
@@ -45,11 +49,14 @@ namespace SopraProject.ObjectApi
         [XmlIgnore()]
         public Room Room
         {
-            get 
-            { 
-                if (_room == null)
+            get
+            {
+                lock (_lock)
                 {
-                    _room = Room.Get(ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
+                    if (_room == null)
+                    {
+                        _room = Room.Get(ObjectApiProvider.Instance.BookingsApi.GetBookingRoom(_identifier));
+                    }
                 }
                 return _room; 
             }
@@ -62,11 +69,14 @@ namespace SopraProject.ObjectApi
         [XmlIgnore()]
         public IReadOnlyList<string> Contacts
         {
-            get 
+            get
             {
-                if (_contacts == null)
+                lock (_lock)
                 {
-                    _contacts = ObjectApiProvider.Instance.BookingsApi.GetBookingContacts(_identifier);
+                    if (_contacts == null)
+                    {
+                        _contacts = ObjectApiProvider.Instance.BookingsApi.GetBookingContacts(_identifier);
+                    }
                 }
                 return _contacts;
             }
@@ -79,11 +89,14 @@ namespace SopraProject.ObjectApi
         [XmlIgnore()]
         public DateTime StartDate
         {
-            get 
+            get
             {
-                if (!_startDate.HasValue)
+                lock (_lock)
                 {
-                    _startDate = ObjectApiProvider.Instance.BookingsApi.GetBookingStartDate(_identifier);
+                    if (!_startDate.HasValue)
+                    {
+                        _startDate = ObjectApiProvider.Instance.BookingsApi.GetBookingStartDate(_identifier);
+                    }
                 }
                 return _startDate.Value;
             }
@@ -98,9 +111,13 @@ namespace SopraProject.ObjectApi
         {
             get 
             {
-                if (!_endDate.HasValue)
+
+                lock (_lock)
                 {
-                    _endDate = ObjectApiProvider.Instance.BookingsApi.GetBookingEndDate(_identifier);
+                    if (!_endDate.HasValue)
+                    {
+                        _endDate = ObjectApiProvider.Instance.BookingsApi.GetBookingEndDate(_identifier);
+                    }
                 }
                 return _endDate.Value;
             }
@@ -115,9 +132,12 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if (_name == null)
+                lock (_lock)
                 {
-                    _name = ObjectApiProvider.Instance.BookingsApi.GetBookingSubject(_identifier);
+                    if (_name == null)
+                    {
+                        _name = ObjectApiProvider.Instance.BookingsApi.GetBookingSubject(_identifier);
+                    }
                 }
                 return _name;
             }
@@ -131,9 +151,12 @@ namespace SopraProject.ObjectApi
         {
             get
             {
-                if(!_participantsCount.HasValue)
+                lock (_lock)
                 {
-                    _participantsCount = ObjectApiProvider.Instance.BookingsApi.GetBookingParticipantsCount(_identifier);
+                    if (!_participantsCount.HasValue)
+                    {
+                        _participantsCount = ObjectApiProvider.Instance.BookingsApi.GetBookingParticipantsCount(_identifier);
+                    }
                 }
                 return _participantsCount.Value;
             }
@@ -187,10 +210,20 @@ namespace SopraProject.ObjectApi
         /// Initializes a new instance of the <see cref="SopraProject.Booking"/> class.
         /// </summary>
         /// <param name="id">Identifier.</param>
-        public Booking(BookingIdentifier id)
+        private Booking(BookingIdentifier id)
         {
             Identifier = id;
         }
+
+        #region Cache
+        /// <summary>
+        /// Gets the booking from the database with the given identifier.
+        /// </summary>
+        public static Booking Get(BookingIdentifier id)
+        {
+            return new Booking(id);
+        }
+        #endregion
     }
 }
 
