@@ -11,7 +11,6 @@
 					<div class="col-sm-3">
 						<select class="form-control form-control-sm" ng-model="userLocation">
 							<option ng-repeat="(id, site) in sites" value="{{site.id}}">
-							
 							{{ site.id == defaultUserLocation ? site.name + " (default)" : site.name }}
 
 							</option>
@@ -37,22 +36,38 @@
 	</div>
 
 	<div class="panel panel-default">
-		<div class="panel-heading">Rooms</div>
+		<div class="panel-heading">Room Searching</div>
 		<div class="panel-body">
-			<table class="table table-bordered table-striped table-hover">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="(id, room) in rooms">
-						<td>{{ room.id }}</td>
-						<td>{{ room.name}}</td>
-					</tr>
-				</tbody>
-			</table>
+			<form role="form" class="form form-horizontal">
+				<label class="control-label col-sm-2">Room Capacity : </label>
+				<div class="col-sm-5">
+					<div class="input-group" >
+						<input type="text" class="form-control" placeholder="Number of users" aria-describedby="basic-addon1">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<!-- DATE  -->
+				<div class="container">
+				    <div class="row">
+				    <label class="control-label col-sm-2">Date : </label>
+				        <div class='col-sm-3'>
+				            <div class="form-group">
+				                <div class='input-group date' id='datetimepicker1'>
+				                    <input type='text' class="form-control" placeholder="DD/MM/YYYY" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+				            </div>
+				        </div>
+				    </div>
+				</div>
+
+			</form>
 		</div>
 	</div>
 
