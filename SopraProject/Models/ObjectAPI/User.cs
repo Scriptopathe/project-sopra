@@ -7,7 +7,7 @@ namespace SopraProject.ObjectApi
     {
         private UserIdentifier _identifier;
         private Site _site;
-
+        private object _lock = new object();
         #region Properties
         /// <summary>
         /// Gets this site's identifier.
@@ -28,9 +28,12 @@ namespace SopraProject.ObjectApi
         {
             get 
             {
-                if (_site == null)
+                lock(_lock)
                 {
-                    _site = new Site(ObjectApiProvider.Instance.UserProfileApi.GetLocation(_identifier));
+                    if (_site == null)
+                    {
+                        _site = Site.Get(ObjectApiProvider.Instance.UserProfileApi.GetLocation(_identifier));
+                    }
                 }
                 return _site;
             }
