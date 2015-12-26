@@ -25,7 +25,7 @@ namespace SopraProject.ObjectApi
                 {
                     if (i != siteId)
                     {
-                        var sites = new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString()));
+                        var sites =  SopraProject.ObjectApi.Site.Get(new SiteIdentifier(i.ToString()));
                         for (int j = 0; j < sites.Rooms.Count; j++)
                         {
                             rooms.Remove(sites.Rooms[j]);

@@ -17,6 +17,8 @@ namespace SopraProject
         /// The bookings which are not totally covered by the given time period (startDate -> endDate)
         /// are also included.
         /// The bookings are represented by their id.
+        /// 
+        /// The bookings must be sorted by StartDate (ascending).
         /// </summary>
         /// <returns>The bookings.</returns>
         /// <param name="startDate">Start date.</param>
@@ -57,6 +59,10 @@ namespace SopraProject
         /// <returns>The booking contacts.</returns>
         /// <param name="bookingId">Booking identifier.</param>
         List<string> GetBookingContacts(BookingIdentifier bookingId);
+        /// <summary>
+        /// Gets the number of participants to the given booking.
+        /// </summary>
+        int GetBookingParticipantsCount(BookingIdentifier bookingId);
     }
 }
 

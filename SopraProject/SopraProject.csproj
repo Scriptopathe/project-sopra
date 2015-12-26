@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{9A60A570-E6E1-4998-A93B-D81CCDD55B91}</ProjectGuid>
+    <ProjectGuid>{AC3B9888-8C48-4C5D-91C7-62FA385FC565}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SopraProject</RootNamespace>
     <AssemblyName>SopraProject</AssemblyName>
@@ -132,6 +132,12 @@
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Filters\SiteAuthorizationFilter.cs" />
     <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\CachePolicy.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\FastCachePolicy.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\ObjectCache.cs" />
+    <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
+    <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
+    <Compile Include="Models\ObjectAPI\UsageReport.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -154,8 +160,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />

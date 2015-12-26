@@ -20,6 +20,7 @@ namespace SopraProject.Database
 
             using (var ctx = new MainContext())
             {
+
                 List<MCParticularity> allparts = new List<MCParticularity>();
                 allparts.Add(new MCParticularity() { Name = "Videoconf" });
                 allparts.Add(new MCParticularity() { Name = "Digilab" });
@@ -51,7 +52,6 @@ namespace SopraProject.Database
                 ctx.SaveChanges();
                 ctx.Sites.AddRange(allsites);
                 ctx.SaveChanges();
-                // ctx.Bookings.Add(new BCBooking() { BookingDate = new DateTime(2015, 11, 10, 10, 10, 10), B
             }
 
             using (var ctx = new AuthenticationContext())
@@ -108,15 +108,13 @@ namespace SopraProject.Database
         static BCBooking CreateBooking(List<string> usernames, int rooms, string subject)
         {
             string username = usernames[s_rand.Next(0, usernames.Count)];
-            int room = s_rand.Next(0, rooms);
+            int room = s_rand.Next(1, rooms);
             int hour = s_rand.Next(8, 18);
             int minute = (new int[] { 0, 15, 30, 45 })[s_rand.Next(0, 4)];
             int day = s_rand.Next(1, 30);
             DateTime start = new DateTime(2015, 11, day, hour, minute, 0);
-            hour = s_rand.Next(8, 18);
-            minute = (new int[] { 0, 15, 30, 45 })[s_rand.Next(0, 4)];
-            day = s_rand.Next(1, 30);
-            DateTime end = new DateTime(2015, 11, day, hour, minute, 0);
+            minute = (new int[] { 0, 15, 30, 45, 60, 75, 90, 105, 120 })[s_rand.Next(0, 4)];
+            DateTime end = start.AddMinutes(minute);
             int personCount = s_rand.Next(1, 5);
             return new BCBooking()
             {
@@ -125,7 +123,9 @@ namespace SopraProject.Database
                 StartDate = start,
                 EndDate = end,
                 PersonCount = personCount,
-                Subject = subject
+                Subject = subject,
+                ParticipantsCount = s_rand.Next(0, 4)
+                
             };
         }
         
