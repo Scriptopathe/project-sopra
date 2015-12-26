@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SopraProject.Tools.Extensions.Date;
 using System.Xml.Serialization;
 using System.Web.Security;
 
@@ -13,13 +14,6 @@ namespace SopraProject.Controllers
     /// </summary>
     public class ApiController : BaseController
     {
-        public class Test
-        {
-            public string Str { get; set; }
-            public string Truc { get; set; }
-            public Test() { }
-        }
-
         /// <summary>
         /// Authenticates an user.
         /// The request must have a username and password in the GET parameters.
@@ -95,15 +89,23 @@ namespace SopraProject.Controllers
             return Content(user.Username);
         }
 
+        /// <summary>
+        /// Sets the user default location to the given site.
+        /// </summary>
+        /// <param name="siteId">The id of the site</param>
         [HttpPost]
         [AuthorizationFilter]
         public ActionResult Location(string siteId)
         {
             var user = GetUser();
-            user.Location = new ObjectApi.Site(new SiteIdentifier(siteId.ToString()));
+            user.Location = ObjectApi.Site.Get(new SiteIdentifier(siteId.ToString()));
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
         }
 
+        /// <summary>
+        /// Gets the user's default location.
+        /// </summary>
+        /// <returns>The user's default location (site) identifier. For instance : 6</returns>
         [HttpGet]
         [AuthorizationFilter]
         public ActionResult Location()
@@ -112,6 +114,10 @@ namespace SopraProject.Controllers
             return Content(user.Location.Identifier.Value);
         }
 
+        /// <summary>
+        /// Gets all rooms as a list in XML format.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AuthorizationFilter]
         public ActionResult Rooms()
@@ -120,17 +126,29 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(rooms));
         }
 
+        /// <summary>
+        /// Gets the room with the given id in XML format.
+        /// </summary>
+        /// <param name="roomId">the room id</param>
+        /// <returns>The room data in XML format</returns>
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult Rooms(int roomId)
+        public ActionResult GetRoomById(int roomId)
         {
-            var room = new ObjectApi.Room(new RoomIdentifier(roomId.ToString()));
+            var room = ObjectApi.Room.Get(new RoomIdentifier(roomId.ToString()));
             return Content(Tools.Serializer.Serialize(room));
         }
 
+        /// <summary>
+        /// Gets the list of rooms that satifisfy the given requirements in XML format.
+        /// </summary>
+        /// <param name="siteId"></param>
+        /// <param name="personCount"></param>
+        /// <param name="particularities"></param>
+        /// <returns></returns>
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult Rooms(int siteId=-1, int personCount=-1, List<ParticularityIdentifier> particularities=null)
+        public ActionResult Search(int siteId=-1, int personCount=-1, List<ParticularityIdentifier> particularities=null)
         {
             var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
             if (siteId != -1)
@@ -140,7 +158,7 @@ namespace SopraProject.Controllers
                 {
                     if (i != siteId)
                     {
-                        var sites = new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString()));
+                        var sites = SopraProject.ObjectApi.Site.Get(new SiteIdentifier(i.ToString()));
                         for (int j = 0; j < sites.Rooms.Count(); j++)
                         {
                             rooms.Remove(sites.Rooms[j]);
@@ -176,7 +194,19 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(rooms));
         }
 
+        [HttpGet]
+        [AuthorizationFilter]
+        public ActionResult Report(string startDate, string endDate, string roomId)
+        {
+            // var report = new ObjectApi.UsageReport(new ObjectApi.Room(new RoomIdentifier(roomId)), DateTime.Parse(startDate), DateTime.Parse(endDate));
+            // var report = new ObjectApi.UsageReport(new ObjectApi.Room(new RoomIdentifier(roomId)), new DateTime(2015, 11, 1), new DateTime(2015, 11, 30));
+            var report = new ObjectApi.UsageReport(ObjectApi.Room.Get(new RoomIdentifier(roomId)), startDate.DeserializeDate(), endDate.DeserializeDate());
+            return Content(Tools.Serializer.Serialize(report));
+        }
 
+        /// <summary>
+        /// Gets all sites as a list in XML format.
+        /// </summary>
         [AuthorizationFilter]
         public ActionResult Sites()
         {

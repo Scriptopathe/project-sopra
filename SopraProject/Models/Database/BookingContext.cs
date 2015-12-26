@@ -47,6 +47,10 @@ namespace SopraProject.Database
         /// </summary>
         /// <value>The booking subject.</value>
         public string Subject { get; set; }
+        /// <summary>
+        /// Gets or sets the number of participants of this booking.
+        /// </summary>
+        public int ParticipantsCount { get; set; }
     }
 
     /// <summary>

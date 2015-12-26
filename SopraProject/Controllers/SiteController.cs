@@ -16,7 +16,14 @@ namespace SopraProject.Controllers
         {
             return View("Index");
         }
-
+        /// <summary>
+        /// Views the report page.
+        /// </summary>
+        [SiteAuthorizationFilter]
+        public ActionResult Report()
+        {
+            return View("Report");
+        }
         /// <summary>
         /// Views the sign in page.
         /// </summary>
