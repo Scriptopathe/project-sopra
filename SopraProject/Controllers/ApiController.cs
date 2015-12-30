@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using SopraProject.Tools.Extensions.Date;
 using System.Xml.Serialization;
 using System.Web.Security;
+using SopraProject.ObjectApi;
 
 namespace SopraProject.Controllers
 {
@@ -148,13 +149,16 @@ namespace SopraProject.Controllers
         /// <returns></returns>
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult Search(int siteId=-1, int personCount=-1, List<ParticularityIdentifier> particularities=null)
+		public ActionResult Search(int siteId=-1, int personCount=-1, string[] particularities=null)
         {
-            var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
-            if (siteId != -1)
-            {
-                //List<SopraProject.ObjectApi.Site> sites = null;
-                for (int i = 0; i < SopraProject.ObjectApi.Site.GetSitesCount(); i++)
+			var rooms = Room.GetAllRooms();
+			if (siteId != -1) {
+				rooms = new List<Room> (Site.Get (new SiteIdentifier (siteId.ToString ())).Rooms);
+
+				//rooms.AddRange(Site.Get (new SiteIdentifier (siteId.ToString ())).Rooms);
+                
+				//List<SopraProject.ObjectApi.Site> sites = null;
+				/*for (int i = 0; i < SopraProject.ObjectApi.Site.GetSitesCount(); i++)
                 {
                     if (i != siteId)
                     {
@@ -166,21 +170,46 @@ namespace SopraProject.Controllers
                         //rooms.RemoveAll(new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString())).Rooms);
                     }
                 }
-                //rooms.RemoveAll(sites.Rooms);
-            }
+                //rooms.RemoveAll(sites.Rooms);*/
+				
+			} else {
+				rooms = Room.GetAllRooms();
+			}
             if (personCount != -1)
             {
-                for (int i = 0; i < rooms.Count(); i++)
+				rooms = rooms.FindAll (room => room.Capacity >= personCount);
+                /*for (int i = 0; i < rooms.Count(); i++)
                 {
                     if (rooms[i].Capacity > personCount)
                     {
                         rooms.Remove(rooms[i]);
                     }
-                }
+                }*/
             }
             if (particularities != null)
             {
-                for (int i = 0; i < rooms.Count(); i++)
+				//Garder uniquement les salles qui ont le même nombre de particularités que celles demandées dans la recherche
+				rooms = rooms.FindAll (room => room.Particularities.Count() == particularities.Length);
+				Boolean find = false;
+
+				for (int i = 0; i < rooms.Count(); i++) {
+					var parts = rooms[i].Particularities.ToList ();
+					for (int j = 0; j < particularities.Length; j++) {
+						for (int k = 0; k < particularities.Length; k++){
+							if (parts[j].Identifier.ToString() == particularities[k]){
+								find = true;
+								k = particularities.Length;
+							}
+						}
+						if (find == false) {
+							rooms.Remove(rooms.ElementAt(i));
+							j = particularities.Length;
+						}
+						find = false;
+					}
+				}
+
+				/*for (int i = 0; i < rooms.Count(); i++)
                 {
                     //rooms.ElementAt(i).Particularities.Count();
                     // rooms[i].GetParticularities().Union(particularities);
@@ -189,7 +218,7 @@ namespace SopraProject.Controllers
                     {
                         rooms.Remove(rooms.ElementAt(i));
                     }
-                }
+                }*/
             }
             return Content(Tools.Serializer.Serialize(rooms));
         }
