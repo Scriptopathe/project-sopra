@@ -39,6 +39,11 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Room Searching</div>
+			<div class="panel-body">
+				<form role="form" class="form form-horizontal">
+					<label class="control-label col-sm-2">Research on Site {{ userLocation }}</label>
+				</form>
+			</div>
 
 		<table>
 			<tr>
@@ -147,6 +152,7 @@
 			<form role="form" class="form form-horizontal">
 				<label class="control-label col-sm-2"> </label>
 				<div class="col-sm-2">
+					<!-- CHANGER LA FOCNTION -->
 					<button ng-click="setDefaultLocation(userLocation)" class="btn btn-primary btn-lg">Research</button> 
 				</div>
 			</form>
