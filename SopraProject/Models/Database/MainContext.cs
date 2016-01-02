@@ -102,6 +102,7 @@ namespace SopraProject.Database
 	/// <summary>
 	/// Main context.
 	/// </summary>
+	[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
 	public class MainContext : DbContext
 	{
 		/// <summary>

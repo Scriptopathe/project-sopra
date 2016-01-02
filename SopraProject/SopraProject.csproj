@@ -182,6 +182,8 @@
     <Content Include="Scripts\app\services\serverService.js" />
     <Content Include="Views\Site\SignIn.cshtml" />
     <Content Include="Scripts\app\controllers\mainController.js" />
+    <Content Include="Views\Site\Report.cshtml" />
+    <Content Include="Scripts\app\controllers\reportController.js" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
