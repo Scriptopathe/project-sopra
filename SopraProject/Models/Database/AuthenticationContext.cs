@@ -33,6 +33,7 @@ namespace SopraProject.Database
 		/// </summary>
 		public AuthenticationContext () : base("authContext")
 		{
+			Database.SetInitializer<AuthenticationContext>(new CreateDatabaseIfNotExists<AuthenticationContext>());
 		}
 		/// <summary>
 		/// Gets or sets the users.

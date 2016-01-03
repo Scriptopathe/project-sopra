@@ -11,7 +11,6 @@
 					<div class="col-sm-3">
 						<select class="form-control form-control-sm" ng-model="userLocation">
 							<option ng-repeat="(id, site) in sites" value="{{site.id}}">
-							
 							{{ site.id == defaultUserLocation ? site.name + " (default)" : site.name }}
 
 							</option>
@@ -36,24 +35,128 @@
 		</div>
 	</div>
 
-	<div class="panel panel-default">
-		<div class="panel-heading">Rooms</div>
-		<div class="panel-body">
-			<table class="table table-bordered table-striped table-hover">
-				<thead>
-					<tr>
-						<th>ID</th>
-						<th>Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="(id, room) in rooms">
-						<td>{{ room.id }}</td>
-						<td>{{ room.name}}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
+<!-- ROOM SEARCHING  -->
 
+	<div class="panel panel-default">
+		<div class="panel-heading">Room Searching</div>
+			<div class="panel-body">
+				<form role="form" class="form form-horizontal">
+					<label class="control-label col-sm-2">Research on Site {{ userLocation }}</label>
+				</form>
+			</div>
+
+		<table>
+			<tr>
+			<td>
+				<!-- NUMBER OF PEOPLE -->
+				<div class="panel-body">
+					<form role="form" class="form form-horizontal">
+						<label class="control-label col-sm-4">Room Capacity : </label>
+						<div class="col-sm-5">
+							<div class="input-group" >
+								<input type="text" class="form-control" placeholder="Number of users" aria-describedby="basic-addon1">
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!-- DATE -->
+				<div class="panel-body">
+					<form role="form" class="form form-horizontal">
+						<label class="control-label col-sm-4">Date : </label>
+					        <div class='col-sm-5'>
+				                <div class='input-group date' id='datetimepicker1'>
+				                    <input type='text' class="form-control" placeholder="DD/MM/YYYY" />
+				                    <span class="input-group-addon">
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+					        </div>
+					</form>
+				</div>
+
+				<!-- MEETING DURATION -->
+				<div class="panel-body">
+					<form role="form" class="form form-horizontal">
+						<label class="control-label col-sm-4">Meeting Duration : </label>
+						<div class="col-sm-6">
+							<div class="input-group" >
+								<input type="text" class="form-control" placeholder="15min Minimum" aria-describedby="basic-addon1">
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</td>
+
+
+			<td>
+
+				<!-- PARTICULARITIES -->
+				<div class="panel-body">
+					<form role="form" class="form form-horizontal">
+						<label class="control-label col-sm-4">Particularities : </label>
+						<div class='col-sm-6'>
+							<div class="row">
+								<div class="col-lg-10">
+									<table>
+										<tr>
+										    <div class="input-group">
+										      <span class="input-group-addon">
+										        <input type="checkbox" aria-label="..."> 
+										      </span>
+										      <input type="text" class="form-control" value="Phone" readonly="readonly">
+										    </div>
+										</tr>
+										<br/>
+										<tr>
+										    <div class="input-group">
+										      <span class="input-group-addon">
+										        <input type="checkbox" aria-label="..."> 
+										      </span>
+										      <input type="text" class="form-control"  value="Video" readonly="readonly">
+										    </div>	
+										</tr>
+										<br/>
+										<tr>
+										    <div class="input-group">
+										      <span class="input-group-addon">
+										        <input type="checkbox" aria-label="..."> 
+										      </span>
+										      <input type="text" class="form-control"  value="Secure Room" readonly="readonly">
+										    </div>	
+										</tr>
+										<br/>
+										<tr>
+										    <div class="input-group">
+										      <span class="input-group-addon">
+										        <input type="checkbox" aria-label="..."> 
+										      </span>
+										      <input type="text" class="form-control"  value="DigiLab" readonly="readonly">
+										    </div>	
+										</tr>
+									</table>
+								</div>
+							</div>
+							  		  
+						</div>
+					</form>
+				</div>
+
+
+			</td>
+		</tr>
+		</table>
+
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<label class="control-label col-sm-2"> </label>
+				<div class="col-sm-2">
+					<!-- CHANGER LA FOCNTION -->
+					<button ng-click="setDefaultLocation(userLocation)" class="btn btn-primary btn-lg">Research</button> 
+				</div>
+			</form>
+		</div>
+
+	</div>
 </div>

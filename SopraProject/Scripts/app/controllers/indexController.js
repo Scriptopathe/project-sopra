@@ -19,7 +19,6 @@ function(serverService, $scope, $timeout) {
 			$scope.updateUser();
 		});
 	};
-
 	// Fonction de test ! 
 	$scope.updateRooms = function() 
 	{
@@ -27,10 +26,11 @@ function(serverService, $scope, $timeout) {
 		.done(function(data, statusCode)
 		{
 			$scope.rooms = {};
-			// On parse le XML qu'on a récupéré du serveur.
-			var xml = $( $.parseXML( data ) )
 
-			// On parcours tous les noeuds "Room"
+			// On parse le XML qu'on a récupéré du serveur.
+			var xml = $( $.parseXML( data ) );
+
+			// On parcourt tous les noeuds "Room"
 			xml.find("Room").each(function()
 			{
 				// On obtient une représentation du Noeud <Room>
