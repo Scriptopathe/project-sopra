@@ -111,7 +111,7 @@ namespace SopraProject.Database
 		/// <param name="connexion">Connexion.</param>
         public MainContext () : base("mainContext")
 		{
-			Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
+			System.Data.Entity.Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
 		}
 		/// <summary>
 		/// Gets or sets the users profile.
