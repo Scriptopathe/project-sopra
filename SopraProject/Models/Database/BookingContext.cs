@@ -67,7 +67,8 @@ namespace SopraProject.Database
 
 
         public BookingContext() : base("bookingContext")
-        {
+		{
+			Database.SetInitializer<BookingContext>(new CreateDatabaseIfNotExists<BookingContext>());
         }
     }
 }
