@@ -3,10 +3,72 @@
 function (serverService, $scope, $timeout) {
     $scope.server = serverService;
 
+    $scope.selectedLocation = "-1";
+    $scope.selectedRoom = "-1";
+    $scope.sites = {};
+    $scope.rooms = {};
+
     $scope.chartNames = { occupationRate: "Occupation Rate (%)", fillRate: "Fill Rate (%)", meetingCount: "Meeting Count" };
     $scope.days = [];
     $scope.metrics = {};// keys: occupationRate, fillRate, meetingCount
     $scope.stats = {}; // keys: occupationRate, fillRate, meetingCount
+
+
+    $scope.load = function() 
+	{
+		$scope.$apply(function()
+		{
+			$scope.updateSites();
+			$scope.updateRooms();
+			$scope.loadCharts();
+		});
+	};
+
+    // Loads the site list into the $scope.sites variable.
+	$scope.updateSites = function() 
+	{
+		$scope.server.getRessource("sites", {})
+		.done(function(data, statusCode)
+		{
+			$scope.sites = {};
+			var xml = $( $.parseXML( data ) );
+			xml.find("Site").each(function()
+			{
+				var site = $(this);
+				$scope.$apply(function() 
+				{
+					var siteId = site.attr("id");
+					var siteName = site.children("Name").text();
+					var siteAddress = site.children("Address").text();
+					$scope.sites[siteId] = { "id" : siteId, "name" : siteName, "address" : siteAddress };
+				});
+			});
+		});
+	};
+
+	// Loads the site list into the $scope.sites variable.
+	$scope.updateRooms = function() 
+	{
+		$scope.server.getRessource("rooms", {})
+		.done(function(data, statusCode)
+		{
+			$scope.rooms = {};
+			var xml = $( $.parseXML( data ) );
+			xml.find("Room").each(function()
+			{
+				var room = $(this);
+				$scope.$apply(function() 
+				{
+					// On prend l'attribut id de la room
+					var roomId = room.attr("id");
+					// On récupère le texte contenu dans le champ "Name"
+					var roomName = room.children("Name").text();
+					// On ajoute le tout dans $scope.rooms
+					$scope.rooms[roomId] = { "id" : roomId, "name" : roomName };
+				});
+			});
+		});
+	};
 
     $scope.loadCharts = function () {
         $scope.server.getRessource("report", {startDate : "11/01/2015", endDate : "11/30/2015", roomId : 5})
@@ -97,5 +159,5 @@ function (serverService, $scope, $timeout) {
 
 
 
-    $timeout(function () { $scope.loadCharts(); });
+    $timeout(function () { $scope.load(); });
 }]);

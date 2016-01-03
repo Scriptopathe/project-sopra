@@ -1,5 +1,36 @@
 ﻿<div class="container" ng-controller="reportController">
 
+	<div class="panel panel-default">
+		<div class="panel-heading">Room Selection</div>
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<!-- SITE SELECTION -->
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">Location : </label>
+					<div class="col-sm-3">
+						<select class="form-control form-control-sm" ng-model="selectedLocation">
+							<option ng-repeat="site in sites" value="{{site.id}}">
+							{{ site.name }}
+
+							</option>
+						</select>
+					</div>
+				</div>
+				<!-- ROOM SELECTION -->
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">Room : </label>
+					<div class="col-sm-3">
+						<select class="form-control form-control-sm" ng-model="selectedRoom">
+							<option ng-repeat="room in rooms" value="{{room.id}}">
+							{{ room.name }}
+
+							</option>
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 
     <div class="panel panel-default" ng-repeat="(key, value) in metrics" id="{{key}}Tab">
         <div class="panel-heading">
