@@ -45,7 +45,8 @@ namespace SopraProject
             using (var ctx = new Database.BookingContext())
             {
                 var query = from booking in ctx.Bookings
-                            where booking.EndDate > startDate && booking.StartDate < endDate
+                            where booking.EndDate > startDate && booking.StartDate < endDate && 
+							booking.RoomID.ToString().Equals(identifier.Value)
                             orderby booking.StartDate ascending
                             select booking.BookingID;
                 
