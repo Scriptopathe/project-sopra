@@ -12,7 +12,7 @@ function (serverService, $scope, $timeout) {
     $scope.days = [];
     $scope.metrics = {};// keys: occupationRate, fillRate, meetingCount
     $scope.stats = {}; // keys: occupationRate, fillRate, meetingCount
-
+    $scope.charts = {};
 
     $scope.load = function() 
 	{
@@ -35,7 +35,7 @@ function (serverService, $scope, $timeout) {
 			xml.find("Site").each(function()
 			{
 				var site = $(this);
-				$scope.$apply(function() 
+				$scope.$apply(function()
 				{
 					var siteId = site.attr("id");
 					var siteName = site.children("Name").text();
@@ -71,7 +71,7 @@ function (serverService, $scope, $timeout) {
 	};
 
     $scope.loadCharts = function () {
-        $scope.server.getRessource("report", {startDate : "11/01/2015", endDate : "11/30/2015", roomId : 5})
+        $scope.server.getRessource("report", {startDate : "11/01/2015", endDate : "11/30/2015", roomId : $scope.selectedRoom})
 		.done(function (data, statusCode) {
 		    // Reset variables
 		    $scope.metrics = { occupationRate: [], fillRate: [], meetingCount: [] };
@@ -134,8 +134,11 @@ function (serverService, $scope, $timeout) {
 		    {
 		        var elementName = "a[href=#" + key + "Tab]";
 
+		        var container = $("#" + key + "ChartContainer");
+		        container.empty();
+		        container.append('<canvas id=' + key + 'Chart' + '"></canvas>'); 
+
 		        var ctx = $("#" + key + "Chart").get(0).getContext("2d");
-		        var chart = new Chart(ctx);
 		        var chartData = {
 		            labels: $scope.days,
 		            datasets: [{
@@ -149,7 +152,14 @@ function (serverService, $scope, $timeout) {
 		                data: $scope.metrics[key],
 		            }]
 		        };
+
+
+		        var chart = new Chart(ctx);
 		        chart.Bar(chartData, { pointHitDetectionRadius: 1, responsive: true, animation: true });
+		        $scope.charts[key] = chart;
+			    
+
+			  
 		    }
 
 

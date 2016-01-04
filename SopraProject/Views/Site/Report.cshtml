@@ -30,6 +30,15 @@
 				</div>
 			</form>
 		</div>
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<label class="control-label col-sm-2"> </label>
+				<div class="col-sm-2">
+					<!-- CHANGER LA FOCNTION -->
+					<button ng-click="loadCharts()" class="btn btn-primary btn-lg">Generate</button> 
+				</div>
+			</form>
+		</div>
 	</div>
 
     <div class="panel panel-default" ng-repeat="(key, value) in metrics" id="{{key}}Tab">
@@ -44,11 +53,12 @@
                 </div>
             </div>
             <hr />
-            <div class="container-fluid" style="margin-right: 1.5em;"><canvas id="{{key}}Chart" width="600" height="120"></canvas></div>
 
+            <div id="{{key}}ChartContainer">
+           		<div class="container-fluid" style="margin-right: 1.5em;"><canvas id="{{key}}Chart" width="600" height="120"></canvas></div>
+            </div>
 
         </div>
     </div>
-
 
 </div>
