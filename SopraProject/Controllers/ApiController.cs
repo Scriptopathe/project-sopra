@@ -151,26 +151,9 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
 		public ActionResult Search(int siteId=-1, int personCount=-1, string[] particularities=null)
         {
-			var rooms = Room.GetAllRooms();
+			List<Room> rooms = null;
 			if (siteId != -1) {
 				rooms = new List<Room> (Site.Get (new SiteIdentifier (siteId.ToString ())).Rooms);
-
-				//rooms.AddRange(Site.Get (new SiteIdentifier (siteId.ToString ())).Rooms);
-                
-				//List<SopraProject.ObjectApi.Site> sites = null;
-				/*for (int i = 0; i < SopraProject.ObjectApi.Site.GetSitesCount(); i++)
-                {
-                    if (i != siteId)
-                    {
-                        var sites = SopraProject.ObjectApi.Site.Get(new SiteIdentifier(i.ToString()));
-                        for (int j = 0; j < sites.Rooms.Count(); j++)
-                        {
-                            rooms.Remove(sites.Rooms[j]);
-                        }
-                        //rooms.RemoveAll(new SopraProject.ObjectApi.Site(new SiteIdentifier(i.ToString())).Rooms);
-                    }
-                }
-                //rooms.RemoveAll(sites.Rooms);*/
 				
 			} else {
 				rooms = Room.GetAllRooms();
@@ -178,47 +161,19 @@ namespace SopraProject.Controllers
             if (personCount != -1)
             {
 				rooms = rooms.FindAll (room => room.Capacity >= personCount);
-                /*for (int i = 0; i < rooms.Count(); i++)
-                {
-                    if (rooms[i].Capacity > personCount)
-                    {
-                        rooms.Remove(rooms[i]);
-                    }
-                }*/
             }
             if (particularities != null)
             {
-				//Garder uniquement les salles qui ont le même nombre de particularités que celles demandées dans la recherche
-				rooms = rooms.FindAll (room => room.Particularities.Count() == particularities.Length);
-				Boolean find = false;
-
-				for (int i = 0; i < rooms.Count(); i++) {
-					var parts = rooms[i].Particularities.ToList ();
-					for (int j = 0; j < particularities.Length; j++) {
-						for (int k = 0; k < particularities.Length; k++){
-							if (parts[j].Identifier.ToString() == particularities[k]){
-								find = true;
-								k = particularities.Length;
-							}
-						}
-						if (find == false) {
-							rooms.Remove(rooms.ElementAt(i));
-							j = particularities.Length;
-						}
-						find = false;
-					}
-				}
-
-				/*for (int i = 0; i < rooms.Count(); i++)
+				List<Room> filteredRooms = new List<Room> ();
+				foreach(Room room in rooms)
                 {
-                    //rooms.ElementAt(i).Particularities.Count();
-                    // rooms[i].GetParticularities().Union(particularities);
-                    var parts = rooms[i].Particularities.ToList().ConvertAll(p => p.Identifier);
-                    if (parts.Union(particularities).Count() != rooms[i].Particularities.Count())
-                    {
-                        rooms.Remove(rooms.ElementAt(i));
-                    }
-                }*/
+					var parts = room.Particularities.ToList().ConvertAll(p => p.Identifier.Value);
+					var intersection = parts.Intersect (particularities);
+					if (intersection.Count () == particularities.Count ()) {
+						filteredRooms.Add (room);
+					}
+                }
+				rooms = filteredRooms;
             }
             return Content(Tools.Serializer.Serialize(rooms));
         }
