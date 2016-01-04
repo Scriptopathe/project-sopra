@@ -79,7 +79,7 @@ namespace SopraProject.Database
             List<MCParticularity> p = new List<MCParticularity>();
             foreach (var part in particularities)
             {
-                if (s_rand.Next(2) == 0)
+                if (s_rand.Next(4) != 0)
                     p.Add(part);
             }
 
