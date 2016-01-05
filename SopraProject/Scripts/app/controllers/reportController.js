@@ -146,7 +146,7 @@ function (serverService, $scope, $timeout) {
 
 		        var container = $("#" + key + "ChartContainer");
 		        container.empty();
-		        container.append('<canvas id=' + key + 'Chart' + '"></canvas>'); 
+		        container.append('<div class="container-fluid" style="margin-right: 1.5em;"><canvas width="600" height="120" id="' + key + 'Chart' + '"></canvas></div>'); 
 
 		        var ctx = $("#" + key + "Chart").get(0).getContext("2d");
 		        var chartData = {
