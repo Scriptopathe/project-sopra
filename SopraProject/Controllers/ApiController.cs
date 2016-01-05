@@ -145,6 +145,20 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(room));
         }
 
+		/// <summary>
+		/// Gets the list of rooms located at the given site.
+		/// </summary>
+		/// <returns>The by site.</returns>
+		/// <param name="siteId">Site identifier.</param>
+		[HttpGet]
+		[AuthorizationFilter]
+		public ActionResult RoomsBySite(string siteId)
+		{
+			var site = ObjectApi.Site.Get(new SiteIdentifier(siteId));
+			var rooms = site.Rooms;
+			return Content(Tools.Serializer.Serialize(rooms));
+		}
+
         /// <summary>
         /// Gets the list of rooms that satifisfy the given requirements in XML format.
         /// </summary>
