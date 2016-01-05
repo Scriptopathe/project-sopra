@@ -1,10 +1,20 @@
 ﻿app.controller('reportController',
-['serverService', '$scope', '$timeout',
+['serverService', '$scope' , '$timeout',
 function (serverService, $scope, $timeout) {
+	$scope.roomFilter = function(input){
+        return true;
+	};
+
+
+
     $scope.server = serverService;
 
     $scope.selectedLocation = "-1";
     $scope.selectedRoom = "-1";
+    var today = new Date();
+	today = today.toLocaleFormat('%d/%m/%Y');
+    $scope.startDate = today;
+    $scope.endDate = today;
     $scope.sites = {};
     $scope.rooms = {};
 
@@ -71,7 +81,7 @@ function (serverService, $scope, $timeout) {
 	};
 
     $scope.loadCharts = function () {
-        $scope.server.getRessource("report", {startDate : "11/01/2015", endDate : "11/30/2015", roomId : $scope.selectedRoom})
+        $scope.server.getRessource("report", {startDate : "11/01/2015"/*$scope.startDate*/, endDate : "11/30/2015"/*$scope.endDate*/, roomId : 5/*$scope.selectedRoom*/})
 		.done(function (data, statusCode) {
 		    // Reset variables
 		    $scope.metrics = { occupationRate: [], fillRate: [], meetingCount: [] };
