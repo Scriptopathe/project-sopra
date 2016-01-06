@@ -105,15 +105,15 @@ function(serverService, $scope, $timeout) {
 
 	// Room searching
 	//(loc, date, duration, nbpers, part)
-	$scope.roomSearching = function(loc, nbpers, part)
+	$scope.roomSearching = function(loc, nbpers, part, sDate, eDate)
 	{
-		alert("ttttt");
-		$scope.server.postRessource("search", { siteId : loc, personCount : nbpers, particularities : part })
+		
+		$scope.server.getRessource("searchwithdate", { siteId : loc, personCount : nbpers, particularities : part, startDate : sDate , endDate : eDate })
 		.done(function(data, statusCode)
 		{
-			$scope.Rooms = {};
+			
+			$scope.rrooms = {};
 			var xml = $( $.parseXML( data ) );
-			alert("hey");
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
@@ -121,11 +121,11 @@ function(serverService, $scope, $timeout) {
 				$scope.$apply(function() 
 				{
 					var roomId = room.attr("id");
-					alert("après ID");
 					var roomName = room.children("Name").text();
 					var roomCapacity = room.children("Capacity").text();
-					$scope.Rooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };
+					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };
 				});
+				alert(rrooms);
 			});
 
 		});
