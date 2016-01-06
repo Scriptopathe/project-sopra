@@ -100,6 +100,7 @@ namespace SopraProject.Database
         {
             return new ACUser() { Username = username, Password = "pass" };
         }
+
         static MCUserProfile CreateUserProfile(string username, List<MCSite> allsites)
         {
             return new MCUserProfile() { Username = username, SiteID = s_rand.Next(1, allsites.Count) };

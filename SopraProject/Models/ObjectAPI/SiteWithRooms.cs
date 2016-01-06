@@ -20,6 +20,7 @@ namespace SopraProject.ObjectApi
 
         public SiteWithRooms(string siteId)
         {
+            SiteId = siteId;
             Rooms = new List<Room>(Site.Get(new SiteIdentifier(siteId)).Rooms);
         }
 

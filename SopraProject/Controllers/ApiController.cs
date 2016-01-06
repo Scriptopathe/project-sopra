@@ -129,7 +129,7 @@ namespace SopraProject.Controllers
             foreach(Site site in sites)
             { 
                 siteRooms.Add(new SiteWithRooms(site.Identifier.Value));
-
+                var blbl = site.Rooms;
             }
             return Content(Tools.Serializer.Serialize(siteRooms));
         }

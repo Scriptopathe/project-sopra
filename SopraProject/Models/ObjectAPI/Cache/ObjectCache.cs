@@ -21,7 +21,7 @@ namespace SopraProject.ObjectApi.Cache
         ///     - This will HUGELY increase performance.
         /// Note that if caching is enabled EXTERNAL MODIFICATION WILL LEAD TO INCONSISTANT SERVER STATE UNTIL REBOOT.
         /// </summary>
-        public const bool CacheEnabled = true;
+        public const bool CacheEnabled = false;
         
         /// <summary>
         /// Cache policy used to perform cacheing.
@@ -50,7 +50,10 @@ namespace SopraProject.ObjectApi.Cache
                 else
                 {
                     var item = Construct(new Type[] { identifier.GetType() }, new object[] { identifier });
-                    _cache.Add(identifier.Value, item);
+
+                    if (CacheEnabled)
+                        _cache.Add(identifier.Value, item);
+
                     return item;
                 }
             }
