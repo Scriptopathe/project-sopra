@@ -60,28 +60,37 @@
 					</form>
 				</div>
 
-				<!-- DATE -->
+				<!-- START DATE -->
 				<div class="panel-body">
 					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-4">Date : </label>
-					        <div class='col-sm-5'>
+						<label class="control-label col-sm-4">Start Date : </label>
+					        <div class='col-sm-6'>
 				                <div class='input-group date' data-provide='datepicker' id='datetimepicker5' >
-				                    <input type='text' ng-model="Date" class="form-control"  placeholder="DD/MM/YYYY" />
+				                    <input type='text' ng-model="StartDate" class="form-control"  placeholder="MM/DD/YYYY-hh:mm:ss" />
+				                    <span class="input-group-addon" >
+				                        <span class="glyphicon glyphicon-calendar"></span>
+				                    </span>
+				                </div>
+					        </div>
+					</form> 
+				</div>
+
+
+				<!-- END DATE -->
+				<div class="panel-body">
+					<form role="form" class="form form-horizontal">
+						<label class="control-label col-sm-4">End Date : </label>
+					        <div class='col-sm-6'>
+				                <div class='input-group date' data-provide='datepicker' id='datetimepicker5' >
+				                    <input type='text' ng-model="EndDate" class="form-control"  placeholder="MM/DD/YYYY-hh:mm:ss" />
 				                    <span class="input-group-addon" >
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
 				                </div>
 					        </div>
 					</form>
-					<!-- SCRIPT POUR AFFICHER LE CALENDRIER 
-        			 <script type="text/javascript">
-        			 	alert("essai");
-				            (function () {
-				            	alert("cal");
-				                $('#datetimepicker1').datetimepicker();
-				            });
-				     </script>-->
 				</div>
+
 
 				<!-- MEETING DURATION -->
 				<div class="panel-body">
@@ -160,7 +169,7 @@
 			<form role="form" class="form form-horizontal">
 				<label class="control-label col-sm-2"> </label>
 				<div class="col-sm-2">
-					<button ng-click="roomSearching(userLocation, nbPers, null, Date, null)" class="btn btn-primary btn-lg">Research</button> 
+					<button ng-click="roomSearching(userLocation, nbPers, null, StartDate, EndDate)" class="btn btn-primary btn-lg">Research</button> 
 				</div>
 			</form>
 		</div>
@@ -171,15 +180,15 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Results</div>
-		<div class="panel-body">
-			<table class="table table-striped">
-				<tr ng-repeat="room in rooms">				
-					<td><a href="#">{{ room.id }}</a></td>
-					<td> {{ room.name }}</td>
-					<td> {{ room.capacity }}</td>
-					<td> {{ room.particularity }}</td>
-				</tr>
-			</table>
+				<!--<div class="panel-body">
+					<table class="table table-striped">
+						<tr ng-repeat="room in rooms">				
+							<td><a href="#">{{ room.id }}</a></td>
+							<td> {{ room.name }}</td>
+							<td> {{ room.capacity }}</td>
+							<td> {{ room.particularity }}</td>
+						</tr>
+					</table> -->
 
 
 			<div class="col-sm-5">
@@ -194,6 +203,5 @@
 				</tr>
 			</table>
 		</div>
-	</div>
 
 </div>
