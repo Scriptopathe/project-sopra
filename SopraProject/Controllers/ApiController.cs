@@ -205,9 +205,6 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(sites));
         }
 
-<<<<<<< HEAD
-
-		// TODO Laure !!!!
 		//Requête qui renvoie toutes les particularités avec nom et id
 		[AuthorizationFilter]
 		public ActionResult Particularities()
@@ -215,8 +212,8 @@ namespace SopraProject.Controllers
             List<Particularity> particularities = SopraProject.ObjectApi.Particularity.GetAllParticularities();
 			return Content(Tools.Serializer.Serialize(particularities));
 		}
-		
-=======
+
+
         [HttpGet]
         [AuthorizationFilter]
         public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
@@ -225,8 +222,6 @@ namespace SopraProject.Controllers
             var result = ra.research(siteId, personCount, particularities, startDate, endDate);
             return Content(Tools.Serializer.Serialize(result));
         }
-
->>>>>>> origin/master
     }
 }
 

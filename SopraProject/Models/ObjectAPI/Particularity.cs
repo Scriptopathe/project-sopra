@@ -72,7 +72,7 @@ namespace SopraProject.ObjectApi
             Identifier = id;
         }
 
-		// TODO Laure !!!!
+		
         public static List<Particularity> GetAllParticularities()
 		{
             var allParticularities = ObjectApiProvider.Instance.SitesApi.GetAllParticularities().ConvertAll(part => Particularity.Get(part));
