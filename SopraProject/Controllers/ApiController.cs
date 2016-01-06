@@ -123,8 +123,13 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult Rooms()
         {
-            var rooms = SopraProject.ObjectApi.Room.GetAllRooms();
-            return Content(Tools.Serializer.Serialize(rooms));
+            List<Tuple<string, List<Room>>> siteRooms = new List<Tuple<string, List<Room>>>();
+            var sites = SopraProject.ObjectApi.Site.GetAllSites();
+            foreach(Site site in sites)
+            { 
+                siteRooms.Add(Tuple.Create<string, List<Room>>(site.Identifier.Value, new List<Room>(Site.Get(new SiteIdentifier(site.Identifier.Value)).Rooms)));
+            }
+            return Content(Tools.Serializer.Serialize(siteRooms));
         }
 
         /// <summary>
@@ -198,6 +203,7 @@ namespace SopraProject.Controllers
             return Content(Tools.Serializer.Serialize(sites));
         }
 
+<<<<<<< HEAD
 
 		// TODO Laure !!!!
 		//Requête qui renvoie toutes les particularités avec nom et id
@@ -208,6 +214,17 @@ namespace SopraProject.Controllers
 			return Content(Tools.Serializer.Serialize(particularities));
 		}
 		
+=======
+        [HttpGet]
+        [AuthorizationFilter]
+        public ActionResult Search(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            ResearchAlgorithm ra = new ResearchAlgorithm();
+            var result = ra.research(siteId, personCount, particularities, startDate, endDate);
+            return Content(Tools.Serializer.Serialize(result));
+        }
+
+>>>>>>> origin/master
     }
 }
 
