@@ -88,6 +88,7 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -138,6 +139,7 @@
     <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
     <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
     <Compile Include="Models\ObjectAPI\UsageReport.cs" />
+    <Compile Include="Models\ObjectAPI\SiteWithRooms.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />

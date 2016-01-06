@@ -123,11 +123,13 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult Rooms()
         {
-            List<Tuple<string, List<Room>>> siteRooms = new List<Tuple<string, List<Room>>>();
+            //List<Tuple<string, List<Room>>> siteRooms = new List<Tuple<string, List<Room>>>();
+            List<SiteWithRooms> siteRooms = new List<SiteWithRooms>();
             var sites = SopraProject.ObjectApi.Site.GetAllSites();
             foreach(Site site in sites)
             { 
-                siteRooms.Add(Tuple.Create<string, List<Room>>(site.Identifier.Value, new List<Room>(Site.Get(new SiteIdentifier(site.Identifier.Value)).Rooms)));
+                siteRooms.Add(new SiteWithRooms(site.Identifier.Value));
+
             }
             return Content(Tools.Serializer.Serialize(siteRooms));
         }
@@ -217,7 +219,7 @@ namespace SopraProject.Controllers
 =======
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult Search(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
+        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
         {
             ResearchAlgorithm ra = new ResearchAlgorithm();
             var result = ra.research(siteId, personCount, particularities, startDate, endDate);
