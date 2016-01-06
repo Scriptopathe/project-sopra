@@ -97,6 +97,11 @@ namespace SopraProject.Database
 		/// </summary>
 		/// <value>The particularity description.</value>
 		public string Description { get; set; }
+
+        /// <summary>
+        /// Many to many relationship with rooms.
+        /// </summary>
+        public virtual ICollection<MCRoom> Rooms { get; set; }
 	}
 
 	/// <summary>

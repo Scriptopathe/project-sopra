@@ -129,7 +129,6 @@ namespace SopraProject.Controllers
             foreach(Site site in sites)
             { 
                 siteRooms.Add(new SiteWithRooms(site.Identifier.Value));
-                var blbl = site.Rooms;
             }
             return Content(Tools.Serializer.Serialize(siteRooms));
         }
@@ -203,8 +202,6 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult Report(string startDate, string endDate, string roomId)
         {
-            // var report = new ObjectApi.UsageReport(new ObjectApi.Room(new RoomIdentifier(roomId)), DateTime.Parse(startDate), DateTime.Parse(endDate));
-            // var report = new ObjectApi.UsageReport(new ObjectApi.Room(new RoomIdentifier(roomId)), new DateTime(2015, 11, 1), new DateTime(2015, 11, 30));
             var report = new ObjectApi.UsageReport(ObjectApi.Room.Get(new RoomIdentifier(roomId)), startDate.DeserializeDate(), endDate.DeserializeDate());
             return Content(Tools.Serializer.Serialize(report));
         }
@@ -232,6 +229,11 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
         {
+            if (particularities.Length == 1 && particularities[0] == String.Empty)
+                particularities = new string[0];
+
+            startDate = new DateTime(2015, 12, 01);
+            endDate = new DateTime(2015, 12, 30);
             ResearchAlgorithm ra = new ResearchAlgorithm();
             var result = ra.research(siteId, personCount, particularities, startDate, endDate);
             return Content(Tools.Serializer.Serialize(result));
