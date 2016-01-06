@@ -216,6 +216,15 @@ namespace SopraProject.Controllers
 
         [HttpGet]
         [AuthorizationFilter]
+        /// <summary>
+        /// Searchs the with date.
+        /// </summary>
+        /// <returns>The with date.</returns>
+        /// <param name="siteId">Site identifier.</param>
+        /// <param name="personCount">Person count.</param>
+        /// <param name="particularities">Particularities.</param>
+        /// <param name="startDate">Start date. Format MM/DD/YYYY-HH:MM:SS</param>
+        /// <param name="endDate">End date.</param>
         public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, string startDate = null, string endDate = null)
         {
             ResearchAlgorithm ra = new ResearchAlgorithm();
