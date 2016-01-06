@@ -107,19 +107,21 @@ function(serverService, $scope, $timeout) {
 	//(loc, date, duration, nbpers, part)
 	$scope.roomSearching = function(loc, nbpers, part)
 	{
-		
+		alert("ttttt");
 		$scope.server.postRessource("search", { siteId : loc, personCount : nbpers, particularities : part })
 		.done(function(data, statusCode)
 		{
-
 			$scope.Rooms = {};
 			var xml = $( $.parseXML( data ) );
+			alert("hey");
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
+				alert("avant fonction");
 				$scope.$apply(function() 
 				{
 					var roomId = room.attr("id");
+					alert("après ID");
 					var roomName = room.children("Name").text();
 					var roomCapacity = room.children("Capacity").text();
 					$scope.Rooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };

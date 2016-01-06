@@ -65,14 +65,22 @@
 					<form role="form" class="form form-horizontal">
 						<label class="control-label col-sm-4">Date : </label>
 					        <div class='col-sm-5'>
-				                <div class='input-group date' id='datetimepicker1'>
+				                <div class='input-group date' data-provide='datepicker' id='datetimepicker5' >
 				                    <input type='text' ng-model="Date" class="form-control"  placeholder="DD/MM/YYYY" />
-				                    <span class="input-group-addon">
+				                    <span class="input-group-addon" >
 				                        <span class="glyphicon glyphicon-calendar"></span>
 				                    </span>
 				                </div>
 					        </div>
 					</form>
+					<!-- SCRIPT POUR AFFICHER LE CALENDRIER 
+        			 <script type="text/javascript">
+        			 	alert("essai");
+				            (function () {
+				            	alert("cal");
+				                $('#datetimepicker1').datetimepicker();
+				            });
+				     </script>-->
 				</div>
 
 				<!-- MEETING DURATION -->
@@ -162,19 +170,20 @@
 <!-- RESULTS -->
 
 	<div class="panel panel-default">
-		<div class="panel-heading">Found Rooms</div>
+		<div class="panel-heading">Results</div>
 		<div class="panel-body">
 			<table class="table table-striped">
-
 				<tr ng-repeat="room in rooms">				
 					<td><a href="#">{{ room.id }}</a></td>
-					<td>{{ room.name }}</td>
-					<td>{{ room.capacity }}</td>
-					<td>{{ room.particularity }}</td>
+					<td> {{ room.name }}</td>
+					<td> {{ room.capacity }}</td>
+					<td> {{ room.particularity }}</td>
 				</tr>
 			</table>
+
+
 			<div class="col-sm-5">
-				<strong>Essai : </strong> {{ Rooms[1].name }}
+				<strong>Essai : </strong> {{ rooms.name }}
 			</div>
 		</div>
 	</div>
