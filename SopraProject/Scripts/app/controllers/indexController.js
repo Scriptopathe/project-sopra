@@ -117,7 +117,6 @@ function(serverService, $scope, $timeout) {
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
-				alert("avant fonction");
 				$scope.$apply(function() 
 				{
 					var roomId = room.attr("id");

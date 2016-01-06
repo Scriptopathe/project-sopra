@@ -232,8 +232,8 @@ namespace SopraProject.Controllers
             if (particularities.Length == 1 && particularities[0] == String.Empty)
                 particularities = new string[0];
 
-            startDate = new DateTime(2015, 12, 01);
-            endDate = new DateTime(2015, 12, 30);
+            //startDate = new DateTime(2015, 12, 01);
+           // endDate = new DateTime(2015, 12, 30);
             ResearchAlgorithm ra = new ResearchAlgorithm();
             var result = ra.research(siteId, personCount, particularities, startDate, endDate);
             return Content(Tools.Serializer.Serialize(result));
