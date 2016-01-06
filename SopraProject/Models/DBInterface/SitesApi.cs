@@ -73,6 +73,19 @@ namespace SopraProject
 			}
 			return val;
 		}
+
+        public List<ParticularityIdentifier> GetAllParticularities()
+        {
+            List<ParticularityIdentifier> val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from parts in ctx.Particularities
+                            select parts.ParticularityID;
+                val = query.ToList().ConvertAll(id => new ParticularityIdentifier(id.ToString()));
+            }
+            return val;
+        }
+
 		/// <summary>
 		/// Gets a list of RoomIdentifier corresponding to all the rooms in the database.
 		/// </summary>

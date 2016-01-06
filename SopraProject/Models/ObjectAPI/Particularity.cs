@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
+using System.Collections;
+using System.Collections.Generic;
 using SopraProject.ObjectApi.Cache;
 namespace SopraProject.ObjectApi
 {
@@ -69,6 +71,14 @@ namespace SopraProject.ObjectApi
         {
             Identifier = id;
         }
+
+		// TODO Laure !!!!
+        public static List<Particularity> GetAllParticularities()
+		{
+            var allParticularities = ObjectApiProvider.Instance.SitesApi.GetAllParticularities().ConvertAll(part => Particularity.Get(part));
+			return allParticularities;
+
+		}
 
         #region Cache
         private static ObjectCache<string, Particularity> s_cache = new ObjectCache<string, Particularity>();

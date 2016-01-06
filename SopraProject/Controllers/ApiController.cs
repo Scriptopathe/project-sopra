@@ -197,6 +197,17 @@ namespace SopraProject.Controllers
             var sites = SopraProject.ObjectApi.Site.GetAllSites();
             return Content(Tools.Serializer.Serialize(sites));
         }
+
+
+		// TODO Laure !!!!
+		//Requête qui renvoie toutes les particularités avec nom et id
+		[AuthorizationFilter]
+		public ActionResult Particularities()
+		{
+            List<Particularity> particularities = SopraProject.ObjectApi.Particularity.GetAllParticularities();
+			return Content(Tools.Serializer.Serialize(particularities));
+		}
+		
     }
 }
 
