@@ -73,6 +73,19 @@ namespace SopraProject
 			}
 			return val;
 		}
+
+        public List<ParticularityIdentifier> GetAllParticularities()
+        {
+            List<ParticularityIdentifier> val;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from parts in ctx.Particularities
+                            select parts.ParticularityID;
+                val = query.ToList().ConvertAll(id => new ParticularityIdentifier(id.ToString()));
+            }
+            return val;
+        }
+
 		/// <summary>
 		/// Gets a list of RoomIdentifier corresponding to all the rooms in the database.
 		/// </summary>
@@ -98,11 +111,11 @@ namespace SopraProject
 			List<RoomIdentifier> val;
 			using (var ctx = new Database.MainContext())
 			{
-				var query = from room in ctx.Rooms
-						    where room.RoomID.ToString().Equals(siteID.Value)
-					        select room.RoomID;
+				var query = from site in ctx.Sites
+                            where site.SiteID.ToString().Equals(siteID.Value.ToString())
+                            select site.Rooms;
 
-				val = query.ToList().ConvertAll(id => new RoomIdentifier(id.ToString()));
+				val = query.First().ToList().ConvertAll(room => new RoomIdentifier(room.RoomID.ToString()));
 			}
 			return val;
 		}

@@ -13,6 +13,11 @@ namespace SopraProject
         /// <returns>The sites.</returns>
         List<SiteIdentifier> GetSites();
         /// <summary>
+        /// Gets all existing particularities.
+        /// </summary>
+        /// <returns>All existing particularities.</returns>
+        List<ParticularityIdentifier> GetAllParticularities();
+        /// <summary>
         /// The numbers of sites.
         /// </summary>
         /// <returns>The count.</returns>
