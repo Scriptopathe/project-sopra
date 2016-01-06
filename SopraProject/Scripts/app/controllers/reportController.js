@@ -59,29 +59,32 @@ function (serverService, $scope, $timeout) {
 	// Loads the site list into the $scope.sites variable.
 	$scope.updateRooms = function() 
 	{
-		$scope.server.getRessource("rooms", {})
-		.done(function(data, statusCode)
-		{
-			$scope.rooms = {};
-			var xml = $( $.parseXML( data ) );
-			xml.find("Room").each(function()
+		$scope.rooms = {};
+		if($scope.selectedLocation >= 0) {
+			$scope.server.getRessource("roomsbysite", { siteId : $scope.selectedLocation })
+			.done(function(data, statusCode)
 			{
-				var room = $(this);
-				$scope.$apply(function() 
+				$scope.rooms = {};
+				var xml = $( $.parseXML( data ) );
+				xml.find("Room").each(function()
 				{
-					// On prend l'attribut id de la room
-					var roomId = room.attr("id");
-					// On récupère le texte contenu dans le champ "Name"
-					var roomName = room.children("Name").text();
-					// On ajoute le tout dans $scope.rooms
-					$scope.rooms[roomId] = { "id" : roomId, "name" : roomName };
+					var room = $(this);
+					$scope.$apply(function() 
+					{
+						// On prend l'attribut id de la room
+						var roomId = room.attr("id");
+						// On récupère le texte contenu dans le champ "Name"
+						var roomName = room.children("Name").text();
+						// On ajoute le tout dans $scope.rooms
+						$scope.rooms[roomId] = { "id" : roomId, "name" : roomName };
+					});
 				});
 			});
-		});
+		}
 	};
 
     $scope.loadCharts = function () {
-        $scope.server.getRessource("report", {startDate : "11/01/2015"/*$scope.startDate*/, endDate : "11/30/2015"/*$scope.endDate*/, roomId : 5/*$scope.selectedRoom*/})
+        $scope.server.getRessource("report", {startDate : $scope.startDate, endDate : $scope.endDate, roomId : $scope.selectedRoom})
 		.done(function (data, statusCode) {
 		    // Reset variables
 		    $scope.metrics = { occupationRate: [], fillRate: [], meetingCount: [] };

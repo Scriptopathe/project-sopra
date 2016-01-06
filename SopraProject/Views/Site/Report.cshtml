@@ -8,7 +8,7 @@
 				<div class="form-group form-group-sm">
 					<label class="control-label col-sm-2">Location : </label>
 					<div class="col-sm-3">
-						<select class="form-control form-control-sm" ng-model="selectedLocation">
+						<select class="form-control form-control-sm" ng-model="selectedLocation" ng-change="updateRooms()">
 							<option ng-repeat="site in sites" value="{{site.id}}">
 							{{ site.name }}
 
@@ -21,7 +21,7 @@
 					<label class="control-label col-sm-2">Room : </label>
 					<div class="col-sm-3">
 						<select class="form-control form-control-sm" ng-model="selectedRoom">
-							<option ng-repeat="room in rooms | filter:roomFilter" value="{{room.id}}">
+							<option ng-repeat="room in rooms" value="{{room.id}}">
 							{{ room.name }}
 
 							</option>
