@@ -216,10 +216,10 @@ namespace SopraProject.Controllers
 
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
+        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, string startDate = null, string endDate = null)
         {
             ResearchAlgorithm ra = new ResearchAlgorithm();
-            var result = ra.research(siteId, personCount, particularities, startDate, endDate);
+            var result = ra.research(siteId, personCount, particularities, startDate.DeserializeDateTime(), endDate.DeserializeDateTime());
             return Content(Tools.Serializer.Serialize(result));
         }
     }
