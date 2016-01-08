@@ -48,7 +48,8 @@ namespace SopraProject.ObjectApi
                 List<Room> filteredRooms = new List<Room> ();
                 foreach(Room room in rooms)
                 {
-                    if (!(ObjectApiProvider.Instance.BookingsApi.GetBookings(room.Identifier, startDate.Value, endDate.Value) == null))
+                    var bookings = ObjectApiProvider.Instance.BookingsApi.GetBookings(room.Identifier, startDate.Value, endDate.Value);
+                    if (bookings.Count == 0)
                     {
                          filteredRooms.Add(room);
                     }

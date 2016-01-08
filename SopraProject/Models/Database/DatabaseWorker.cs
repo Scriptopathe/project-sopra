@@ -66,7 +66,7 @@ namespace SopraProject.Database
 
             using (var ctx = new BookingContext())
             {
-                for(int i = 1; i < 120; i++)
+                for(int i = 1; i < 5000; i++)
                     ctx.Bookings.Add(CreateBooking(usernames, allrooms.Count, "Subject" + i));
                 ctx.SaveChanges();
             }

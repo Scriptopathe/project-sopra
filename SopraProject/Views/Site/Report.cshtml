@@ -1,5 +1,68 @@
 ﻿<div class="container" ng-controller="reportController">
 
+	<div class="panel panel-default">
+		<div class="panel-heading">Room Selection</div>
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<!-- SITE SELECTION -->
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">Location : </label>
+					<div class="col-sm-3">
+						<select class="form-control form-control-sm" ng-model="selectedLocation" ng-change="updateRooms()">
+							<option ng-repeat="site in sites" value="{{site.id}}">
+							{{ site.name }}
+
+							</option>
+						</select>
+					</div>
+				</div>
+				<!-- ROOM SELECTION -->
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">Room : </label>
+					<div class="col-sm-3">
+						<select class="form-control form-control-sm" ng-model="selectedRoom">
+							<option ng-repeat="room in rooms" value="{{room.id}}">
+							{{ room.name }}
+
+							</option>
+						</select>
+					</div>
+				</div>
+				<!-- DATES SELECTION -->
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">Start Date : </label>
+					<div class="col-sm-3">
+						<div class='input-group date' id='datetimepicker1'>
+		                    <input type='text' class="form-control" placeholder="DD/MM/YYYY" ng-model="startDate" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+					</div>
+				</div>
+				<div class="form-group form-group-sm">
+					<label class="control-label col-sm-2">End Date : </label>
+					<div class="col-sm-3">
+						<div class='input-group date' id='datetimepicker1'>
+		                    <input type='text' class="form-control" placeholder="DD/MM/YYYY" ng-model="endDate" />
+		                    <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                    </span>
+		                </div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="panel-body">
+			<form role="form" class="form form-horizontal">
+				<label class="control-label col-sm-2"> </label>
+				<div class="col-sm-2">
+					<!-- CHANGER LA FOCNTION -->
+					<button ng-click="loadCharts()" class="btn btn-primary btn-lg">Generate</button> 
+				</div>
+			</form>
+		</div>
+	</div>
 
     <div class="panel panel-default" ng-repeat="(key, value) in metrics" id="{{key}}Tab">
         <div class="panel-heading">
@@ -13,11 +76,12 @@
                 </div>
             </div>
             <hr />
-            <div class="container-fluid" style="margin-right: 1.5em;"><canvas id="{{key}}Chart" width="600" height="120"></canvas></div>
 
+            <div id="{{key}}ChartContainer">
+           		<div class="container-fluid" style="margin-right: 1.5em;"><canvas id="{{key}}Chart" width="600" height="120"></canvas></div>
+            </div>
 
         </div>
     </div>
-
 
 </div>

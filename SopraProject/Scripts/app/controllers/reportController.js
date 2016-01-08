@@ -1,15 +1,90 @@
 ﻿app.controller('reportController',
-['serverService', '$scope', '$timeout',
+['serverService', '$scope' , '$timeout',
 function (serverService, $scope, $timeout) {
+	$scope.roomFilter = function(input){
+        return true;
+	};
+
+
+
     $scope.server = serverService;
+
+    $scope.selectedLocation = "-1";
+    $scope.selectedRoom = "-1";
+    var today = new Date();
+	today = today.toLocaleFormat('%d/%m/%Y');
+    $scope.startDate = today;
+    $scope.endDate = today;
+    $scope.sites = {};
+    $scope.rooms = {};
 
     $scope.chartNames = { occupationRate: "Occupation Rate (%)", fillRate: "Fill Rate (%)", meetingCount: "Meeting Count" };
     $scope.days = [];
     $scope.metrics = {};// keys: occupationRate, fillRate, meetingCount
     $scope.stats = {}; // keys: occupationRate, fillRate, meetingCount
+    $scope.charts = {};
+
+    $scope.load = function() 
+	{
+		$scope.$apply(function()
+		{
+			$scope.updateSites();
+			$scope.updateRooms();
+			$scope.loadCharts();
+		});
+	};
+
+    // Loads the site list into the $scope.sites variable.
+	$scope.updateSites = function() 
+	{
+		$scope.server.getRessource("sites", {})
+		.done(function(data, statusCode)
+		{
+			$scope.sites = {};
+			var xml = $( $.parseXML( data ) );
+			xml.find("Site").each(function()
+			{
+				var site = $(this);
+				$scope.$apply(function()
+				{
+					var siteId = site.attr("id");
+					var siteName = site.children("Name").text();
+					var siteAddress = site.children("Address").text();
+					$scope.sites[siteId] = { "id" : siteId, "name" : siteName, "address" : siteAddress };
+				});
+			});
+		});
+	};
+
+	// Loads the site list into the $scope.sites variable.
+	$scope.updateRooms = function() 
+	{
+		$scope.rooms = {};
+		if($scope.selectedLocation >= 0) {
+			$scope.server.getRessource("roomsbysite", { siteId : $scope.selectedLocation })
+			.done(function(data, statusCode)
+			{
+				$scope.rooms = {};
+				var xml = $( $.parseXML( data ) );
+				xml.find("Room").each(function()
+				{
+					var room = $(this);
+					$scope.$apply(function() 
+					{
+						// On prend l'attribut id de la room
+						var roomId = room.attr("id");
+						// On récupère le texte contenu dans le champ "Name"
+						var roomName = room.children("Name").text();
+						// On ajoute le tout dans $scope.rooms
+						$scope.rooms[roomId] = { "id" : roomId, "name" : roomName };
+					});
+				});
+			});
+		}
+	};
 
     $scope.loadCharts = function () {
-        $scope.server.getRessource("report", {startDate : "11/01/2015", endDate : "11/30/2015", roomId : 5})
+        $scope.server.getRessource("report", {startDate : $scope.startDate, endDate : $scope.endDate, roomId : $scope.selectedRoom})
 		.done(function (data, statusCode) {
 		    // Reset variables
 		    $scope.metrics = { occupationRate: [], fillRate: [], meetingCount: [] };
@@ -72,8 +147,11 @@ function (serverService, $scope, $timeout) {
 		    {
 		        var elementName = "a[href=#" + key + "Tab]";
 
+		        var container = $("#" + key + "ChartContainer");
+		        container.empty();
+		        container.append('<div class="container-fluid" style="margin-right: 1.5em;"><canvas width="600" height="120" id="' + key + 'Chart' + '"></canvas></div>'); 
+
 		        var ctx = $("#" + key + "Chart").get(0).getContext("2d");
-		        var chart = new Chart(ctx);
 		        var chartData = {
 		            labels: $scope.days,
 		            datasets: [{
@@ -87,7 +165,14 @@ function (serverService, $scope, $timeout) {
 		                data: $scope.metrics[key],
 		            }]
 		        };
+
+
+		        var chart = new Chart(ctx);
 		        chart.Bar(chartData, { pointHitDetectionRadius: 1, responsive: true, animation: true });
+		        $scope.charts[key] = chart;
+			    
+
+			  
 		    }
 
 
@@ -97,5 +182,5 @@ function (serverService, $scope, $timeout) {
 
 
 
-    $timeout(function () { $scope.loadCharts(); });
+    $timeout(function () { $scope.load(); });
 }]);

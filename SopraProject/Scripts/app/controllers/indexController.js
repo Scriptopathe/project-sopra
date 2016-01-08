@@ -102,6 +102,37 @@ function(serverService, $scope, $timeout) {
 		});
 	};
 
+
+	// Room searching
+	//(loc, date, duration, nbpers, part)
+	$scope.roomSearching = function(loc, nbpers, part, sDate, eDate)
+	{
+		
+		$scope.server.getRessource("searchwithdate", { siteId : loc, personCount : nbpers, particularities : part, startDate : sDate , endDate : eDate })
+		.done(function(data, statusCode)
+		{
+			
+			$scope.rrooms = {};
+			var xml = $( $.parseXML( data ) );
+			xml.find("Room").each(function()
+			{
+				var room = $(this);
+				$scope.$apply(function() 
+				{
+					var roomId = room.attr("id");
+					var roomName = room.children("Name").text();
+					var roomCapacity = room.children("Capacity").text();
+					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };
+				});
+				alert(rrooms);
+			});
+
+		});
+
+
+	}; 
+
+
 	// Loads the data later
 	$timeout(function() { $scope.load(); });
 }]);
