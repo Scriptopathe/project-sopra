@@ -5,14 +5,12 @@ function (serverService, $scope, $timeout) {
         return true;
 	};
 
-
-
     $scope.server = serverService;
 
     $scope.selectedLocation = "-1";
     $scope.selectedRoom = "-1";
     var today = new Date();
-	today = today.toLocaleFormat('%d/%m/%Y');
+    today = moment(today).format('DD/MM/YYYY');
     $scope.startDate = today;
     $scope.endDate = today;
     $scope.sites = {};
