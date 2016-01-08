@@ -17,7 +17,7 @@ namespace SopraProject.Tools.Extensions.Date
             try
             { 
                 var utcTime = time.ToLocalTime();
-                return utcTime.ToString(@"MM\/dd\/yyyy");
+                return utcTime.ToString(@"dd\/MM\/yyyy");
             }
             catch
             {
@@ -35,7 +35,7 @@ namespace SopraProject.Tools.Extensions.Date
             try
             {
                 var utcTime = time.ToLocalTime();
-                return utcTime.ToString(@"MM\/dd\/yyyy-HH:mm:ss");
+                return utcTime.ToString(@"dd\/MM\/yyyy-HH:mm:ss");
             }
             catch
             {
@@ -51,8 +51,8 @@ namespace SopraProject.Tools.Extensions.Date
         {
             try
             {
-                string[] values = time.Split('/');
-                return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]), 0, 0, 0, DateTimeKind.Local);
+                List<int> values = time.Split('/').ToList().ConvertAll(s => Int32.Parse(s));
+                return new DateTime(values[2], values[1], values[0], 0, 0, 0, DateTimeKind.Local);
             }
             catch
             {
@@ -72,8 +72,8 @@ namespace SopraProject.Tools.Extensions.Date
             {
                 string[] parts = time.Split('-');
                 List<int> timeValues = parts[1].Split(':').ToList().ConvertAll(s => Int32.Parse(s));
-                string[] values = parts[0].Split('/');
-                return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]),
+                List<int> values = parts[0].Split('/').ToList().ConvertAll(s => Int32.Parse(s));
+                return new DateTime(values[2], values[1], values[0],
                     timeValues[0], timeValues[1], timeValues[2], DateTimeKind.Local);
             }
             catch

@@ -30,7 +30,6 @@
 						<strong>Default location : </strong> {{ sites[defaultUserLocation].name }}.
 					</div>
 				</div>
-				User location : {{ userLocation }} {{ sites[userLocation].name }}
 			</form>
 		</div>
 	</div>
@@ -39,159 +38,114 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Room Searching</div>
-			<div class="panel-body">
-				<form role="form" class="form form-horizontal">
-					<label class="control-label col-sm-2">Research on Site {{ userLocation }}</label>
-				</form>
-			</div>
-
-		<table>
-			<tr>
-			<td>
-				<!-- NUMBER OF PEOPLE -->
-				<div class="panel-body">
-					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-4">Room Capacity : </label>
-						<div class="col-sm-6">
-							<div class="input-group" >
-								<input type="text" class="form-control" ng-model="nbPers" placeholder="Number of users" aria-describedby="basic-addon1">
-							</div>
-						</div>
-					</form>
-				</div>
-
-				<!-- START DATE -->
-				<div class="panel-body">
-					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-4">Start Date : </label>
-					        <div class='col-sm-6'>
-				                <div class='input-group date' data-provide='datepicker' id='datetimepicker5' >
-				                    <input type='text' ng-model="StartDate" class="form-control"  placeholder="MM/DD/YYYY-hh:mm:ss" />
-				                    <span class="input-group-addon" >
-				                        <span class="glyphicon glyphicon-calendar"></span>
-				                    </span>
-				                </div>
-					        </div>
-					</form> 
-				</div>
-
-
-				<!-- END DATE -->
-				<div class="panel-body">
-					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-4">End Date : </label>
-					        <div class='col-sm-6'>
-				                <div class='input-group date' data-provide='datepicker' id='datetimepicker5' >
-				                    <input type='text' ng-model="EndDate" class="form-control"  placeholder="MM/DD/YYYY-hh:mm:ss" />
-				                    <span class="input-group-addon" >
-				                        <span class="glyphicon glyphicon-calendar"></span>
-				                    </span>
-				                </div>
-					        </div>
-					</form>
-				</div>
-
-
-				<!-- MEETING DURATION -->
-				<div class="panel-body">
-					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-4">Meeting Duration : </label>
-						<div class="col-sm-6">
-							<div class="input-group" >
-								<input type="text" class="form-control" ng-model="Duration" placeholder="15min Minimum" aria-describedby="basic-addon1">
-							</div>
-						</div>
-					</form>
-				</div>
-
-			</td>
-
-
-			<td>
-
-				<!-- PARTICULARITIES -->
-				<div class="panel-body">
-					<form role="form" class="form form-horizontal">
-						<label class="control-label col-sm-5">Particularities : </label>
-						<div class='col-sm-7'>
-							<div class="row">
-								<div class="col-lg-10">
-									<table>
-										
-
-
-										<tr>
-										    <div class="input-group">
-										      <span class="input-group-addon">
-										        <input type="checkbox" ng-model="Telephone" aria-label="..."> 
-										      </span>
-										      <input type="text" class="form-control" value="Telephone" readonly="readonly">
-										    </div>
-										</tr>
-										<br/>
-										<tr>
-										    <div class="input-group">
-										      <span class="input-group-addon">
-										        <input type="checkbox" ng-model="Video" aria-label="..."> 
-										      </span>
-										      <input type="text" class="form-control"  value="Video" readonly="readonly">
-										    </div>	
-										</tr>
-										<br/>
-										<tr>
-										    <div class="input-group">
-										      <span class="input-group-addon">
-										        <input type="checkbox" ng-model="Secure" aria-label="..."> 
-										      </span>
-										      <input type="text" class="form-control"  value="Secure Room" readonly="readonly">
-										    </div>	
-										</tr>
-										<br/>
-										<tr>
-										    <div class="input-group">
-										      <span class="input-group-addon">
-										        <input type="checkbox" ng-model="DigiLab" aria-label="..."> 
-										      </span>
-										      <input type="text" class="form-control"  value="DigiLab" readonly="readonly">
-										    </div>	
-										</tr>
-									</table>
-								</div>
-							</div>
-							  		  
-						</div>
-					</form>
-				</div>
-
-
-			</td>
-		</tr>
-		</table>
-
+    
 		<div class="panel-body">
-			<form role="form" class="form form-horizontal">
-				<label class="control-label col-sm-2"> </label>
-				<div class="col-sm-2">
-					<button ng-click="roomSearching(userLocation, nbPers, null, StartDate, EndDate)" class="btn btn-primary btn-lg">Research</button> 
-				</div>
-			</form>
-		</div>
+
+            <table class="table">
+                <tr>
+                    <!-- TABLE COLUMN 1 -->
+                    <th>
+                        <form role="form" class="form form-horizontal">
+                            <!-- NUMBER OF PEOPLE -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Room Capacity : </label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" ng-model="nbPers" placeholder="Number of users" aria-describedby="basic-addon1">
+                                </div>
+                            </div>
+
+                            <!-- MEETING DURATION -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Meeting Duration : </label>
+                                <div class="col-sm-6">
+                                    <select class="form-control" ng-model="meetingDuration">
+                                        <option ng-repeat="(id, value) in durations" value="{{value.v}}">{{value.h}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- START DATE -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Start Date : </label>
+                                <div class='col-sm-6'>
+                                    <div class='input-group date' data-provide='datepicker' id='startdatePicker'>
+                                        <input type='text' ng-model="startDate" class="form-control" placeholder="DD/MM/YYYY-hh:mm:ss" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- END DATE -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">End Date : </label>
+                                <div class='col-sm-6'>
+                                    <div class='input-group date' data-provide='datepicker' id='enddatePicker'>
+                                        <input type='text' ng-model="endDate" class="form-control" placeholder="DD/MM/YYYY-hh:mm:ss" />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ROOM SEARCH BUTTON -->
+                            <div class="form-group">
+                                <label class="col-sm-3"> </label>
+                                <div class="col-sm-6">
+                                    <button ng-click="roomSearching(userLocation, nbPers, null, startDate, endDate)" class="btn btn-primary btn-lg">Run</button>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </th>
+                    <!--TABLE COLUMN 2 -->
+                    <th>
+
+                        <form role="form" class="form form-horizontal">
+                            <!-- PARTICULARITIES -->
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Features : </label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div style="margin-bottom: 12px;" ng-repeat="(id, particularity) in particularities" class="input-group">
+                                            <span class="input-group-addon">
+                                                <input type="checkbox" ng-model="particularity.selected" />
+                                            </span>
+                                            <input type="text" class="form-control" value="{{particularity.name}}" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </th>
+                </tr>
+
+            </table>
+
+
+        </div>
 
 	</div>
 
-<!-- RESULTS -->
+    <!-- RESULTS -->
 
 	<div class="panel panel-default">
-		<div class="panel-heading">Results</div>			
+	<div class="panel-heading">Results</div>			
 				
-			<table class="table table-striped">
-				<tr ng-repeat="room in rrooms">				
-					<td><a href="#">{{ room.id }}</a></td>
-					<td> {{ room.name }}</td>
-					<td> {{ room.capacity }}</td>
-					<td> {{ room.particularity }}</td>
-				</tr>
-			</table>
-		</div>
+		<table class="table table-striped">
+			<tr ng-repeat="room in rrooms">				
+				<td><a href="#">{{ room.id }}</a></td>
+				<td> {{ room.name }}</td>
+				<td> {{ room.capacity }}</td>
+				<td> {{ room.particularity }}</td>
+			</tr>
+		</table>
+	</div>
+
 
 </div>

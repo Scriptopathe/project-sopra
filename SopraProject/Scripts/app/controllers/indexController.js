@@ -8,6 +8,15 @@ function(serverService, $scope, $timeout) {
 	// Existing sites
 	$scope.sites = {};
 	$scope.rooms = {};
+    // Meeting duration
+	$scope.meetingDuration = 15;
+	$scope.durations = [{ h: "15min", v: 15 }, { h: "30min", v: 30 }, { h: "45min", v: 45 }, { h: "1h", v: 60 },
+	                    { h: "1h15min", v: 75 }, { h: "1h30min", v: 90 }, { h: "1h45min", v: 105 }, { h: "2h", v: 120 },
+	                    { h: "2h15min", v: 135 }, { h: "2h30min", v: 150 }, { h: "2h45min", v: 165 }, { h: "3h", v: 180 },
+	                    { h: "3h15min", v: 195 }, { h: "3h30min", v: 210 }, { h: "3h45min", v: 225 }, { h: "4h", v: 240 }];
+
+    // Particularities
+	$scope.particularities = {}; // id, name, selected
 
 	$scope.load = function() 
 	{
@@ -17,8 +26,10 @@ function(serverService, $scope, $timeout) {
 			$scope.updateSites();
 			$scope.updateLocation();
 			$scope.updateUser();
+			$scope.loadParticularities();
 		});
 	};
+
 	// Fonction de test ! 
 	$scope.updateRooms = function() 
 	{
@@ -88,6 +99,25 @@ function(serverService, $scope, $timeout) {
 		});
 	};
 
+    // Load particularities
+	$scope.loadParticularities = function () {
+	    $scope.server.getRessource("particularities", {})
+        .done(function(data, statusCode)
+        {
+            $scope.particularities = {};
+            var xml = $( $.parseXML( data ) );
+            xml.find("Particularity").each(function()
+            {
+                var particularity = $(this);
+                var name = particularity.children("Name").text();
+                var id = particularity.attr("id");
+                $scope.$apply(function () {
+                    $scope.particularities[id] = { "id": id, "name": name, "selected": false };
+                });
+            });
+        });
+	};
+
 
 	// Set default location.
 	$scope.setDefaultLocation = function(loc)
@@ -113,7 +143,8 @@ function(serverService, $scope, $timeout) {
 		{
 			
 			$scope.rrooms = {};
-			var xml = $( $.parseXML( data ) );
+			var xml = $($.parseXML(data));
+			alert(data);
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
@@ -122,17 +153,15 @@ function(serverService, $scope, $timeout) {
 					var roomId = room.attr("id");
 					var roomName = room.children("Name").text();
 					var roomCapacity = room.children("Capacity").text();
+					console.log(roomId);
 					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };
 				});
-				alert(rrooms);
 			});
 
 		});
-
-
 	}; 
 
 
 	// Loads the data later
-	$timeout(function() { $scope.load(); });
+	$timeout(function () { $scope.load(); });
 }]);
