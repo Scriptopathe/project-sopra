@@ -14,8 +14,15 @@ namespace SopraProject.Tools.Extensions.Date
         /// </summary>
         public static string SerializeDate(this DateTime time)
         {
-            var utcTime = time.ToLocalTime();
-            return utcTime.ToString(@"MM\/dd\/yyyy");
+            try
+            { 
+                var utcTime = time.ToLocalTime();
+                return utcTime.ToString(@"MM\/dd\/yyyy");
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid date format.");
+            }
         }
 
         /// <summary>
@@ -25,8 +32,15 @@ namespace SopraProject.Tools.Extensions.Date
         /// <param name="time">Time.</param>
         public static string SerializeDateTime(this DateTime time)
         {
-            var utcTime = time.ToLocalTime();
-            return utcTime.ToString(@"MM\/dd\/yyyy-HH:mm:ss");
+            try
+            {
+                var utcTime = time.ToLocalTime();
+                return utcTime.ToString(@"MM\/dd\/yyyy-HH:mm:ss");
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid date format.");
+            }
         }
         /// <summary>
         /// Serializes a Date to a string.
@@ -35,8 +49,15 @@ namespace SopraProject.Tools.Extensions.Date
         /// </summary>
         public static DateTime DeserializeDate(this string time)
         {
-            string[] values = time.Split('/');
-            return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]), 0, 0, 0, DateTimeKind.Local);
+            try
+            {
+                string[] values = time.Split('/');
+                return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]), 0, 0, 0, DateTimeKind.Local);
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid time format.");
+            }
         }
 
 
@@ -47,12 +68,18 @@ namespace SopraProject.Tools.Extensions.Date
         /// </summary>
         public static DateTime DeserializeDateTime(this string time)
         {
-            string[] parts = time.Split('-');
-
-            List<int> timeValues = parts[1].Split(':').ToList().ConvertAll(s => Int32.Parse(s));
-            string[] values = parts[0].Split('/');
-            return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]), 
-                timeValues[0], timeValues[1], timeValues[2], DateTimeKind.Local);
+            try
+            {
+                string[] parts = time.Split('-');
+                List<int> timeValues = parts[1].Split(':').ToList().ConvertAll(s => Int32.Parse(s));
+                string[] values = parts[0].Split('/');
+                return new DateTime(Int32.Parse(values[2]), Int32.Parse(values[0]), Int32.Parse(values[1]),
+                    timeValues[0], timeValues[1], timeValues[2], DateTimeKind.Local);
+            }
+            catch
+            {
+                throw new ArgumentException("Invalid time format.");
+            }
         }
     }
 }
