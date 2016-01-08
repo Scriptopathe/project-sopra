@@ -227,7 +227,16 @@ namespace SopraProject.Controllers
 
         [HttpGet]
         [AuthorizationFilter]
-        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
+        /// <summary>
+        /// Searchs the with date.
+        /// </summary>
+        /// <returns>The with date.</returns>
+        /// <param name="siteId">Site identifier.</param>
+        /// <param name="personCount">Person count.</param>
+        /// <param name="particularities">Particularities.</param>
+        /// <param name="startDate">Start date. Format MM/DD/YYYY-HH:MM:SS</param>
+        /// <param name="endDate">End date.</param>
+        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, string startDate = null, string endDate = null)
         {
             if (particularities.Length == 1 && particularities[0] == String.Empty)
                 particularities = new string[0];
@@ -235,7 +244,7 @@ namespace SopraProject.Controllers
             //startDate = new DateTime(2015, 12, 01);
            // endDate = new DateTime(2015, 12, 30);
             ResearchAlgorithm ra = new ResearchAlgorithm();
-            var result = ra.research(siteId, personCount, particularities, startDate, endDate);
+            var result = ra.research(siteId, personCount, particularities, startDate.DeserializeDateTime(), endDate.DeserializeDateTime());
             return Content(Tools.Serializer.Serialize(result));
         }
     }
