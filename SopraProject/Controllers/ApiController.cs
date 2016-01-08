@@ -171,39 +171,70 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
 		public ActionResult Search(int siteId=-1, int personCount=-1, string[] particularities=null)
         {
-			List<Room> rooms = null;
-			if (siteId != -1) {
-				rooms = new List<Room> (Site.Get (new SiteIdentifier (siteId.ToString ())).Rooms);
-				
-			} else {
-				rooms = Room.GetAllRooms();
-			}
-            if (personCount != -1)
+            try
             {
-				rooms = rooms.FindAll (room => room.Capacity >= personCount);
-            }
-            if (particularities != null)
-            {
-				List<Room> filteredRooms = new List<Room> ();
-				foreach(Room room in rooms)
+                Checked(() => CheckIsPositive(personCount), "personCount");
+                Checked(() => CheckIsPositive(siteId), "siteId");
+
+
+                List<Room> rooms = null;
+
+                // Site filtering
+                if (siteId != -1)
                 {
-					var parts = room.Particularities.ToList().ConvertAll(p => p.Identifier.Value);
-					var intersection = parts.Intersect (particularities);
-					if (intersection.Count () == particularities.Count ()) {
-						filteredRooms.Add (room);
-					}
+                    rooms = new List<Room>(Site.Get(new SiteIdentifier(siteId.ToString())).Rooms);
                 }
-				rooms = filteredRooms;
+                else
+                {
+                    rooms = Room.GetAllRooms();
+                }
+
+                // Capacity filtering
+                if (personCount != -1)
+                {
+                    rooms = rooms.FindAll(room => room.Capacity >= personCount);
+                }
+
+                // Particularities filtering
+                if (particularities != null)
+                {
+                    List<Room> filteredRooms = new List<Room>();
+                    foreach (Room room in rooms)
+                    {
+                        var parts = room.Particularities.ToList().ConvertAll(p => p.Identifier.Value);
+                        var intersection = parts.Intersect(particularities);
+                        if (intersection.Count() == particularities.Count()) {
+                            filteredRooms.Add(room);
+                        }
+                    }
+                    rooms = filteredRooms;
+                }
+
+                return Content(Tools.Serializer.Serialize(rooms));
             }
-            return Content(Tools.Serializer.Serialize(rooms));
+            catch (ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
         }
 
         [HttpGet]
         [AuthorizationFilter]
         public ActionResult Report(string startDate, string endDate, string roomId)
         {
-            var report = new ObjectApi.UsageReport(ObjectApi.Room.Get(new RoomIdentifier(roomId)), startDate.DeserializeDate(), endDate.DeserializeDate());
-            return Content(Tools.Serializer.Serialize(report));
+            try
+            {
+                var sDate = Checked(() => startDate.DeserializeDate(), "startDate");
+                var eDate = Checked(() => endDate.DeserializeDate(), "endDate");
+                Checked(() => CheckIsPositive(Int32.Parse(roomId)), "roomId");
+
+                var report = new ObjectApi.UsageReport(ObjectApi.Room.Get(new RoomIdentifier(roomId)), sDate, eDate);
+                return Content(Tools.Serializer.Serialize(report));
+            }
+            catch (ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
         }
 
         /// <summary>
@@ -238,14 +269,97 @@ namespace SopraProject.Controllers
         /// <param name="endDate">End date.</param>
         public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, string startDate = null, string endDate = null)
         {
-            if (particularities.Length == 1 && particularities[0] == String.Empty)
-                particularities = new string[0];
+            try
+            {
+                if (particularities.Length == 1 && particularities[0] == String.Empty)
+                    particularities = new string[0];
 
-            //startDate = new DateTime(2015, 12, 01);
-           // endDate = new DateTime(2015, 12, 30);
-            ResearchAlgorithm ra = new ResearchAlgorithm();
-            var result = ra.research(siteId, personCount, particularities, startDate.DeserializeDateTime(), endDate.DeserializeDateTime());
-            return Content(Tools.Serializer.Serialize(result));
+                //startDate = new DateTime(2015, 12, 01);
+                // endDate = new DateTime(2015, 12, 30);
+                Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
+                var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
+                var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
+                
+                ResearchAlgorithm ra = new ResearchAlgorithm();
+                var result = ra.research(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
+                return Content(Tools.Serializer.Serialize(result));
+            }
+            catch(ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
+        }
+
+        #region Parameter Checking
+        /// <summary>
+        /// Use this function to return an error to the API.
+        /// </summary>
+        private ActionResult Error(string message)
+        {
+            Response.Write(message);
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+        }
+
+        /// <summary>
+        /// Throws an exception if the given value is not positive.
+        /// </summary>
+        private int CheckIsPositive(int value)
+        {
+            if (value < 0)
+                throw new Exception("Value must be positive.");
+            return value;
+        }
+
+        public class ParameterCheckException : Exception { public ParameterCheckException(string msg) : base(msg) { } }
+        
+        /// <summary>
+        /// Executes the given function. If the function throws an exception, it is wrapped into a ParameterCheckException 
+        /// with a given message and parameter name.
+        /// This exception contains a serialized XML object containg details about the error to be sent to the client.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func">The function to be executed.</param>
+        /// <param name="parameterName">The name of the parameter which is currently checked.</param>
+        /// <param name="errorMessage">The error message to display if an error occurs. 
+        /// if null or not specified, the message is taken from the underlaying exception.</param>
+        /// <returns></returns>
+        private T Checked<T>(Func<T> func, string parameterName, string errorMessage=null)
+        {
+            T obj;
+            try
+            {
+                obj = func();
+            }
+            catch(Exception e)
+            {
+                if (errorMessage == null)
+                    errorMessage = e.Message;
+                throw new ParameterCheckException(new InputError() { ParameterName = parameterName, Message = errorMessage}.ToString());
+            }
+            return obj;
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Represents an input error.
+    /// </summary>
+    public class InputError
+    {
+        /// <summary>
+        /// Gets the name of the input parameter which was incorrect..
+        /// </summary>
+        [XmlAttribute("name")]
+        public string ParameterName { get; set; }
+        /// <summary>
+        /// Gets the message to display to the user.
+        /// </summary>
+        [XmlAttribute("message")]
+        public string Message { get; set; }
+
+        public override string ToString()
+        {
+            return Tools.Serializer.Serialize(this);
         }
     }
 }

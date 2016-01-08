@@ -141,14 +141,13 @@ function(serverService, $scope, $timeout) {
 		$scope.server.getRessource("searchwithdate", { siteId : loc, personCount : nbpers, particularities : part, startDate : sDate , endDate : eDate })
 		.done(function(data, statusCode)
 		{
-			
+		    alert(statusCode);
 			$scope.rrooms = {};
 			var xml = $($.parseXML(data));
-			alert(data);
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
-				$scope.$apply(function() 
+				$scope.$apply(function()
 				{
 					var roomId = room.attr("id");
 					var roomName = room.children("Name").text();
@@ -158,7 +157,10 @@ function(serverService, $scope, $timeout) {
 				});
 			});
 
-		});
+		})
+	    .fail(function (xhr, statusCode, error) {
+	        alert(xhr.responseText);
+	    });
 	}; 
 
 

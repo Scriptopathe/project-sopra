@@ -5,6 +5,11 @@ using System.Web;
 
 namespace SopraProject.Tools.Extensions.Date
 {
+    public class DateTimeFormatException : Exception
+    {
+        public DateTimeFormatException(string msg) : base(msg) { }
+    }
+
     public static class DateTimeExtensions
     {
         /// <summary>
@@ -21,7 +26,7 @@ namespace SopraProject.Tools.Extensions.Date
             }
             catch
             {
-                throw new ArgumentException("Invalid date format.");
+                throw new DateTimeFormatException("Invalid date format.");
             }
         }
 
@@ -39,7 +44,7 @@ namespace SopraProject.Tools.Extensions.Date
             }
             catch
             {
-                throw new ArgumentException("Invalid date format.");
+                throw new DateTimeFormatException("Invalid date format.");
             }
         }
         /// <summary>
@@ -56,7 +61,7 @@ namespace SopraProject.Tools.Extensions.Date
             }
             catch
             {
-                throw new ArgumentException("Invalid time format.");
+                throw new DateTimeFormatException("Invalid time format.");
             }
         }
 
@@ -78,7 +83,7 @@ namespace SopraProject.Tools.Extensions.Date
             }
             catch
             {
-                throw new ArgumentException("Invalid time format.");
+                throw new DateTimeFormatException("Invalid time format.");
             }
         }
     }
