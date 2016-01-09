@@ -271,17 +271,15 @@ namespace SopraProject.Controllers
         {
             try
             {
-                if (particularities.Length == 1 && particularities[0] == String.Empty)
+                if (particularities == null || (particularities.Length == 1 && particularities[0] == String.Empty))
                     particularities = new string[0];
-
-                //startDate = new DateTime(2015, 12, 01);
-                // endDate = new DateTime(2015, 12, 30);
+                
                 Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
                 var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
                 var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
                 
                 ResearchAlgorithm ra = new ResearchAlgorithm();
-                var result = ra.research(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
+                List<Room> result = ra.research(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
                 return Content(Tools.Serializer.Serialize(result));
             }
             catch(ParameterCheckException e)
