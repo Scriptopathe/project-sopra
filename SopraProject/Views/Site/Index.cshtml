@@ -45,12 +45,16 @@
                 <tr>
                     <!-- TABLE COLUMN 1 -->
                     <th>
-                        <form role="form" class="form form-horizontal">
+                        <form name="searchForm" role="form" class="form form-horizontal">
                             <!-- NUMBER OF PEOPLE -->
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Room Capacity : </label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" ng-model="nbPers" placeholder="Number of users" aria-describedby="basic-addon1">
+                                    <input  style="{{searchForm.userCountInput.$valid ? '' : 'color: red;'}}"
+                                            type="number" name="userCountInput" min="0" class="form-control" ng-model="userCount" placeholder="Number of users">
+
+                                    <div class="alert alert-danger" ng-if="searchForm.userCountInput.$error.min">The number of users must be greater or equal than 0.</div>
+                                    <div class="alert alert-danger" ng-if="searchForm.userCountInput.$error.number">This value must be a number</div>
                                 </div>
                             </div>
 
@@ -58,7 +62,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-3">Meeting Duration : </label>
                                 <div class="col-sm-6">
-                                    <select class="form-control" ng-model="meetingDuration">
+                                    <select class="form-control" ng-model="meetingDuration" ng-init="meetingDuration = 15">
                                         <option ng-repeat="(id, value) in durations" value="{{value.v}}">{{value.h}}</option>
                                     </select>
                                 </div>
@@ -95,10 +99,9 @@
                             <div class="form-group">
                                 <label class="col-sm-3"> </label>
                                 <div class="col-sm-6">
-                                    <button ng-click="roomSearching(userLocation, nbPers, null, startDate, endDate)" class="btn btn-primary btn-lg">Run</button>
+                                    <button ng-disabled="!searchForm.$valid" ng-click="roomSearching()" class="btn btn-primary btn-lg">Run</button>
                                 </div>
                             </div>
-
                         </form>
 
                     </th>
@@ -127,7 +130,6 @@
 
             </table>
 
-
         </div>
 
 	</div>
@@ -135,17 +137,29 @@
     <!-- RESULTS -->
 
 	<div class="panel panel-default">
-	<div class="panel-heading">Results</div>			
-				
-		<table class="table table-striped">
-			<tr ng-repeat="room in rrooms">				
-				<td><a href="#">{{ room.id }}</a></td>
-				<td> {{ room.name }}</td>
-				<td> {{ room.capacity }}</td>
-				<td> {{ room.particularity }}</td>
-			</tr>
-		</table>
+	    <div class="panel-heading">Results</div>			
+        <div style="margin-bottom: -1em;" ng-show="inputError" class="form-group">
+            <div class="alert alert-danger">
+                {{inputErrorText}}
+            </div>
+        </div>       		
+        <div class="list-group">
+            <a ng-repeat="room in rrooms" href="#" class="list-group-item">
+                <table>
+                    <tr>
+                        <td width="500">
+                            <!-- ROOM NAME -->
+                            <h4>{{room.name}}</h4>
+                            {{room.capacity}} seats.
+                        </td>
+                        <td>
+                            <p ng-repeat="(id, partName) in room.particularities">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{partName}}
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </a>
+        </div>
 	</div>
-
-
 </div>

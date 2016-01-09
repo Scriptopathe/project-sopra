@@ -5,15 +5,16 @@ function(serverService, $scope, $timeout) {
 	// User location (site identifier). -1 for none => not loaded.
 	$scope.defaultUserLocation = "-1";
 	$scope.userLocation = "-1";
+	$scope.userCount = 5;
 	// Existing sites
 	$scope.sites = {};
 	$scope.rooms = {};
     // Meeting duration
-	$scope.meetingDuration = 15;
 	$scope.durations = [{ h: "15min", v: 15 }, { h: "30min", v: 30 }, { h: "45min", v: 45 }, { h: "1h", v: 60 },
 	                    { h: "1h15min", v: 75 }, { h: "1h30min", v: 90 }, { h: "1h45min", v: 105 }, { h: "2h", v: 120 },
 	                    { h: "2h15min", v: 135 }, { h: "2h30min", v: 150 }, { h: "2h45min", v: 165 }, { h: "3h", v: 180 },
 	                    { h: "3h15min", v: 195 }, { h: "3h30min", v: 210 }, { h: "3h45min", v: 225 }, { h: "4h", v: 240 }];
+	$scope.meetingDuration = $scope.durations[0].v;
 
     // Particularities
 	$scope.particularities = {}; // id, name, selected
@@ -133,17 +134,33 @@ function(serverService, $scope, $timeout) {
 	};
 
 
-	// Room searching
+    // Room searching
+    // userLocation, userCount, null, startDate, endDate
 	//(loc, date, duration, nbpers, part)
-	$scope.roomSearching = function(loc, nbpers, part, sDate, eDate)
+	$scope.roomSearching = function(loc)
 	{
-		
-		$scope.server.getRessource("searchwithdate", { siteId : loc, personCount : nbpers, particularities : part, startDate : sDate , endDate : eDate })
+	    $scope.inputError = false;
+
+        // Precomputes the list of selected particularities
+	    var selectedParticularities = []
+	    for (key in $scope.particularities) {
+            if($scope.particularities[key].selected)
+                selectedParticularities.push($scope.particularities[key].id)
+	    }
+
+	    $scope.server.getRessource("searchwithdate", {
+	        siteId: $scope.userLocation,
+	        personCount: $scope.userCount,
+	        particularities: selectedParticularities,
+	        startDate: $scope.startDate,
+	        endDate: $scope.endDate
+	    })
+        // Search successfull.
 		.done(function(data, statusCode)
 		{
-		    alert(statusCode);
 			$scope.rrooms = {};
 			var xml = $($.parseXML(data));
+			
 			xml.find("Room").each(function()
 			{
 				var room = $(this);
@@ -152,18 +169,48 @@ function(serverService, $scope, $timeout) {
 					var roomId = room.attr("id");
 					var roomName = room.children("Name").text();
 					var roomCapacity = room.children("Capacity").text();
-					console.log(roomId);
-					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity };
+
+                    // Gets the particularities of the room
+					var particularities = {}; // id : name
+					room.find("Particularity").each(function () {
+					    var part = $(this);
+					    var partId = part.attr("id");
+					    var partName = part.children("name").text();
+					    particularities[partId] = partName;
+					});
+					console.log(roomCapacity);
+					console.log(particularities);
+					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity, "particularities" : particularities };
 				});
 			});
 
 		})
+        // Search failed.
 	    .fail(function (xhr, statusCode, error) {
-	        alert(xhr.responseText);
+	        $scope.showServerInputError(xhr.responseText);
 	    });
-	}; 
+	};
+
+    // Displays a server input error on the web page.
+	$scope.inputError = false;
+	$scope.inputErrorText = "";
+	$scope.showServerInputError = function (error) {
+	    var xml = $($.parseXML(error));
+	    var inputError = xml.find("InputError");
+	    var parameter = inputError.attr("name");
+	    var message = inputError.attr("message");
+
+	    $scope.$apply(function () {
+	        $scope.inputErrorText = "The server returned with an error : parameter '" + parameter + "' is invalid. Reason : " + message;
+	        $scope.inputError = true;
+	    });
+	};
 
 
 	// Loads the data later
 	$timeout(function () { $scope.load(); });
+
+	$(function () {
+	    $('[data-toggle="tooltip"]').tooltip()
+	});
 }]);
