@@ -6,7 +6,9 @@
 	// getRessource("Rooms, {})
 	//	.done(function(data, statusCode) { alert(data); });
 	//  .fail(...)			[ Optional ]
-	//  .always(...)		[ Optional ]
+    //  .always(...)		[ Optional ]
+
+    jQuery.ajaxSettings.traditional = true;
 	this.getRessource = function(partialUri, args)
 	{
 		return $.get("../api/" + partialUri, args)
