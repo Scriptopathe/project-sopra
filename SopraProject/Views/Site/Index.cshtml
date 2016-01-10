@@ -126,6 +126,7 @@
                         </form>
 
                     </th>
+
                 </tr>
 
             </table>
@@ -144,22 +145,46 @@
             </div>
         </div>       		
         <div class="list-group">
-            <a ng-repeat="room in rrooms" href="#" class="list-group-item">
+            <div ng-repeat="room in searchResults" href="#" class="list-group-item">
                 <table>
                     <tr>
                         <td width="500">
                             <!-- ROOM NAME -->
-                            <h4>{{room.name}}</h4>
+                            <h4><strong>{{room.name}}</strong></h4>
                             {{room.capacity}} seats.
                         </td>
                         <td>
-                            <p ng-repeat="(id, partName) in room.particularities">
+                            <span ng-repeat="(id, partName) in room.particularities">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{partName}}
-                            </p>
+                            </span>
                         </td>
                     </tr>
                 </table>
-            </a>
+                <!-- Booking candidates -->
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Start Time</th>
+                            <th>End time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="booking in room.bookings track by $index">
+                            <td>
+                                {{booking.day}}
+                            </td>
+                            <td>
+                                {{booking.startTime}}
+                            </td>
+                            <td>
+                                {{booking.endTime}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 	</div>
 </div>

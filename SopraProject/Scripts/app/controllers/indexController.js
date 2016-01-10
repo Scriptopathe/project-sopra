@@ -148,8 +148,9 @@ function(serverService, $scope, $timeout) {
                 selectedParticularities.push($scope.particularities[key].id)
 	    }
 
-	    $scope.server.getRessource("searchwithdate", {
+	    $scope.server.getRessource("search", {
 	        siteId: $scope.userLocation,
+            meetingDuration: $scope.meetingDuration,
 	        personCount: $scope.userCount,
 	        particularities: selectedParticularities,
 	        startDate: $scope.startDate,
@@ -158,29 +159,40 @@ function(serverService, $scope, $timeout) {
         // Search successfull.
 		.done(function(data, statusCode)
 		{
-			$scope.rrooms = {};
+		    $scope.searchResults = {};
 			var xml = $($.parseXML(data));
-			
-			xml.find("Room").each(function()
+			alert(data);
+			xml.find("RoomSearchResult").each(function()
 			{
-				var room = $(this);
+                // Room data
+			    var room = $(this).children("Room");
+			    var roomId = room.attr("id");
+			    var roomName = room.children("Name").text();
+			    var roomCapacity = room.children("Capacity").text();
+                
+			    // Gets the particularities of the room
+			    var particularities = {}; // id : name
+			    room.find("Particularity").each(function () {
+			        var part = $(this);
+			        var partId = part.attr("id");
+			        var partName = part.children("name").text();
+			        particularities[partId] = partName;
+			    });
+
+
+			    // Bookings data
+			    var bookingCandidates = [];
+			    $(this).find("BookingCandidate").each(function () {
+			        var booking = $(this);
+			        var day = booking.children("day").text();
+			        var startTime = booking.children("startTime").text();
+			        var endTime = booking.children("endTime").text();
+			        bookingCandidates.push({ "day": day, "startTime": startTime, "endTime": endTime });
+			    });
+
 				$scope.$apply(function()
 				{
-					var roomId = room.attr("id");
-					var roomName = room.children("Name").text();
-					var roomCapacity = room.children("Capacity").text();
-
-                    // Gets the particularities of the room
-					var particularities = {}; // id : name
-					room.find("Particularity").each(function () {
-					    var part = $(this);
-					    var partId = part.attr("id");
-					    var partName = part.children("name").text();
-					    particularities[partId] = partName;
-					});
-					console.log(roomCapacity);
-					console.log(particularities);
-					$scope.rrooms[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity, "particularities" : particularities };
+					$scope.searchResults[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity, "particularities" : particularities, "bookings" : bookingCandidates };
 				});
 			});
 

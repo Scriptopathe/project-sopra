@@ -160,64 +160,6 @@ namespace SopraProject.Controllers
 			return Content(Tools.Serializer.Serialize(rooms));
 		}
 
-        /// <summary>
-        /// Gets the list of rooms that satifisfy the given requirements in XML format.
-        /// </summary>
-        /// <param name="siteId"></param>
-        /// <param name="personCount"></param>
-        /// <param name="particularities"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [AuthorizationFilter]
-		public ActionResult Search(int siteId=-1, int personCount=-1, string[] particularities=null)
-        {
-            try
-            {
-                Checked(() => CheckIsPositive(personCount), "personCount");
-                Checked(() => CheckIsPositive(siteId), "siteId");
-
-
-                List<Room> rooms = null;
-
-                // Site filtering
-                if (siteId != -1)
-                {
-                    rooms = new List<Room>(Site.Get(new SiteIdentifier(siteId.ToString())).Rooms);
-                }
-                else
-                {
-                    rooms = Room.GetAllRooms();
-                }
-
-                // Capacity filtering
-                if (personCount != -1)
-                {
-                    rooms = rooms.FindAll(room => room.Capacity >= personCount);
-                }
-
-                // Particularities filtering
-                if (particularities != null)
-                {
-                    List<Room> filteredRooms = new List<Room>();
-                    foreach (Room room in rooms)
-                    {
-                        var parts = room.Particularities.ToList().ConvertAll(p => p.Identifier.Value);
-                        var intersection = parts.Intersect(particularities);
-                        if (intersection.Count() == particularities.Count()) {
-                            filteredRooms.Add(room);
-                        }
-                    }
-                    rooms = filteredRooms;
-                }
-
-                return Content(Tools.Serializer.Serialize(rooms));
-            }
-            catch (ParameterCheckException e)
-            {
-                return Error(e.Message);
-            }
-        }
-
         [HttpGet]
         [AuthorizationFilter]
         public ActionResult Report(string startDate, string endDate, string roomId)
@@ -279,10 +221,42 @@ namespace SopraProject.Controllers
                 var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
                 
                 ResearchAlgorithm ra = new ResearchAlgorithm();
-                List<Room> result = ra.research(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
+                List<Room> result = ra.Search(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
                 return Content(Tools.Serializer.Serialize(result));
             }
             catch(ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [AuthorizationFilter]
+        /// <summary>
+        /// Searchs the with date.
+        /// </summary>
+        /// <returns>The with date.</returns>
+        /// <param name="siteId">Site identifier.</param>
+        /// <param name="personCount">Person count.</param>
+        /// <param name="particularities">Particularities.</param>
+        /// <param name="startDate">Start date. Format MM/DD/YYYY-HH:MM:SS</param>
+        /// <param name="endDate">End date.</param>
+        public ActionResult Search(int siteId = -1, int personCount = -1, int meetingDuration = 15, string[] particularities = null, string startDate = null, string endDate = null)
+        {
+            try
+            {
+                if (particularities == null || (particularities.Length == 1 && particularities[0] == String.Empty))
+                    particularities = new string[0];
+
+                Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
+                var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
+                var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
+
+                ResearchAlgorithm ra = new ResearchAlgorithm();
+                List<ResearchAlgorithm.RoomSearchResult> result = ra.Search(siteId, personCount, particularities, meetingDuration, sDate, eDate);
+                return Content(Tools.Serializer.Serialize(result));
+            }
+            catch (ParameterCheckException e)
             {
                 return Error(e.Message);
             }
