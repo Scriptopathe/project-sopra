@@ -93,8 +93,7 @@ namespace SopraProject.ObjectApi
         {
             List<Room> rooms = siteId == -1 ? Room.GetAllRooms() : new List<Room>(Site.Get(new SiteIdentifier(siteId.ToString())).Rooms);
             // Preprocess the start date : minutes must be dividible by MIN_MEETING_DURATION.
-            startDate.AddMinutes(-(startDate.Minute % MIN_MEETING_DURATION));
-            startDate.AddSeconds(-startDate.Second);
+            startDate = startDate.AddMinutes(-(startDate.Minute % MIN_MEETING_DURATION)).AddSeconds(-startDate.Second);
 
             // Filter room capacity.
             if (minCapacity != -1)
@@ -125,10 +124,10 @@ namespace SopraProject.ObjectApi
                 // Naive implementation : look at each 15min period to see if it is not empty.
                 DateTime lastDate = endDate.AddMinutes(-meetingDurationMinutes);
                 DateTime? meetingStart = null;
-                for(DateTime currentDate = startDate; currentDate < lastDate; currentDate = currentDate.AddMinutes(MIN_MEETING_DURATION))
+                for(DateTime currentDate = startDate; currentDate <= lastDate; currentDate = currentDate.AddMinutes(MIN_MEETING_DURATION))
                 {
                     DateTime meetingEndDate = currentDate.AddMinutes(meetingDurationMinutes);
-                    var bookings = allBookings.Where(booking => booking.EndDate > currentDate && booking.StartDate < meetingEndDate);
+                    var bookings = allBookings.Where(booking => booking.EndDate > currentDate && booking.StartDate <= meetingEndDate);
                     bool record = false;
                     bool dayJump = false;
                     if (bookings.Count() == 0)
@@ -147,7 +146,7 @@ namespace SopraProject.ObjectApi
                     }
 
                     // If we are in the last iteration, record
-                    if (meetingEndDate >= lastDate)
+                    if (currentDate >= lastDate)
                         record = true;
 
                     // If we get to the end of the day, start searching from the start of the next day
@@ -169,7 +168,7 @@ namespace SopraProject.ObjectApi
 
                     // Jumps to the next day
                     if(dayJump)
-                        currentDate = currentDate.AddHours(24 - DAY_END + DAY_START);
+                        currentDate = currentDate.AddHours(24 - DAY_END + DAY_START).AddMinutes(-MIN_MEETING_DURATION);
 
                 }
 
