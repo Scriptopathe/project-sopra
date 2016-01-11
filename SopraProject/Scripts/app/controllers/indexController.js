@@ -9,6 +9,10 @@ function(serverService, $scope, $timeout) {
 	// Existing sites
 	$scope.sites = {};
 	$scope.rooms = {};
+	$scope.startDate = "01/11/2015-00:00:00";
+	$scope.endDate = "15/11/2015-00:00:00";
+	$scope.searchLoading = false;
+
     // Meeting duration
 	$scope.durations = [{ h: "15min", v: 15 }, { h: "30min", v: 30 }, { h: "45min", v: 45 }, { h: "1h", v: 60 },
 	                    { h: "1h15min", v: 75 }, { h: "1h30min", v: 90 }, { h: "1h45min", v: 105 }, { h: "2h", v: 120 },
@@ -148,6 +152,10 @@ function(serverService, $scope, $timeout) {
                 selectedParticularities.push($scope.particularities[key].id)
 	    }
 
+        // Unload current search results and displays progress bar.
+	    $scope.searchResults = {};
+	    $scope.searchLoading = true;
+
 	    $scope.server.getRessource("search", {
 	        siteId: $scope.userLocation,
             meetingDuration: $scope.meetingDuration,
@@ -159,9 +167,8 @@ function(serverService, $scope, $timeout) {
         // Search successfull.
 		.done(function(data, statusCode)
 		{
-		    $scope.searchResults = {};
+
 			var xml = $($.parseXML(data));
-			alert(data);
 			xml.find("RoomSearchResult").each(function()
 			{
                 // Room data
@@ -181,25 +188,43 @@ function(serverService, $scope, $timeout) {
 
 
 			    // Bookings data
-			    var bookingCandidates = [];
+			    var bookingCandidates = {};
 			    $(this).find("BookingCandidate").each(function () {
 			        var booking = $(this);
 			        var day = booking.children("day").text();
 			        var startTime = booking.children("startTime").text();
 			        var endTime = booking.children("endTime").text();
-			        bookingCandidates.push({ "day": day, "startTime": startTime, "endTime": endTime });
+			        if (bookingCandidates[day] == undefined) { bookingCandidates[day] = []; }
+			        bookingCandidates[day].push({ "day": day, "startTime": startTime, "endTime": endTime });
 			    });
 
 				$scope.$apply(function()
 				{
 					$scope.searchResults[roomId] = { "id" : roomId, "name" : roomName, "capacity" : roomCapacity, "particularities" : particularities, "bookings" : bookingCandidates };
 				});
+
+                // Activate tabs
+				$timeout(function () {
+				    $('.nav-tabs a').click(function () {
+				        $(this).tab('show');
+				    });
+
+				    $('.nav-tabs a:first').tab('show');
+				});
 			});
 
+
+
 		})
-        // Search failed.
 	    .fail(function (xhr, statusCode, error) {
+	        // Search failed.
 	        $scope.showServerInputError(xhr.responseText);
+	    })
+	    .always(function () {
+	        // Stop loading indicator
+	        $scope.$apply(function () {
+	            $scope.searchLoading = false;
+	        });
 	    });
 	};
 
@@ -225,4 +250,6 @@ function(serverService, $scope, $timeout) {
 	$(function () {
 	    $('[data-toggle="tooltip"]').tooltip()
 	});
+
+
 }]);

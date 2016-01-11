@@ -38,7 +38,8 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Room Searching</div>
-    
+        
+        <!-- FORM -->
 		<div class="panel-body">
 
             <table class="table">
@@ -133,56 +134,81 @@
 
         </div>
 
+
 	</div>
 
     <!-- RESULTS -->
 
 	<div class="panel panel-default">
-	    <div class="panel-heading">Results</div>			
+	    <div class="panel-heading">Results</div>	
+        <!-- ERROR TEXT -->		
         <div style="margin-bottom: -1em;" ng-show="inputError" class="form-group">
             <div class="alert alert-danger">
                 {{inputErrorText}}
             </div>
-        </div>       		
-        <div class="list-group">
-            <div ng-repeat="room in searchResults" href="#" class="list-group-item">
-                <table>
-                    <tr>
-                        <td width="500">
-                            <!-- ROOM NAME -->
-                            <h4><strong>{{room.name}}</strong></h4>
-                            {{room.capacity}} seats.
-                        </td>
-                        <td>
-                            <span ng-repeat="(id, partName) in room.particularities">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> {{partName}}
-                            </span>
-                        </td>
-                    </tr>
-                </table>
-                <!-- Booking candidates -->
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Day</th>
-                            <th>Start Time</th>
-                            <th>End time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="booking in room.bookings track by $index">
-                            <td>
-                                {{booking.day}}
-                            </td>
-                            <td>
-                                {{booking.startTime}}
-                            </td>
-                            <td>
-                                {{booking.endTime}}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        </div>
+
+        <!-- LOADING BAR -->
+        <div ng-show="searchLoading">
+            <center><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</center>
+        </div>
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li ng-repeat="room in searchResults" role="presentation">
+                    <a href="#roomTab{{room.id}}" aria-controls="roomTab{{room.id}}" role="tab" data-toggle="tab">{{room.name}}</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div ng-repeat="room in searchResults" role="tabpanel" class="tab-pane" id="roomTab{{room.id}}">
+                    <div class="container">
+                        <!-- Room summary -->
+                        <table>
+                            <tr>
+                                <td width="200">
+                                    <img src="@Url.Content("~/Assets/user-icon.png")" width="64" height="64" /> {{room.capacity}} seats.
+                                </td>
+                                <td>
+                                    <p ng-repeat="(id, partName) in room.particularities">
+                                        <img src="@Url.Content("~/Assets/success-icon.png")" width="16" height="16" /> {{partName}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Booking candidates -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th width="200">Day</th>
+                                    <th>Start Time</th>
+                                    <th>End time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(day, bookings) in room.bookings">
+                                    <td>
+                                        {{day}}
+
+                                    </td>
+                                    <td>
+                                        <p ng-repeat="booking in bookings track by $index">
+                                            {{booking.startTime}}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p ng-repeat="booking in bookings track by $index">
+                                            {{booking.endTime}}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>

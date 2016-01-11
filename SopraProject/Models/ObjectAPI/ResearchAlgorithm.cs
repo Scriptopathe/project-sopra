@@ -35,7 +35,7 @@ namespace SopraProject.ObjectApi
         {
             #region XML
             [XmlElement("day")]
-            public string XMLDay { get { return StartDate.ToShortDateString(); } set { } }
+            public string XMLDay { get { return StartDate.DayOfWeek.ToString() + " " + StartDate.ToShortDateString(); } set { } }
             [XmlElement("startTime")]
             public string XMLStartDate { get { return StartDate.ToShortTimeString(); } set { } }
             [XmlElement("endTime")]
