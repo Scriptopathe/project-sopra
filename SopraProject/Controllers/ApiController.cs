@@ -87,7 +87,7 @@ namespace SopraProject.Controllers
         public new ActionResult User()
         {
             var user = GetUser();
-            return Content(user.Username);
+            return Content(Tools.Serializer.Serialize(user));
         }
 
         /// <summary>
@@ -161,7 +161,7 @@ namespace SopraProject.Controllers
 		}
 
         [HttpGet]
-        [AuthorizationFilter]
+        [AuthorizationFilter(adminOnly: true)]
         public ActionResult Report(string startDate, string endDate, string roomId)
         {
             try

@@ -20,6 +20,7 @@ namespace SopraProject.Controllers
         /// Views the report page.
         /// </summary>
         [SiteAuthorizationFilter]
+        [AuthorizationFilter(adminOnly: true)]
         public ActionResult Report()
         {
             return View("Report");

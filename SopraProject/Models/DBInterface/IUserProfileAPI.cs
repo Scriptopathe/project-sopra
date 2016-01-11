@@ -23,6 +23,11 @@ namespace SopraProject
         /// <param name="username">Username.</param>
         /// <param name="siteId">Site identifier.</param>
         void SetLocation(UserIdentifier username, SiteIdentifier siteId);
+        /// <summary>
+        /// Gets a value indicating if the given user is an administator.
+        /// </summary>
+        /// <param name="username">Username.</param>
+        bool IsAdmin(UserIdentifier username);
     }
 }
 

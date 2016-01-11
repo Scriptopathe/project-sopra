@@ -26,7 +26,7 @@
 	                    <ul class="nav navbar-nav">
 	                        <li><a href="@Url.Action("Index", "Site", new { })">Home</a></li>
 	                    </ul>
-	                    <ul class="nav navbar-nav">
+	                    <ul ng-if="isAdmin" class="nav navbar-nav">
 	                        <li><a href="@Url.Action("Report", "Site", new { })">Reports</a></li>
 	                    </ul>
 	                    <ul class="nav navbar-nav navbar-right">

@@ -8,12 +8,13 @@ namespace SopraProject.ObjectApi
         private UserIdentifier _identifier;
         private Site _site;
         private object _lock = new object();
+        private bool? _isAdmin;
         #region Properties
         /// <summary>
         /// Gets this site's identifier.
         /// </summary>
         /// <value>The location.</value>
-        [XmlIgnore()]
+        [XmlIgnore]
         public UserIdentifier Identifier 
         {
             get { return _identifier; }
@@ -23,7 +24,7 @@ namespace SopraProject.ObjectApi
         /// Gets or sets the user's location.
         /// </summary>
         /// <value>The location.</value>
-        [XmlIgnore()]
+        [XmlIgnore]
         public Site Location
         {
             get 
@@ -48,12 +49,31 @@ namespace SopraProject.ObjectApi
         /// Gets this user's username.
         /// </summary>
         /// <value>The username.</value>
-        [XmlIgnore()]
+        [XmlIgnore]
         public string Username
         {
             get
             {
                 return _identifier.Value;
+            }
+        }
+        /// <summary>
+        /// Gets a value indicating if this user is an administrator.
+        /// </summary>
+        /// <value>The username.</value>
+        [XmlIgnore]
+        public bool IsAdmin
+        {
+            get
+            {
+                lock(_lock)
+                {
+                    if (!_isAdmin.HasValue)
+                    {
+                        _isAdmin = ObjectApiProvider.Instance.UserProfileApi.IsAdmin(Identifier);
+                    }
+                }
+                return _isAdmin.Value;
             }
         }
         #endregion
@@ -77,6 +97,13 @@ namespace SopraProject.ObjectApi
         public Site XMLLocation
         {
             get { return Location; }
+            set { }
+        }
+
+        [XmlElement("IsAdmin")]
+        public bool XMLIsAdmin
+        {
+            get { return IsAdmin; }
             set { }
         }
 

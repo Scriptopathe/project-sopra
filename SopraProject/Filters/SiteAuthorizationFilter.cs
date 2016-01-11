@@ -16,9 +16,11 @@ namespace SopraProject
         /// Set it to false to be able to debug programs quickly.
         /// </summary>
         public const bool ENABLE_FILTERING = true;
+        private bool _adminOnly;
 
-        public SiteAuthorizationFilterAttribute()
+        public SiteAuthorizationFilterAttribute(bool adminOnly = false)
         {
+            _adminOnly = adminOnly;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -28,7 +30,8 @@ namespace SopraProject
             {
                 string authTicket = (string)filterContext.HttpContext.Session["AuthTicket"];
                 HttpCookie authCookie = filterContext.HttpContext.Request.Cookies["AuthTicket"];
-                if (authTicket == null || authCookie == null || authTicket != authCookie.Value)
+                ObjectApi.User user = filterContext.HttpContext.Session["User"] as ObjectApi.User;
+                if (authTicket == null || authCookie == null || authTicket != authCookie.Value || (_adminOnly && !user.IsAdmin))
                 {
                     // filterContext.Result = new ContentResult() { Content = "Authentication failed" };
                     filterContext.Result = new RedirectResult("/site/signin?next=" + filterContext.HttpContext.Request.Url.AbsoluteUri);

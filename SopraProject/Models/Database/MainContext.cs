@@ -21,6 +21,10 @@ namespace SopraProject.Database
         /// </summary>
         /// <value>The user site.</value>
         public int SiteID { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating if the user is an administrator.
+        /// </summary>
+        public bool IsAdmin { get; set; }
 	}
 
     public class MCSite

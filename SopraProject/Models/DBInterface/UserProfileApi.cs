@@ -16,7 +16,7 @@ namespace SopraProject
         /// </summary>
         /// <returns><c>true</c>, if the profile exists for the given username, <c>false</c> otherwise.</returns>
         /// <param name="username">Username.</param>
-        private bool ProfileExists(UserIdentifier username)
+        public bool ProfileExists(UserIdentifier username)
         {
             bool exists = false;
             using (var ctx = new Database.MainContext())
@@ -46,6 +46,26 @@ namespace SopraProject
                     ctx.SaveChanges();
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the given user is an administator.
+        /// </summary>
+        /// <param name="username">Username.</param>
+        public bool IsAdmin(UserIdentifier username)
+        {
+            ValidateProfile(username);
+
+            bool isAdmin;
+            using (var ctx = new Database.MainContext())
+            {
+                var query = from profile in ctx.UsersProfile
+                            where profile.Username.Equals(username.Value)
+                            select profile.IsAdmin;
+
+                isAdmin = query.First();
+            }
+            return isAdmin;
         }
 
         /// <summary>
