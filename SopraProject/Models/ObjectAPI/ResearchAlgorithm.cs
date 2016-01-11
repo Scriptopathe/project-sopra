@@ -14,6 +14,19 @@ namespace SopraProject.ObjectApi
 
     public class ResearchAlgorithm
     {
+        /// <summary>
+        /// Minimal meeting duration, expressed in minutes.
+        /// </summary>
+        public int MIN_MEETING_DURATION = 15;
+        /// <summary>
+        /// Indicates the hour at which the algorithm considers a new day starts.
+        /// </summary>
+        public int DAY_START = 7;
+        /// <summary>
+        /// Indicates the hour at which the algorithm considers a day ends.
+        /// </summary>
+        public int DAY_END = 23;
+
         #region Classes
         /// <summary>
         /// Represents a booking candidate.
@@ -79,6 +92,9 @@ namespace SopraProject.ObjectApi
         public List<RoomSearchResult> Search(int siteId, int minCapacity, string[] particularities, int meetingDurationMinutes, DateTime startDate, DateTime endDate)
         {
             List<Room> rooms = siteId == -1 ? Room.GetAllRooms() : new List<Room>(Site.Get(new SiteIdentifier(siteId.ToString())).Rooms);
+            // Preprocess the start date : minutes must be dividible by MIN_MEETING_DURATION.
+            startDate.AddMinutes(-(startDate.Minute % MIN_MEETING_DURATION));
+            startDate.AddSeconds(-startDate.Second);
 
             // Filter room capacity.
             if (minCapacity != -1)
@@ -104,21 +120,67 @@ namespace SopraProject.ObjectApi
             foreach(Room room in rooms)
             {
                 RoomSearchResult result = new RoomSearchResult(room);
+                List<Booking> allBookings = ObjectApiProvider.Instance.BookingsApi.GetBookings(room.Identifier, startDate, endDate).ConvertAll(id => Booking.Get(id));
 
                 // Naive implementation : look at each 15min period to see if it is not empty.
                 DateTime lastDate = endDate.AddMinutes(-meetingDurationMinutes);
-                for(DateTime currentDate = startDate; currentDate < lastDate; currentDate = currentDate.AddMinutes(15))
+                DateTime? meetingStart = null;
+                for(DateTime currentDate = startDate; currentDate < lastDate; currentDate = currentDate.AddMinutes(MIN_MEETING_DURATION))
                 {
                     DateTime meetingEndDate = currentDate.AddMinutes(meetingDurationMinutes);
-                    if (ObjectApiProvider.Instance.BookingsApi.GetBookings(room.Identifier, currentDate, meetingEndDate).Count == 0)
-                        result.BookingCandidates.Add(new BookingCandidate(currentDate, meetingEndDate));
+                    var bookings = allBookings.Where(booking => booking.EndDate > currentDate && booking.StartDate < meetingEndDate);
+                    bool record = false;
+                    bool dayJump = false;
+                    if (bookings.Count() == 0)
+                    {
+                        // Here the slot from currentDate to meetingEndDate is available.
+                        if(!meetingStart.HasValue)
+                        {
+                            // if no meeting start date is set, then sets it to the first available
+                            meetingStart = currentDate;
+                        }
+                    }
+                    else
+                    {
+                        // Add the contiguous reservable block if it exists. 
+                        record = true;
+                    }
+
+                    // If we are in the last iteration, record
+                    if (meetingEndDate >= lastDate)
+                        record = true;
+
+                    // If we get to the end of the day, start searching from the start of the next day
+                    if(currentDate.Hour >= DAY_END)
+                    {
+                        dayJump = true;
+                        record = true;
+                    }
+
+                    // Records the last block
+                    if (record)
+                    {
+                        if (meetingStart.HasValue && (currentDate - meetingStart.Value).TotalMinutes >= meetingDurationMinutes)
+                        {
+                            result.BookingCandidates.Add(new BookingCandidate(meetingStart.Value, currentDate));
+                        }
+                        meetingStart = null;
+                    }
+
+                    // Jumps to the next day
+                    if(dayJump)
+                        currentDate = currentDate.AddHours(24 - DAY_END + DAY_START);
+
                 }
+
+                // Add last result
 
                 results.Add(result);
             }
 
             return results;
         }
+        
 
         public List<Room> Search(int siteId = -1, int personCount=-1, string[] particularities=null, DateTime? startDate = null, DateTime? endDate = null)
         {
