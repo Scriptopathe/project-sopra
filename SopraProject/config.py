@@ -1,6 +1,8 @@
 import sys
 import shutil
 
+print("Configuration switch utility.")
+
 mode = input("mode [save | restore]: ")
 suffix = input("suffix: ")
 
@@ -11,7 +13,8 @@ else:
 
 confirm = input("type 'ok' then press enter to confirm: ")
 if(confirm != "ok"):
-	sys.exit()
+        input("Operation canceled, press enter to exit.")
+        sys.exit()
 
 proj = "SopraProject.csproj"
 packages = "packages.config"
