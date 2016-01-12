@@ -265,77 +265,8 @@ namespace SopraProject.Controllers
             }
         }
 
-        #region Parameter Checking
-        /// <summary>
-        /// Use this function to return an error to the API.
-        /// </summary>
-        private ActionResult Error(string message)
-        {
-            Response.Write(message);
-            return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-        }
-
-        /// <summary>
-        /// Throws an exception if the given value is not positive.
-        /// </summary>
-        private int CheckIsPositive(int value)
-        {
-            if (value < 0)
-                throw new Exception("Value must be positive.");
-            return value;
-        }
-
-        public class ParameterCheckException : Exception { public ParameterCheckException(string msg) : base(msg) { } }
-        
-        /// <summary>
-        /// Executes the given function. If the function throws an exception, it is wrapped into a ParameterCheckException 
-        /// with a given message and parameter name.
-        /// This exception contains a serialized XML object containg details about the error to be sent to the client.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="func">The function to be executed.</param>
-        /// <param name="parameterName">The name of the parameter which is currently checked.</param>
-        /// <param name="errorMessage">The error message to display if an error occurs. 
-        /// if null or not specified, the message is taken from the underlaying exception.</param>
-        /// <returns></returns>
-        private T Checked<T>(Func<T> func, string parameterName, string errorMessage=null)
-        {
-            T obj;
-            try
-            {
-                obj = func();
-            }
-            catch(Exception e)
-            {
-                if (errorMessage == null)
-                    errorMessage = e.Message;
-                throw new ParameterCheckException(new InputError() { ParameterName = parameterName, Message = errorMessage}.ToString());
-            }
-            return obj;
-        }
-        #endregion
     }
 
-    /// <summary>
-    /// Represents an input error.
-    /// </summary>
-    public class InputError
-    {
-        /// <summary>
-        /// Gets the name of the input parameter which was incorrect..
-        /// </summary>
-        [XmlAttribute("name")]
-        public string ParameterName { get; set; }
-        /// <summary>
-        /// Gets the message to display to the user.
-        /// </summary>
-        [XmlAttribute("message")]
-        public string Message { get; set; }
 
-        public override string ToString()
-        {
-            return Tools.Serializer.Serialize(this);
-        }
-    }
 }
 

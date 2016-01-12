@@ -49,6 +49,18 @@ namespace SopraProject.Controllers
             Response.Cookies.Remove("AuthTicket");
             return View("SignIn");
         }
+
+        /// <summary>
+        /// Views the conf page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult Conf()
+        {
+            return View("Conf");
+        }
+
         /// <summary>
         /// Authenticates an user.
         /// The request must have a username and password in the POST parameters.

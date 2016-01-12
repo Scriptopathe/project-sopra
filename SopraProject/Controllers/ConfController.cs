@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using SopraProject.Tools.Extensions.Date;
-using System.Xml.Serialization;
-using System.Web.Security;
-using SopraProject.Models.ObjectApi;
-using SopraProject.Models.Identifiers;
-using SopraProject.Models.DatabaseContexts;
+﻿using System.Web.Mvc;
 
 namespace SopraProject.Controllers
 {
@@ -24,18 +14,79 @@ namespace SopraProject.Controllers
         [AuthorizationFilter(adminOnly: true)]
         public ActionResult CacheEnabled(bool value)
         {
-            Configuration.Provider.Instance.Cache.CacheEnabled = true;
+            Configuration.Provider.Instance.Cache.CacheEnabled = value;
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
         }
 
         /// <summary>
-        /// Sets the CacheEnabled value of the Cache configuration.
+        /// Gets the CacheEnabled value of the Cache configuration.
         /// </summary>
         [HttpGet]
         [AuthorizationFilter(adminOnly: true)]
         public ActionResult CacheEnabled()
         {
             return Content(Configuration.Provider.Instance.Cache.CacheEnabled.ToString());
+        }
+
+        /// <summary>
+        /// Sets the DayStart value of the Cache configuration.
+        /// </summary>
+        [HttpPost]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult SearchDayStart(int dayStart)
+        {
+            try
+            {
+                Checked(() => CheckRange(dayStart, 1, 23), "dayStart");
+            }
+            catch (ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
+
+            Configuration.Provider.Instance.Search.DayStart = dayStart;
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Gets the DayStart value of the Search configuration.
+        /// </summary>
+        [HttpGet]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult SearchDayStart()
+        {
+            return Content(Configuration.Provider.Instance.Search.DayStart.ToString());
+        }
+
+
+        /// <summary>
+        /// Sets the DayEnd value of the Cache configuration.
+        /// </summary>
+        [HttpPost]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult SearchDayEnd(int dayEnd)
+        {
+            try
+            {
+                Checked(() => CheckRange(dayEnd, 1, 23), "dayEnd");
+            }
+            catch (ParameterCheckException e)
+            {
+                return Error(e.Message);
+            }
+
+            Configuration.Provider.Instance.Search.DayEnd = dayEnd;
+            return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
+        }
+
+        /// <summary>
+        /// Gets the DayEnd value of the Search configuration.
+        /// </summary>
+        [HttpGet]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult SearchDayEnd()
+        {
+            return Content(Configuration.Provider.Instance.Search.DayEnd.ToString());
         }
 
         /// <summary>

@@ -18,4 +18,12 @@
 	{
 		return $.post("../api/" + partialUri, args)
 	};
+
+	this.getConf = function (partialUri, args) {
+	    return $.get("../conf/" + partialUri, args)
+	};
+
+	this.setConf = function (partialUri, args) {
+	    return $.post("../conf/" + partialUri, args)
+	};
 });

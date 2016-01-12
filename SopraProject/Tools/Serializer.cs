@@ -37,51 +37,43 @@ namespace SopraProject.Tools
             }
             return stream.ToString();
         }
-        /*/// <summary>
-        /// Deserializes an object from a file
+        
+        /// <summary>
+        /// Deserializes an object from a file.
+        /// 
+        /// If the deserialization fails, a new instance will be created.
         /// </summary>
         /// <param name="filename">Filename of the object to deserialize</param>
-        /// <param name="create">If set to true : create the file if it does not exist.</param>
-        public static T Deserialize<T>(string filename, bool create) where T : new()
+        public static T Deserialize<T>(string filename) where T : new()
         {
-            XmlSerializer Serializer = new XmlSerializer(typeof(T));
+            XmlSerializer serializer;
+            if (_serializers.ContainsKey(typeof(T)))
+                serializer = _serializers[typeof(T)];
+            else
+                serializer = new XmlSerializer(typeof(T));
 
             FileStream Stream = null;
-            T Object;
-            if (!create)
+            T Object = default(T);
+
+            try
             {
                 Stream = File.Open(filename, FileMode.Open);
-                try
-                {
-                    Object = (T)Serializer.Deserialize(Stream);
-                }
-                finally
-                {
-                    Stream.Close();
-                }
+                Object = (T)serializer.Deserialize(Stream);
             }
-            else
+            catch(Exception e)
             {
-                try
-                {
-                    Stream = File.Open(filename, FileMode.Open);
-                    Object = (T)Serializer.Deserialize(Stream);
-                }
-                catch
-                {
-                    Object = new T();
-                    Serialize<T>(Object, filename);
-                }
-                finally
-                {
-                    // Creates a new file
-                    if (Stream != null)
-                        Stream.Close();
-                }
+                Object = new T();
             }
+            finally
+            {
+                if(Stream != null)
+                    Stream.Close();
+            }
+            
 
             return Object;
         }
+        /*
         /// <summary>
         /// Deserializes an object from a file
         /// </summary>
