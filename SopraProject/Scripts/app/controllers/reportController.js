@@ -88,7 +88,9 @@ function (serverService, $scope, $timeout) {
 		    $scope.metrics = { occupationRate: [], fillRate: [], meetingCount: [] };
 		    $scope.days = [];
 		    $scope.stats = {}; // keys: occupationRate, fillRate, meetingCount
-
+		    $scope.descriptions = {occupationRate : "Gets the occupation rate of the room for the given day. " ,
+		    					   fillRate :"Gets the fill rate per day of the room for the given day. The fill rate is the number of participant in relation of the capacity of the room.",
+		    					   meetingCount :"Gets the number of meetings for the given day." };
             // Value processing functions.
 		    var percent = function (value) { return (100 * value); };
 		    var raw = function (value) { return value; };
