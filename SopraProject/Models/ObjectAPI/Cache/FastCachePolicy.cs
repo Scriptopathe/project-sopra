@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SopraProject.ObjectApi.Cache
+namespace SopraProject.Models.ObjectApi.Cache
 {
     /// <summary>
     /// Represents a Fast Cache Policy.
@@ -26,6 +26,15 @@ namespace SopraProject.ObjectApi.Cache
             return m_cache.ContainsKey(identifier);
         }
 
+        public void Invalidate()
+        {
+            m_cache.Clear();
+        }
+
+        public void Invalidate(IdentifierT identifier)
+        {
+            m_cache.Remove(identifier);
+        }
 
         public T this[IdentifierT identifier]
         {

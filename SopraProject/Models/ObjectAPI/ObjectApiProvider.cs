@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace SopraProject.ObjectApi
+using SopraProject.Models.DatabaseInterface;
+namespace SopraProject.Models.ObjectApi
 {
     /// <summary>
     /// Singleton class providing access to API instances.

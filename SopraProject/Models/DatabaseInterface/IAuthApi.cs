@@ -1,6 +1,7 @@
 ﻿using System;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject
+namespace SopraProject.Models.DatabaseInterface
 {
     /// <summary>
     /// This interface describes the messages needed to authenticate an user

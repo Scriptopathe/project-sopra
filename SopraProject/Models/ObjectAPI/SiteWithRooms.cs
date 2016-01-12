@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SopraProject.ObjectApi;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject.ObjectApi
+namespace SopraProject.Models.ObjectApi
 {
     public class SiteWithRooms
     {

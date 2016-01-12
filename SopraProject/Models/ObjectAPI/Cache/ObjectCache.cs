@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using System.Web;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject.ObjectApi.Cache
+namespace SopraProject.Models.ObjectApi.Cache
 {
+    /// <summary>
+    /// Collects all instance of invalidable caches.
+    /// </summary>
+    public static class ObjectCacheCollector
+    {
+        private static List<IInvalidable> _caches = new List<IInvalidable>();
+        public static void Add(IInvalidable cache) { _caches.Add(cache); }
+        public static void InvalidateAll() { _caches.ForEach(cache => cache.Invalidate()); }
+    }
+
+    public interface IInvalidable
+    {
+        void Invalidate();
+    }
 
     /// <summary>
     /// Represents a generic object cache.
     /// </summary>
-    public class ObjectCache<IdentifierT, T> where T : new()
-    {
-        /// <summary>
-        /// This constant determines if the cache is enabled.
-        /// 
-        /// If it is enabled, the object retrieved from the database will be kept in memory.
-        /// If enabled then :
-        ///     - This will increase memory usage.
-        ///     - This will HUGELY increase performance.
-        /// Note that if caching is enabled EXTERNAL MODIFICATION WILL LEAD TO INCONSISTANT SERVER STATE UNTIL REBOOT.
-        /// </summary>
-        public const bool CacheEnabled = false;
-        
+    public class ObjectCache<IdentifierT, T> : IInvalidable where T : new()
+    {       
         /// <summary>
         /// Cache policy used to perform cacheing.
         /// 
@@ -33,17 +37,20 @@ namespace SopraProject.ObjectApi.Cache
         /// <summary>
         /// Creates a new instance of ObjectCache.
         /// </summary>
-        public ObjectCache() { }
+        public ObjectCache() { ObjectCacheCollector.Add(this); }
 
         /// <summary>
         /// Gets an object from the cache if it already exists.
         /// Otherwise, creates a new instance.
+        /// 
+        /// This operation is thread safe.
         /// </summary>
         public T Get(Identifier<IdentifierT> identifier)
         {
+            bool cacheEnabled = Configuration.Provider.Instance.Cache.CacheEnabled;
             lock(_cache)
             {
-                if (CacheEnabled && _cache.Contains(identifier.Value))
+                if (cacheEnabled && _cache.Contains(identifier.Value))
                 {
                     return _cache[identifier.Value];
                 }
@@ -51,11 +58,40 @@ namespace SopraProject.ObjectApi.Cache
                 {
                     var item = Construct(new Type[] { identifier.GetType() }, new object[] { identifier });
 
-                    if (CacheEnabled)
+                    if (cacheEnabled)
                         _cache.Add(identifier.Value, item);
 
                     return item;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Invalidates all the objects in the cache.
+        /// This operation clears all the cached data from the cache.
+        /// 
+        /// This operation is thread safe.
+        /// </summary>
+        public void Invalidate()
+        {
+            lock(_cache)
+            {
+                _cache.Invalidate();
+            }
+        }
+
+        /// <summary>
+        /// Invalidates the object with the given identifier.
+        /// The next attempt to get that object will result to a cache miss and reload the object.
+        /// 
+        /// This operation is thread safe.
+        /// </summary>
+        /// <param name="identifier">Identifier of the object to invalidate.</param>
+        public void Invalidate(IdentifierT identifier)
+        {
+            lock(_cache)
+            {
+                _cache.Invalidate(identifier);
             }
         }
 

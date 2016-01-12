@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SopraProject.Models.ObjectApi;
 
 namespace SopraProject.Controllers
 {
@@ -11,9 +12,9 @@ namespace SopraProject.Controllers
         /// <summary>
         /// Returns the current authenticated user.
         /// </summary>
-        protected ObjectApi.User GetUser()
+        protected User GetUser()
         {
-            return (ObjectApi.User)Session["User"];
+            return (User)Session["User"];
         }
     }
 }

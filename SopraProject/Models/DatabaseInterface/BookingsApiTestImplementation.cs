@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject
+namespace SopraProject.Models.DatabaseInterface
 {
     public class BookingsApiTestImplementation : IBookingsApi
     {
@@ -20,7 +21,7 @@ namespace SopraProject
         public bool BookingExists(BookingIdentifier bookingId)
         {
             bool val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value.ToString())
@@ -42,7 +43,7 @@ namespace SopraProject
         public List<BookingIdentifier> GetBookings(RoomIdentifier identifier, DateTime startDate, DateTime endDate)
         {
             List<BookingIdentifier> val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.EndDate > startDate && booking.StartDate < endDate && 
@@ -62,7 +63,7 @@ namespace SopraProject
         public string GetBookingSubject(BookingIdentifier bookingId)
         {
             string val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
@@ -79,7 +80,7 @@ namespace SopraProject
         public RoomIdentifier GetBookingRoom(BookingIdentifier bookingId)
         {
             RoomIdentifier val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
@@ -96,7 +97,7 @@ namespace SopraProject
         public DateTime GetBookingStartDate(BookingIdentifier bookingId)
         {
             DateTime val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
@@ -113,7 +114,7 @@ namespace SopraProject
         public DateTime GetBookingEndDate(BookingIdentifier bookingId)
         {
             DateTime val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
@@ -130,7 +131,7 @@ namespace SopraProject
         public List<string> GetBookingContacts(BookingIdentifier bookingId)
         {
             List<string> val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)
@@ -147,7 +148,7 @@ namespace SopraProject
         public int GetBookingParticipantsCount(BookingIdentifier bookingId)
         {
             int val;
-            using (var ctx = new Database.BookingContext())
+            using (var ctx = new DatabaseContexts.BookingContext())
             {
                 var query = from booking in ctx.Bookings
                             where booking.BookingID.ToString().Equals(bookingId.Value)

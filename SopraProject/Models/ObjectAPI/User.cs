@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Xml.Serialization;
-
-namespace SopraProject.ObjectApi
+using SopraProject.Models.Identifiers;
+namespace SopraProject.Models.ObjectApi
 {
+    /// <summary>
+    /// Represents a user from SOPRA's domain.
+    /// 
+    /// All operations on this class are thread-safe.
+    /// </summary>
     public class User
     {
         private UserIdentifier _identifier;

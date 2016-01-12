@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace SopraProject
+using SopraProject.Models.Identifiers;
+namespace SopraProject.Models.DatabaseInterface
 {
     /// <summary>
     /// This interfaces describes the messages needed to access the sites database.

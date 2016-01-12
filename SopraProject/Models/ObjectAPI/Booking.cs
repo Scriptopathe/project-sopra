@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SopraProject.ObjectApi.Cache;
-namespace SopraProject.ObjectApi
+using SopraProject.Models.Identifiers;
+
+namespace SopraProject.Models.ObjectApi
 {
+    /// <summary>
+    /// Represents a room booking.
+    /// 
+    /// All operations on this class are thread-safe.
+    /// </summary>
     public class Booking
     {
         BookingIdentifier _identifier;
@@ -14,6 +20,7 @@ namespace SopraProject.ObjectApi
         Room _room;
         int? _participantsCount;
         object _lock = new object();
+
         #region Properties
         /// <summary>
         /// Gets the duration of the booking in hours.
