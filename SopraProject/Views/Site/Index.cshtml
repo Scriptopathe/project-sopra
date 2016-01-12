@@ -38,6 +38,15 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">Room Searching</div>
+
+			<div class="form-group form-group-sm">
+				<br/>
+				<div class="col-sm-5"></div>
+				<div class="col-sm-5">
+					<h4>Research on Site {{ sites[userLocation].id }}.</h4> 
+				</div>
+
+			</div>
         
         <!-- FORM -->
 		<div class="panel-body">
@@ -61,7 +70,7 @@
 
                             <!-- MEETING DURATION -->
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Meeting Duration : </label>
+                                <label class="control-label col-sm-3">Meeting Duration </label>
                                 <div class="col-sm-6">
                                     <select class="form-control" ng-model="meetingDuration" ng-init="meetingDuration = 15">
                                         <option ng-repeat="(id, value) in durations" value="{{value.v}}">{{value.h}}</option>
