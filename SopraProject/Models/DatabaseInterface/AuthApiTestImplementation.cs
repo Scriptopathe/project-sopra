@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-namespace SopraProject
+using SopraProject.Models.Identifiers;
+using SopraProject.Models.DatabaseContexts;
+namespace SopraProject.Models.DatabaseInterface
 {
     /// <summary>
     /// Auth API test implementation.
@@ -28,7 +30,7 @@ namespace SopraProject
             bool isOk = false;
             password = Tools.Security.Hash(password);
             // sha1.ComputeHash();
-            using (var ctx = new SopraProject.Database.AuthenticationContext())
+            using (var ctx = new AuthenticationContext())
             {
                 var query = from user in ctx.Users
                             where user.Username.Equals(username.Value) && user.Password.Equals(password)

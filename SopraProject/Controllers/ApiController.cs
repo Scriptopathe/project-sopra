@@ -6,7 +6,9 @@ using System.Web.Mvc;
 using SopraProject.Tools.Extensions.Date;
 using System.Xml.Serialization;
 using System.Web.Security;
-using SopraProject.ObjectApi;
+using SopraProject.Models.ObjectApi;
+using SopraProject.Models.Identifiers;
+using SopraProject.Models.DatabaseContexts;
 
 namespace SopraProject.Controllers
 {
@@ -28,8 +30,8 @@ namespace SopraProject.Controllers
                 return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
             }
 
-            SopraProject.ObjectApi.User usr = SopraProject.ObjectApi.User.Authenticate(
-                new SopraProject.UserIdentifier(username), 
+            User usr = Models.ObjectApi.User.Authenticate(
+                new UserIdentifier(username), 
                 password);
 
             // Creates a session ticket for the user.
@@ -65,7 +67,7 @@ namespace SopraProject.Controllers
         /// <returns>The db.</returns>
         public ActionResult CreateDb()
         {
-            Database.DatabaseWorker.CreateDatabase();
+            DatabaseWorker.CreateDatabase();
             return Content("Database successfully created.");
         }
 
@@ -99,7 +101,7 @@ namespace SopraProject.Controllers
         public ActionResult Location(string siteId)
         {
             var user = GetUser();
-            user.Location = ObjectApi.Site.Get(new SiteIdentifier(siteId.ToString()));
+            user.Location = Site.Get(new SiteIdentifier(siteId.ToString()));
             return new HttpStatusCodeResult(System.Net.HttpStatusCode.OK);
         }
 
@@ -125,7 +127,7 @@ namespace SopraProject.Controllers
         {
             //List<Tuple<string, List<Room>>> siteRooms = new List<Tuple<string, List<Room>>>();
             List<SiteWithRooms> siteRooms = new List<SiteWithRooms>();
-            var sites = SopraProject.ObjectApi.Site.GetAllSites();
+            var sites = Site.GetAllSites();
             foreach(Site site in sites)
             { 
                 siteRooms.Add(new SiteWithRooms(site.Identifier.Value));
@@ -142,7 +144,7 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult GetRoomById(int roomId)
         {
-            var room = ObjectApi.Room.Get(new RoomIdentifier(roomId.ToString()));
+            var room = Room.Get(new RoomIdentifier(roomId.ToString()));
             return Content(Tools.Serializer.Serialize(room));
         }
 
@@ -155,7 +157,7 @@ namespace SopraProject.Controllers
 		[AuthorizationFilter]
 		public ActionResult RoomsBySite(string siteId)
 		{
-			var site = ObjectApi.Site.Get(new SiteIdentifier(siteId));
+			var site = Site.Get(new SiteIdentifier(siteId));
 			var rooms = site.Rooms;
 			return Content(Tools.Serializer.Serialize(rooms));
 		}
@@ -170,7 +172,7 @@ namespace SopraProject.Controllers
                 var eDate = Checked(() => endDate.DeserializeDate(), "endDate");
                 Checked(() => CheckIsPositive(Int32.Parse(roomId)), "roomId");
 
-                var report = new ObjectApi.UsageReport(ObjectApi.Room.Get(new RoomIdentifier(roomId)), sDate, eDate);
+                var report = new UsageReport(Room.Get(new RoomIdentifier(roomId)), sDate, eDate);
                 return Content(Tools.Serializer.Serialize(report));
             }
             catch (ParameterCheckException e)
@@ -185,7 +187,7 @@ namespace SopraProject.Controllers
         [AuthorizationFilter]
         public ActionResult Sites()
         {
-            var sites = SopraProject.ObjectApi.Site.GetAllSites();
+            var sites = Site.GetAllSites();
             return Content(Tools.Serializer.Serialize(sites));
         }
 
@@ -193,7 +195,7 @@ namespace SopraProject.Controllers
 		[AuthorizationFilter]
 		public ActionResult Particularities()
 		{
-            List<Particularity> particularities = SopraProject.ObjectApi.Particularity.GetAllParticularities();
+            List<Particularity> particularities = Particularity.GetAllParticularities();
 			return Content(Tools.Serializer.Serialize(particularities));
 		}
 
@@ -248,6 +250,7 @@ namespace SopraProject.Controllers
                 if (particularities == null || (particularities.Length == 1 && particularities[0] == String.Empty))
                     particularities = new string[0];
 
+                Checked(() => CheckIsPositive(personCount), "siteId", "The specified site is not valid !");
                 Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
                 var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
                 var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
@@ -262,77 +265,8 @@ namespace SopraProject.Controllers
             }
         }
 
-        #region Parameter Checking
-        /// <summary>
-        /// Use this function to return an error to the API.
-        /// </summary>
-        private ActionResult Error(string message)
-        {
-            Response.Write(message);
-            return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-        }
-
-        /// <summary>
-        /// Throws an exception if the given value is not positive.
-        /// </summary>
-        private int CheckIsPositive(int value)
-        {
-            if (value < 0)
-                throw new Exception("Value must be positive.");
-            return value;
-        }
-
-        public class ParameterCheckException : Exception { public ParameterCheckException(string msg) : base(msg) { } }
-        
-        /// <summary>
-        /// Executes the given function. If the function throws an exception, it is wrapped into a ParameterCheckException 
-        /// with a given message and parameter name.
-        /// This exception contains a serialized XML object containg details about the error to be sent to the client.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="func">The function to be executed.</param>
-        /// <param name="parameterName">The name of the parameter which is currently checked.</param>
-        /// <param name="errorMessage">The error message to display if an error occurs. 
-        /// if null or not specified, the message is taken from the underlaying exception.</param>
-        /// <returns></returns>
-        private T Checked<T>(Func<T> func, string parameterName, string errorMessage=null)
-        {
-            T obj;
-            try
-            {
-                obj = func();
-            }
-            catch(Exception e)
-            {
-                if (errorMessage == null)
-                    errorMessage = e.Message;
-                throw new ParameterCheckException(new InputError() { ParameterName = parameterName, Message = errorMessage}.ToString());
-            }
-            return obj;
-        }
-        #endregion
     }
 
-    /// <summary>
-    /// Represents an input error.
-    /// </summary>
-    public class InputError
-    {
-        /// <summary>
-        /// Gets the name of the input parameter which was incorrect..
-        /// </summary>
-        [XmlAttribute("name")]
-        public string ParameterName { get; set; }
-        /// <summary>
-        /// Gets the message to display to the user.
-        /// </summary>
-        [XmlAttribute("message")]
-        public string Message { get; set; }
 
-        public override string ToString()
-        {
-            return Tools.Serializer.Serialize(this);
-        }
-    }
 }
 

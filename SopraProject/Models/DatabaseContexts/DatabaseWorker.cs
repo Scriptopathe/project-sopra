@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-namespace SopraProject.Database
+namespace SopraProject.Models.DatabaseContexts
 {
     public static class DatabaseWorker
     {

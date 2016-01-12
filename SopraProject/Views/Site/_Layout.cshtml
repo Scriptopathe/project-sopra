@@ -6,6 +6,7 @@
         <title>@ViewData["Title"]</title>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <link href="@Url.Content("~/Content/bootstrap-switch.min.css")" rel="stylesheet">
         <link rel="stylesheet" href="@Url.Content("~/Content/style.css")" />
     </head>
 
@@ -29,6 +30,9 @@
 	                    <ul ng-if="isAdmin" class="nav navbar-nav">
 	                        <li><a href="@Url.Action("Report", "Site", new { })">Reports</a></li>
 	                    </ul>
+                        <ul ng-if="isAdmin" class="nav navbar-nav">
+                            <li><a href="@Url.Action("Conf", "Site", new { })">Server Configuration</a></li>
+                        </ul>
 	                    <ul class="nav navbar-nav navbar-right">
 
 							<li class="dropdown">
@@ -71,6 +75,7 @@
         <script src="http://momentjs.com/downloads/moment.min.js"></script>
         <script src="~/Scripts/angular.js"></script>
         <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+        <script src="@Url.Content("~/Scripts/bootstrap-switch.min.js")"></script>
 
 
 
@@ -82,6 +87,7 @@
         <!-- Controllers -->
         <script src="~/Scripts/app/controllers/mainController.js"></script>	
         <script src="~/Scripts/app/controllers/indexController.js"></script>
-        <script src="~/Scripts/app/controllers/reportController.js"></script>	
+        <script src="~/Scripts/app/controllers/reportController.js"></script>
+        <script src="~/Scripts/app/controllers/confController.js"></script>	
     </body>
 </html>

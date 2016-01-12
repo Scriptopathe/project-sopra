@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SopraProject.ObjectApi
+namespace SopraProject.Models.ObjectApi
 {
     /// <summary>
     /// Exception raised when an object with an invalid identifier is detected.

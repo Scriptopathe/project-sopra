@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 
-namespace SopraProject.Database
+namespace SopraProject.Models.DatabaseContexts
 {
 	/// <summary>
 	/// The user profile is

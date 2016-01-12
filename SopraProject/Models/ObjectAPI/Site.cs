@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SopraProject.ObjectApi.Cache;
-namespace SopraProject.ObjectApi
+using SopraProject.Models.ObjectApi.Cache;
+using SopraProject.Models.Identifiers;
+namespace SopraProject.Models.ObjectApi
 {
     /// <summary>
-    /// Sites.
+    /// Represents one of the many SOPRA sites containing multiple meeting rooms.
+    /// 
+    /// All operations on this class are thread-safe.
     /// </summary>
     public class Site
     {

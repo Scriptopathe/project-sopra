@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -87,6 +88,7 @@
     <Reference Include="System.Web.Mvc">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\" />
@@ -97,40 +99,50 @@
     <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DBInterface\IAuthApi.cs" />
-    <Compile Include="Models\DBInterface\IBookingsApi.cs" />
-    <Compile Include="Models\DBInterface\ISitesApi.cs" />
-    <Compile Include="Models\DBInterface\IUserProfileAPI.cs" />
-    <Compile Include="Models\Identifiers\Identifier.cs" />
-    <Compile Include="Models\Identifiers\UserIdentifier.cs" />
-    <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
-    <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
-    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
-    <Compile Include="Models\Database\DBTest.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
-    <Compile Include="Models\ObjectAPI\Site.cs" />
-    <Compile Include="Models\ObjectAPI\Room.cs" />
-    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
-    <Compile Include="Models\ObjectAPI\Particularity.cs" />
-    <Compile Include="Models\Database\MainContext.cs" />
-    <Compile Include="Models\ObjectAPI\User.cs" />
-    <Compile Include="Models\ObjectAPI\Booking.cs" />
     <Compile Include="Tools\Serializer.cs" />
     <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Models\Database\AuthenticationContext.cs" />
-    <Compile Include="Models\Database\BookingContext.cs" />
-    <Compile Include="Models\Database\DatabaseWorker.cs" />
-    <Compile Include="Models\DBInterface\SitesApi.cs" />
-    <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
-    <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
     <Compile Include="Tools\Security.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
-    <Compile Include="Models\DBInterface\UserProfileApi.cs" />
-    <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Filters\SiteAuthorizationFilter.cs" />
+    <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
+    <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
+    <Compile Include="Configuration\CacheConfiguration.cs" />
+    <Compile Include="Configuration\ConfigurationProvider.cs" />
+    <Compile Include="Configuration\SearchConfiguration.cs" />
+    <Compile Include="Models\DatabaseContexts\AuthenticationContext.cs" />
+    <Compile Include="Models\DatabaseContexts\BookingContext.cs" />
+    <Compile Include="Models\DatabaseContexts\DatabaseWorker.cs" />
+    <Compile Include="Models\DatabaseContexts\MainContext.cs" />
+    <Compile Include="Models\DatabaseInterface\AuthApiTestImplementation.cs" />
+    <Compile Include="Models\DatabaseInterface\BookingsApiTestImplementation.cs" />
+    <Compile Include="Models\DatabaseInterface\IAuthApi.cs" />
+    <Compile Include="Models\DatabaseInterface\IBookingsApi.cs" />
+    <Compile Include="Models\DatabaseInterface\ISitesApi.cs" />
+    <Compile Include="Models\DatabaseInterface\IUserProfileAPI.cs" />
+    <Compile Include="Models\DatabaseInterface\SitesApi.cs" />
+    <Compile Include="Models\DatabaseInterface\UserProfileApi.cs" />
+    <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
+    <Compile Include="Models\Identifiers\Identifier.cs" />
+    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
+    <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
+    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
+    <Compile Include="Models\Identifiers\UserIdentifier.cs" />
+    <Compile Include="Models\ObjectAPI\Booking.cs" />
+    <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
+    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
+    <Compile Include="Models\ObjectAPI\Particularity.cs" />
     <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
+    <Compile Include="Models\ObjectAPI\Room.cs" />
+    <Compile Include="Models\ObjectAPI\Site.cs" />
+    <Compile Include="Models\ObjectAPI\SiteWithRooms.cs" />
+    <Compile Include="Models\ObjectAPI\UsageReport.cs" />
+    <Compile Include="Models\ObjectAPI\User.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\CachePolicy.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\FastCachePolicy.cs" />
+    <Compile Include="Models\ObjectAPI\Cache\ObjectCache.cs" />
+    <Compile Include="Controllers\ConfController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -153,8 +165,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
@@ -177,7 +187,15 @@
     <Content Include="Scripts\app\services\serverService.js" />
     <Content Include="Views\Site\SignIn.cshtml" />
     <Content Include="Scripts\app\controllers\mainController.js" />
+    <Content Include="Views\Site\Report.cshtml" />
+    <Content Include="Scripts\app\controllers\reportController.js" />
+    <Content Include="Scripts\app\controllers\confController.js" />
+    <Content Include="Views\Site\Conf.cshtml" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
@@ -212,5 +230,5 @@
     <None Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\angular.min.js.map" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v14.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
 </Project>

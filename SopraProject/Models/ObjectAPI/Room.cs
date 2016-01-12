@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using SopraProject.ObjectApi.Cache;
-namespace SopraProject.ObjectApi
+using SopraProject.Models.Identifiers;
+using SopraProject.Models.ObjectApi.Cache;
+namespace SopraProject.Models.ObjectApi
 {
+    /// <summary>
+    /// Represents a meeting room.
+    /// 
+    /// All operations on this class are thread-safe.
+    /// </summary>
     public class Room
     {
         #region Variables

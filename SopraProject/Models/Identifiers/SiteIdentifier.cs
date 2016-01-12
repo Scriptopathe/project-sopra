@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SopraProject
+namespace SopraProject.Models.Identifiers
 {
     /// <summary>
     /// Represents a Site identifier.

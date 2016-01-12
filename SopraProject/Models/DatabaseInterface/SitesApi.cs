@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject
+namespace SopraProject.Models.DatabaseInterface
 {
 	public class SitesApi : ISitesApi
 	{
@@ -17,7 +18,7 @@ namespace SopraProject
 		public List<SiteIdentifier> GetSites()
 		{
 			List<SiteIdentifier> val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from site in ctx.Sites
 					        select site.SiteID;
@@ -30,7 +31,7 @@ namespace SopraProject
         public int SitesCount()
         {
             int val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from site in ctx.Sites
                             select site.SiteID;
@@ -47,7 +48,7 @@ namespace SopraProject
 		public string GetSiteName(SiteIdentifier siteId)
 		{
 			string val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from site in ctx.Sites
 						    where site.SiteID.ToString().Equals(siteId.Value)
@@ -64,7 +65,7 @@ namespace SopraProject
 		public string GetSiteAddress(SiteIdentifier siteId)
 		{
 			string val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from site in ctx.Sites
 					    	where site.SiteID.ToString().Equals(siteId.Value)
@@ -77,7 +78,7 @@ namespace SopraProject
         public List<ParticularityIdentifier> GetAllParticularities()
         {
             List<ParticularityIdentifier> val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from parts in ctx.Particularities
                             select parts.ParticularityID;
@@ -93,7 +94,7 @@ namespace SopraProject
 		public List<RoomIdentifier> GetRooms()
 		{
 			List<RoomIdentifier> val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from room in ctx.Rooms
 					        select room.RoomID;
@@ -109,7 +110,7 @@ namespace SopraProject
 		public List<RoomIdentifier> GetRooms(SiteIdentifier siteID)
 		{
 			List<RoomIdentifier> val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from site in ctx.Sites
                             where site.SiteID.ToString().Equals(siteID.Value.ToString())
@@ -127,7 +128,7 @@ namespace SopraProject
 		public string GetRoomName(RoomIdentifier roomId)
 		{
 			string val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from room in ctx.Rooms
 						    where room.RoomID.ToString().Equals(roomId.Value)
@@ -144,7 +145,7 @@ namespace SopraProject
 		public int GetRoomCapacity(RoomIdentifier roomId)
 		{
 			int val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from room in ctx.Rooms
 						    where room.RoomID.ToString().Equals(roomId.Value)
@@ -161,7 +162,7 @@ namespace SopraProject
 		public List<ParticularityIdentifier> GetRoomParticularities(RoomIdentifier roomId)
 		{
 			List<ParticularityIdentifier> val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from room in ctx.Rooms
 						    where room.RoomID.ToString().Equals(roomId.Value)
@@ -178,7 +179,7 @@ namespace SopraProject
 		public string GetParticularityName(ParticularityIdentifier partId)
 		{
 			string val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from particularity in ctx.Particularities
 						    where particularity.ParticularityID.ToString().Equals(partId.Value)
@@ -195,7 +196,7 @@ namespace SopraProject
 		public string GetParticularityDescription(ParticularityIdentifier partId)
 		{
 			string val;
-			using (var ctx = new Database.MainContext())
+			using (var ctx = new DatabaseContexts.MainContext())
 			{
 				var query = from particularity in ctx.Particularities
 						    where particularity.ParticularityID.ToString().Equals(partId.Value)
@@ -212,7 +213,7 @@ namespace SopraProject
         public bool SiteExists(SiteIdentifier siteId)
         {
             bool val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from site in ctx.Sites
                             where site.SiteID.ToString().Equals(siteId.Value.ToString())
@@ -228,7 +229,7 @@ namespace SopraProject
         public bool RoomExists(RoomIdentifier roomId)
         {
             bool val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from room in ctx.Rooms
                             where room.RoomID.ToString().Equals(roomId.Value.ToString())
@@ -244,7 +245,7 @@ namespace SopraProject
         public bool ParticularityExists(ParticularityIdentifier particularityId)
         {
             bool val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from particularity in ctx.Particularities
                             where particularity.ParticularityID.ToString().Equals(particularityId.Value.ToString())

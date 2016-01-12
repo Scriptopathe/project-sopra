@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using SopraProject.Models.ObjectApi;
+using SopraProject.Models.Identifiers;
 namespace SopraProject.Controllers
 {
     public class SiteController : Controller
@@ -48,6 +49,18 @@ namespace SopraProject.Controllers
             Response.Cookies.Remove("AuthTicket");
             return View("SignIn");
         }
+
+        /// <summary>
+        /// Views the conf page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizationFilter(adminOnly: true)]
+        public ActionResult Conf()
+        {
+            return View("Conf");
+        }
+
         /// <summary>
         /// Authenticates an user.
         /// The request must have a username and password in the POST parameters.
@@ -61,8 +74,8 @@ namespace SopraProject.Controllers
                 return RedirectToAction("SignIn", new { next = next, status = "Error : Wrong username or password."});
             }
 
-            SopraProject.ObjectApi.User usr = SopraProject.ObjectApi.User.Authenticate(
-                new SopraProject.UserIdentifier(username), 
+            User usr = Models.ObjectApi.User.Authenticate(
+                new UserIdentifier(username), 
                 password);
 
             // Creates a session ticket for the user.

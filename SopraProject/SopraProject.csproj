@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{AC3B9888-8C48-4C5D-91C7-62FA385FC565}</ProjectGuid>
+    <ProjectGuid>{9A60A570-E6E1-4998-A93B-D81CCDD55B91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SopraProject</RootNamespace>
     <AssemblyName>SopraProject</AssemblyName>
@@ -99,47 +99,50 @@
     <Folder Include="Scripts\app\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\DBInterface\IAuthApi.cs" />
-    <Compile Include="Models\DBInterface\IBookingsApi.cs" />
-    <Compile Include="Models\DBInterface\ISitesApi.cs" />
-    <Compile Include="Models\DBInterface\IUserProfileAPI.cs" />
-    <Compile Include="Models\Identifiers\Identifier.cs" />
-    <Compile Include="Models\Identifiers\UserIdentifier.cs" />
-    <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
-    <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
-    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
-    <Compile Include="Models\Database\DBTest.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
-    <Compile Include="Models\ObjectAPI\Site.cs" />
-    <Compile Include="Models\ObjectAPI\Room.cs" />
-    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
-    <Compile Include="Models\ObjectAPI\Particularity.cs" />
-    <Compile Include="Models\Database\MainContext.cs" />
-    <Compile Include="Models\ObjectAPI\User.cs" />
-    <Compile Include="Models\ObjectAPI\Booking.cs" />
     <Compile Include="Tools\Serializer.cs" />
     <Compile Include="Controllers\ApiController.cs" />
-    <Compile Include="Models\Database\AuthenticationContext.cs" />
-    <Compile Include="Models\Database\BookingContext.cs" />
-    <Compile Include="Models\Database\DatabaseWorker.cs" />
-    <Compile Include="Models\DBInterface\SitesApi.cs" />
-    <Compile Include="Models\DBInterface\BookingsApiTestImplementation.cs" />
-    <Compile Include="Models\DBInterface\AuthApiTestImplementation.cs" />
     <Compile Include="Tools\Security.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
-    <Compile Include="Models\DBInterface\UserProfileApi.cs" />
-    <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Filters\SiteAuthorizationFilter.cs" />
+    <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
+    <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
+    <Compile Include="Configuration\CacheConfiguration.cs" />
+    <Compile Include="Configuration\ConfigurationProvider.cs" />
+    <Compile Include="Configuration\SearchConfiguration.cs" />
+    <Compile Include="Models\DatabaseContexts\AuthenticationContext.cs" />
+    <Compile Include="Models\DatabaseContexts\BookingContext.cs" />
+    <Compile Include="Models\DatabaseContexts\DatabaseWorker.cs" />
+    <Compile Include="Models\DatabaseContexts\MainContext.cs" />
+    <Compile Include="Models\DatabaseInterface\AuthApiTestImplementation.cs" />
+    <Compile Include="Models\DatabaseInterface\BookingsApiTestImplementation.cs" />
+    <Compile Include="Models\DatabaseInterface\IAuthApi.cs" />
+    <Compile Include="Models\DatabaseInterface\IBookingsApi.cs" />
+    <Compile Include="Models\DatabaseInterface\ISitesApi.cs" />
+    <Compile Include="Models\DatabaseInterface\IUserProfileAPI.cs" />
+    <Compile Include="Models\DatabaseInterface\SitesApi.cs" />
+    <Compile Include="Models\DatabaseInterface\UserProfileApi.cs" />
+    <Compile Include="Models\Identifiers\BookingIdentifier.cs" />
+    <Compile Include="Models\Identifiers\Identifier.cs" />
+    <Compile Include="Models\Identifiers\ParticularityIdentifier.cs" />
+    <Compile Include="Models\Identifiers\RoomIdentifier.cs" />
+    <Compile Include="Models\Identifiers\SiteIdentifier.cs" />
+    <Compile Include="Models\Identifiers\UserIdentifier.cs" />
+    <Compile Include="Models\ObjectAPI\Booking.cs" />
+    <Compile Include="Models\ObjectAPI\InvalidIdentifierException.cs" />
+    <Compile Include="Models\ObjectAPI\ObjectApiProvider.cs" />
+    <Compile Include="Models\ObjectAPI\Particularity.cs" />
     <Compile Include="Models\ObjectAPI\ResearchAlgorithm.cs" />
+    <Compile Include="Models\ObjectAPI\Room.cs" />
+    <Compile Include="Models\ObjectAPI\Site.cs" />
+    <Compile Include="Models\ObjectAPI\SiteWithRooms.cs" />
+    <Compile Include="Models\ObjectAPI\UsageReport.cs" />
+    <Compile Include="Models\ObjectAPI\User.cs" />
     <Compile Include="Models\ObjectAPI\Cache\CachePolicy.cs" />
     <Compile Include="Models\ObjectAPI\Cache\FastCachePolicy.cs" />
     <Compile Include="Models\ObjectAPI\Cache\ObjectCache.cs" />
-    <Compile Include="Tools\Extensions\Date\DateTimeExtensions.cs" />
-    <Compile Include="Tools\Extensions\List\Statistics\ListStatisticsExtension.cs" />
-    <Compile Include="Models\ObjectAPI\UsageReport.cs" />
-    <Compile Include="Models\ObjectAPI\SiteWithRooms.cs" />
+    <Compile Include="Controllers\ConfController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -186,6 +189,8 @@
     <Content Include="Scripts\app\controllers\mainController.js" />
     <Content Include="Views\Site\Report.cshtml" />
     <Content Include="Scripts\app\controllers\reportController.js" />
+    <Content Include="Scripts\app\controllers\confController.js" />
+    <Content Include="Views\Site\Conf.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

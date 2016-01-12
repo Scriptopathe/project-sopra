@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using SopraProject.Models.Identifiers;
+using SopraProject.Models.DatabaseContexts;
 
-namespace SopraProject
+namespace SopraProject.Models.DatabaseInterface
 {
     public class UserProfileApi : IUserProfileAPI
     {
@@ -19,7 +21,7 @@ namespace SopraProject
         public bool ProfileExists(UserIdentifier username)
         {
             bool exists = false;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from profile in ctx.UsersProfile
                             where profile.Username.Equals(username.Value)
@@ -38,9 +40,9 @@ namespace SopraProject
         {
             if (!ProfileExists(username))
             {
-                using (var ctx = new Database.MainContext())
+                using (var ctx = new DatabaseContexts.MainContext())
                 {
-                    Database.MCUserProfile userProfile = new SopraProject.Database.MCUserProfile();
+                    DatabaseContexts.MCUserProfile userProfile = new DatabaseContexts.MCUserProfile();
                     userProfile.Username = username.Value;
                     ctx.UsersProfile.Add(userProfile);
                     ctx.SaveChanges();
@@ -57,7 +59,7 @@ namespace SopraProject
             ValidateProfile(username);
 
             bool isAdmin;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from profile in ctx.UsersProfile
                             where profile.Username.Equals(username.Value)
@@ -77,7 +79,7 @@ namespace SopraProject
             ValidateProfile(username);
 
             SiteIdentifier val;
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from profile in ctx.UsersProfile
                             where profile.Username.Equals(username.Value)
@@ -97,13 +99,13 @@ namespace SopraProject
         {
             ValidateProfile(username);
 
-            using (var ctx = new Database.MainContext())
+            using (var ctx = new DatabaseContexts.MainContext())
             {
                 var query = from profile in ctx.UsersProfile
                             where profile.Username.Equals(username.Value)
                             select profile;
 
-                Database.MCUserProfile prof = query.First();
+                DatabaseContexts.MCUserProfile prof = query.First();
                 prof.SiteID = Int32.Parse(siteId.Value);
                 ctx.SaveChanges();
             }

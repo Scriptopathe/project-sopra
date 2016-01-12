@@ -2,9 +2,15 @@
 using System.Xml.Serialization;
 using System.Collections;
 using System.Collections.Generic;
-using SopraProject.ObjectApi.Cache;
-namespace SopraProject.ObjectApi
+using SopraProject.Models.ObjectApi.Cache;
+using SopraProject.Models.Identifiers;
+namespace SopraProject.Models.ObjectApi
 {
+    /// <summary>
+    /// Represents a room particularity (feature).
+    /// 
+    /// All operations on this class are thread-safe.
+    /// </summary>
     public class Particularity
     {
         ParticularityIdentifier _identifier;

@@ -5,7 +5,7 @@ using System.Web;
 using System.Xml.Serialization;
 using SopraProject.Tools.Extensions.List.Statistics;
 using SopraProject.Tools.Extensions.Date;
-namespace SopraProject.ObjectApi
+namespace SopraProject.Models.ObjectApi
 {
 
     /// <summary>

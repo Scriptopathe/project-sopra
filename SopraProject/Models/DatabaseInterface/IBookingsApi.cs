@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace SopraProject
+using SopraProject.Models.Identifiers;
+namespace SopraProject.Models.DatabaseInterface
 {
     /// <summary>
     /// This interface describes the messages that can be send to get informations

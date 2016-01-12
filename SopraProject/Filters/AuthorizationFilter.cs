@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using SopraProject.Models.ObjectApi;
 namespace SopraProject
 {
     /// <summary>
@@ -30,7 +31,7 @@ namespace SopraProject
             {
                 string authTicket = (string)filterContext.HttpContext.Session["AuthTicket"];
                 HttpCookie authCookie = filterContext.HttpContext.Request.Cookies["AuthTicket"];
-                ObjectApi.User user = filterContext.HttpContext.Session["User"] as ObjectApi.User;
+                User user = filterContext.HttpContext.Session["User"] as User;
                 if (authTicket == null || authCookie == null || authTicket != authCookie.Value || (_adminOnly && !user.IsAdmin))
                 {
                     // filterContext.Result = new ContentResult() { Content = "Authentication failed" };
@@ -41,7 +42,7 @@ namespace SopraProject
             {
                 // Log in with a default user.
                 if(filterContext.HttpContext.Session["User"] == null)
-                    filterContext.HttpContext.Session["User"] = ObjectApi.User.Authenticate("User1", "User1pass");
+                    filterContext.HttpContext.Session["User"] = User.Authenticate("User1", "User1pass");
             }
         }
     }

@@ -6,27 +6,14 @@ using System.Web.Mvc;
 using SopraProject.Tools.Extensions.Date;
 using System.Xml.Serialization;
 using System.Web.Security;
-using SopraProject.ObjectApi;
+using SopraProject.Models.Identifiers;
 
-namespace SopraProject.ObjectApi
+namespace SopraProject.Models.ObjectApi
 {
 
 
     public class ResearchAlgorithm
     {
-        /// <summary>
-        /// Minimal meeting duration, expressed in minutes.
-        /// </summary>
-        public int MIN_MEETING_DURATION = 15;
-        /// <summary>
-        /// Indicates the hour at which the algorithm considers a new day starts.
-        /// </summary>
-        public int DAY_START = 7;
-        /// <summary>
-        /// Indicates the hour at which the algorithm considers a day ends.
-        /// </summary>
-        public int DAY_END = 23;
-
         #region Classes
         /// <summary>
         /// Represents a booking candidate.
@@ -91,9 +78,10 @@ namespace SopraProject.ObjectApi
         
         public List<RoomSearchResult> Search(int siteId, int minCapacity, string[] particularities, int meetingDurationMinutes, DateTime startDate, DateTime endDate)
         {
+            var conf = Configuration.Provider.Instance.Search;
             List<Room> rooms = siteId == -1 ? Room.GetAllRooms() : new List<Room>(Site.Get(new SiteIdentifier(siteId.ToString())).Rooms);
             // Preprocess the start date : minutes must be dividible by MIN_MEETING_DURATION.
-            startDate = startDate.AddMinutes(-(startDate.Minute % MIN_MEETING_DURATION)).AddSeconds(-startDate.Second);
+            startDate = startDate.AddMinutes(-(startDate.Minute % conf.MinMeetingDuration)).AddSeconds(-startDate.Second);
 
             // Filter room capacity.
             if (minCapacity != -1)
@@ -124,7 +112,7 @@ namespace SopraProject.ObjectApi
                 // Naive implementation : look at each 15min period to see if it is not empty.
                 DateTime lastDate = endDate.AddMinutes(-meetingDurationMinutes);
                 DateTime? meetingStart = null;
-                for(DateTime currentDate = startDate; currentDate <= lastDate; currentDate = currentDate.AddMinutes(MIN_MEETING_DURATION))
+                for(DateTime currentDate = startDate; currentDate <= lastDate; currentDate = currentDate.AddMinutes(conf.MinMeetingDuration))
                 {
                     DateTime meetingEndDate = currentDate.AddMinutes(meetingDurationMinutes);
                     var bookings = allBookings.Where(booking => booking.EndDate > currentDate && booking.StartDate <= meetingEndDate);
@@ -150,7 +138,7 @@ namespace SopraProject.ObjectApi
                         record = true;
 
                     // If we get to the end of the day, start searching from the start of the next day
-                    if(currentDate.Hour >= DAY_END)
+                    if(currentDate.Hour >= conf.DayEnd)
                     {
                         dayJump = true;
                         record = true;
@@ -168,7 +156,7 @@ namespace SopraProject.ObjectApi
 
                     // Jumps to the next day
                     if(dayJump)
-                        currentDate = currentDate.AddHours(24 - DAY_END + DAY_START).AddMinutes(-MIN_MEETING_DURATION);
+                        currentDate = currentDate.AddHours(24 - conf.DayEnd + conf.DayStart).AddMinutes(-conf.MinMeetingDuration);
 
                 }
 
