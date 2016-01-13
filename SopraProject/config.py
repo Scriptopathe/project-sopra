@@ -30,4 +30,5 @@ else:
 	for file in files:
 		shutil.copy(file, file + ".backup")
 		shutil.copy(file + "." + suffix, file)
-		
+
+input("Operation successfull.")
