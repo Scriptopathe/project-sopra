@@ -200,37 +200,6 @@ namespace SopraProject.Controllers
 		}
 
 
-        [HttpGet]
-        [AuthorizationFilter]
-        /// <summary>
-        /// Searchs the with date.
-        /// </summary>
-        /// <returns>The with date.</returns>
-        /// <param name="siteId">Site identifier.</param>
-        /// <param name="personCount">Person count.</param>
-        /// <param name="particularities">Particularities.</param>
-        /// <param name="startDate">Start date. Format MM/DD/YYYY-HH:MM:SS</param>
-        /// <param name="endDate">End date.</param>
-        public ActionResult SearchWithDate(int siteId = -1, int personCount=-1, string[] particularities=null, string startDate = null, string endDate = null)
-        {
-            try
-            {
-                if (particularities == null || (particularities.Length == 1 && particularities[0] == String.Empty))
-                    particularities = new string[0];
-                
-                Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
-                var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
-                var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
-                
-                ResearchAlgorithm ra = new ResearchAlgorithm();
-                List<Room> result = ra.Search(siteId, personCount, particularities, sDate, endDate.DeserializeDateTime());
-                return Content(Tools.Serializer.Serialize(result));
-            }
-            catch(ParameterCheckException e)
-            {
-                return Error(e.Message);
-            }
-        }
 
         [HttpGet]
         [AuthorizationFilter]
@@ -250,7 +219,7 @@ namespace SopraProject.Controllers
                 if (particularities == null || (particularities.Length == 1 && particularities[0] == String.Empty))
                     particularities = new string[0];
 
-                Checked(() => CheckIsPositive(personCount), "siteId", "The specified site is not valid !");
+                Checked(() => CheckIsPositive(siteId), "siteId", "The specified site is not valid !");
                 Checked(() => CheckIsPositive(personCount), "personCount", "The number of people must be equal or greater than 0");
                 var sDate = Checked(() => startDate.DeserializeDateTime(), "startDate");
                 var eDate = Checked(() => endDate.DeserializeDateTime(), "endDate");
