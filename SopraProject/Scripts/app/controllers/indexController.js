@@ -140,8 +140,7 @@ function(serverService, $scope, $timeout) {
 
     // Room searching
     // userLocation, userCount, null, startDate, endDate
-	//(loc, date, duration, nbpers, part)
-	$scope.roomSearching = function(loc)
+	$scope.runSearch = function()
 	{
 	    $scope.inputError = false;
 
