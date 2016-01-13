@@ -1,40 +1,77 @@
 ﻿<div class="container" ng-controller="confController">
-    <form name="theform" role="form" class="form-horizontal">
-        <div class="form-group">
-            <label class="control-label col-sm-2">Enable cache : </label>
-            <div class="col-sm-4">
-                <input bs-switch type="checkbox" ng-model="enableCache" />
-            </div>
-            <div class="col-sm-4">
-                <div ng-show="enableCacheState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
-                <div ng-show="enableCacheState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
-                <div ng-show="enableCacheState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Server configuration parameters</div>
+        <div class="panel-body">
+            <form name="theform" role="form" class="form-horizontal">
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Enable cache : </label>
+                    <div class="col-sm-4">
+                        <input bs-switch type="checkbox" ng-model="enableCache" />
+                    </div>
+                    <div class="col-sm-4">
+                        <div ng-show="enableCacheState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
+                        <div ng-show="enableCacheState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
+                        <div ng-show="enableCacheState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Day start (hour) : </label>
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" min="1" max="23" ng-model="searchDayStart" />
+                    </div>
+                    <div class="col-sm-4">
+                        <div ng-show="searchDayStartState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
+                        <div ng-show="searchDayStartState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
+                        <div ng-show="searchDayStartState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2">Day end (hour) : </label>
+                    <div class="col-sm-4">
+                        <input type="number" class="form-control" min="1" max="23" ng-model="searchDayEnd" />
+                    </div>
+                    <div class="col-sm-4">
+                        <div ng-show="searchDayEndState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
+                        <div ng-show="searchDayEndState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
+                        <div ng-show="searchDayEndState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-4">
+                        <button ng-disabled="!theform.$valid" class="btn btn-primary" ng-click="pushState()">Save changes</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Day start (hour) : </label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" min="1" max="23" ng-model="searchDayStart" />
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Actions</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-4">               
+                    Invalidate the cache : destroys all the cached objects.
+                    Use in case of external of a database change which is not made by the server itself.
+                    <hr />
+                </div>
+
             </div>
-            <div class="col-sm-4">
-                <div ng-show="searchDayStartState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
-                <div ng-show="searchDayStartState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
-                <div ng-show="searchDayStartState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
+            <div class="row">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-2">
+                    <button class="btn btn-danger" ng-click="invalidateCache()">Invalidate cache.</button>
+                </div>
+                <div class="col-sm-4">
+                    <div ng-show="invalidateCacheState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
+                    <div ng-show="invalidateCacheState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
+                    <div ng-show="invalidateCacheState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
+                </div>
             </div>
+
+
         </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Day end (hour) : </label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" min="1" max="23" ng-model="searchDayEnd" />
-            </div>
-            <div class="col-sm-4">
-                <div ng-show="searchDayEndState == successMessage"><span class="glyphicon glyphicon-ok"></span> Update successfull</div>
-                <div ng-show="searchDayEndState == errorMessage"><span class="glyphicon glyphicon-remove" style="color: red">Error during update. The parameter is not valid or the server is having issues.</span></div>
-                <div ng-show="searchDayEndState == updatingMessage"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Updating...</div>
-            </div>
-        </div>
-        <button ng-disabled="!theform.$valid" class="btn btn-primary" ng-click="pushState()">Save changes</button>
-    </form>
-    
+    </div>
 
 </div>

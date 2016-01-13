@@ -15,6 +15,7 @@ function (serverService, $scope, $timeout) {
     $scope.searchDayStartState = ""; // "ok", "updating", "error", "none"
     $scope.searchDayEndState = "";
     $scope.enableCacheState = "";
+    $scope.invalidateCacheState = "";
 
     for (var i = 1; i <= 23; i++) $scope.searchDayOptions.push(i + "h");
 
@@ -97,6 +98,18 @@ function (serverService, $scope, $timeout) {
 	    });
     };
 
+    $scope.invalidateCache = function () {
+        $scope.invalidateCacheState = $scope.updatingMessage;
+        $scope.server.getConf("InvalidateCache", { })
+        .done(function (data, statusCode) {
+            $scope.invalidateCacheState = $scope.successMessage;
+            $scope.$apply();
+        })
+	    .fail(function (xhr, statusCode, error) {
+	        $scope.invalidateCacheState = $scope.errorMessage;
+	        $scope.$apply();
+	    });
+    };
 
     // Displays a server input error on the web page.
     $scope.inputError = false;
