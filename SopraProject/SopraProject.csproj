@@ -15,10 +15,10 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44300</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -201,6 +201,7 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="ClassDiagram1.cd" />
+    <None Include="Properties\PublishProfiles\iis-production.pubxml" />
     <None Include="Properties\PublishProfiles\sproject-demo.pubxml" />
     <None Include="Properties\PublishProfiles\sproject.pubxml" />
     <None Include="Properties\PublishProfiles\Web.pubxml" />
