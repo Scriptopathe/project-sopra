@@ -127,7 +127,6 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ConfController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Filters\SiteAuthorizationFilter.cs" />
