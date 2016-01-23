@@ -72,8 +72,10 @@ namespace SopraProject.Models.DatabaseContexts
             System.Data.Entity.Database.SetInitializer<BookingContext>(new CreateDatabaseIfNotExists<BookingContext>());
 #else
             // Azure cloud conf
-            System.Data.Entity.Database.SetInitializer<BookingContext>(new DropCreateDatabaseAlways<BookingContext>());
-
+            if (MainContext.ALWAYS_DROP)
+                System.Data.Entity.Database.SetInitializer<BookingContext>(new DropCreateDatabaseAlways<BookingContext>());
+            else
+                System.Data.Entity.Database.SetInitializer<BookingContext>(new CreateDatabaseIfNotExists<BookingContext>());
 #endif
         }
     }

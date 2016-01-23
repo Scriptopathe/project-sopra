@@ -38,7 +38,18 @@ namespace SopraProject.Models.ObjectApi
                 {
                     if (_site == null)
                     {
+#if DEBUG
                         _site = Site.Get(ObjectApiProvider.Instance.UserProfileApi.GetLocation(_identifier));
+#else
+                        try
+                        {
+                            _site = Site.Get(ObjectApiProvider.Instance.UserProfileApi.GetLocation(_identifier));
+                        }
+                        catch(Exception)
+                        {
+                            _site = Site.GetAllSites()[0];
+                        }
+#endif
                     }
                 }
                 return _site;

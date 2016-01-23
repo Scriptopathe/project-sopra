@@ -37,7 +37,7 @@ namespace SopraProject.Models.DatabaseContexts
                         rooms.Add(CreateRoom("Site" + i + "Room" + j, allparts));
                     }
                     allrooms.AddRange(rooms);
-                    MCSite site = CreateSite("Site" + i, rooms);
+                    MCSite site = CreateSite(i, "Site" + i, rooms);
                     allsites.Add(site);
                 }
 
@@ -91,7 +91,7 @@ namespace SopraProject.Models.DatabaseContexts
             };
         }
 
-        static MCSite CreateSite(string name, List<MCRoom> rooms)
+        static MCSite CreateSite(int id, string name, List<MCRoom> rooms)
         {
             return new MCSite() { Name = name, Address = "10 allée des trucs machin chouettes,\nbâtiment P565,\n31400 Toulouse CEDEX 6", Rooms = rooms };
         }
@@ -103,7 +103,7 @@ namespace SopraProject.Models.DatabaseContexts
 
         static MCUserProfile CreateUserProfile(string username, List<MCSite> allsites)
         {
-            return new MCUserProfile() { Username = username, SiteID = s_rand.Next(1, allsites.Count) };
+            return new MCUserProfile() { Username = username, SiteID = s_rand.Next(1, allsites.Count), IsAdmin = username.Contains("1") };
         }
 
         static BCBooking CreateBooking(List<string> usernames, int rooms, string subject)

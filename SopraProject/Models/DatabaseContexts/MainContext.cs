@@ -114,6 +114,7 @@ namespace SopraProject.Models.DatabaseContexts
 	[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
 	public class MainContext : DbContext
 	{
+        public static bool ALWAYS_DROP = false;
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SopraProject.Database.MainContext"/> class.
 		/// </summary>
@@ -124,7 +125,11 @@ namespace SopraProject.Models.DatabaseContexts
             System.Data.Entity.Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
 #else
             // Azure cloud conf
-            System.Data.Entity.Database.SetInitializer<MainContext>(new DropCreateDatabaseAlways<MainContext>());
+            if(ALWAYS_DROP)
+                System.Data.Entity.Database.SetInitializer<MainContext>(new DropCreateDatabaseAlways<MainContext>());
+            else
+                System.Data.Entity.Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
+                
 #endif
         }
         /// <summary>

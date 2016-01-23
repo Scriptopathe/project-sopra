@@ -38,7 +38,10 @@ namespace SopraProject.Models.DatabaseContexts
             System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new CreateDatabaseIfNotExists<AuthenticationContext>());
 #else
             // Azure cloud conf
-            System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new DropCreateDatabaseAlways<AuthenticationContext>());
+            if (MainContext.ALWAYS_DROP)
+                System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new DropCreateDatabaseAlways<AuthenticationContext>());
+            else
+                System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new CreateDatabaseIfNotExists<AuthenticationContext>());
 #endif
         }
         /// <summary>
