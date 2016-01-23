@@ -1,22 +1,41 @@
 ﻿<div class="container">
 	<div class="well">
-		<h4>Links</h4>
-		<ul>
-			<li>
-			<a href=@Url.Action("Login", "Api", new { username="user1", password="User1pass" })>/api/login</a>
-			</li>
-			<li><a href=@Url.Action("Logout", "Api", new { })>/api/logout</a></li>
-			<li><a href=@Url.Action("CreateDb", "Api", new { })>/api/createdb</a></li>
-			<li><a href=@Url.Action("PrintUser", "Api", new { })>/api/printuser</a></li>
-			<li><a href=@Url.Action("Rooms", "Api", new { })>/api/rooms</a></li>
-			<li><a href=@Url.Action("Location", "Api", new { })>/api/location</a></li>
+		<h4>Welcome to the Room Searching project <strong>Demo</strong> Web Page !</h4>
+        <p>
+            This page provide you with links to documents, code, and site tour !
+            This page also include some Demo functionnalities (log as administrator).<br />
 
-            <li><a href=@Url.Action("Index", "Site", new { })>/site/index</a></li>
-		</ul>
+            <center>
+                <a class="btn btn-default" href="https://drive.google.com/drive/folders/0B04HpflEj89-VmNzWlNkbWVVSlE">Design documents</a>
+                <a class="btn btn-default" href="https://github.com/Scriptopathe/project-sopra.git">Github</a>
+                <a class="btn btn-primary" href=@Url.Action("Index", "Site", new { })>Visit website !</a>
+            </center>
+
+            <hr />
+
+            <center>
+                <a class="btn btn-default" href=@Url.Action("Login", "Api", new { username="user1", password="User1pass" })>[demo] Log as admin</a>
+                <a class="btn btn-danger" href=@Url.Action("CreateDb", "Api", new { })>[debug] Create demo database [DO NOT TOUCH !]</a>
+            </center>
+
+            <hr />
+            <h5>Demo users</h5>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr><th>Username</th><th>Password</th><th>Account type</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>User1</td><td>User1pass</td><td>admin</td></tr>
+                    <tr><td>User2</td><td>User2pass</td><td>standard</td></tr>
+                    <tr><td>...</td><td>...</td><td>standard</td></tr>
+                    <tr><td>User6</td><td>User6pass</td><td>standard</td></tr>
+                </tbody>
+            </table>
+        </p>
 	</div>
 
 	<div class="well">
-		<h4>Login</h4>
+		<h4>[DEBUG] Login.</h4>
 		<form class="form-horizontal" role="form" action=@Url.Action("Login", "Api", new { }) method="post">
 			<div class="form-group">
 				<label class="control-label col-sm-1" for="username">Username:</label>

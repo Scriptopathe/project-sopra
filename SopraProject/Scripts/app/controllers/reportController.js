@@ -11,8 +11,8 @@ function (serverService, $scope, $timeout) {
     $scope.selectedRoom = "-1";
     var today = new Date();
     today = moment(today).format('DD/MM/YYYY');
-    $scope.startDate = today;
-    $scope.endDate = today;
+    $scope.startDate = "01/11/2015";
+    $scope.endDate = "30/11/2015";
     $scope.sites = {};
     $scope.rooms = {};
 
