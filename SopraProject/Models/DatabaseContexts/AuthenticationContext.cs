@@ -23,23 +23,29 @@ namespace SopraProject.Models.DatabaseContexts
 		public string Password { get; set; }
 	}
 
-	/// <summary>
-	/// Authentication context.
-	/// </summary>
-	public class AuthenticationContext : DbContext
+    /// <summary>
+    /// Authentication context.
+    /// </summary>
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
+    public class AuthenticationContext : DbContext
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SopraProject.Database.AuthenticationContext"/> class.
 		/// </summary>
 		public AuthenticationContext () : base("authContext")
 		{
-			System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new CreateDatabaseIfNotExists<AuthenticationContext>());
-		}
-		/// <summary>
-		/// Gets or sets the users.
-		/// </summary>
-		/// <value>The users.</value>
-		public DbSet<ACUser> Users { get; set; }
+#if DEBUG
+            System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new CreateDatabaseIfNotExists<AuthenticationContext>());
+#else
+            // Azure cloud conf
+            System.Data.Entity.Database.SetInitializer<AuthenticationContext>(new DropCreateDatabaseAlways<AuthenticationContext>());
+#endif
+        }
+        /// <summary>
+        /// Gets or sets the users.
+        /// </summary>
+        /// <value>The users.</value>
+        public DbSet<ACUser> Users { get; set; }
 	}
 }
 

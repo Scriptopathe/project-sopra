@@ -56,19 +56,25 @@ namespace SopraProject.Models.DatabaseContexts
     /// <summary>
     /// Booking context.
     /// </summary>
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     public class BookingContext : DbContext
     {
         /// <summary>
-        /// Gets or sets the bookings.
+        /// Bookings database set.
         /// </summary>
-        /// <value>The bookings.</value>
         public DbSet<BCBooking> Bookings { get; set; }
 
 
 
         public BookingContext() : base("bookingContext")
 		{
-			System.Data.Entity.Database.SetInitializer<BookingContext>(new CreateDatabaseIfNotExists<BookingContext>());
+#if DEBUG
+            System.Data.Entity.Database.SetInitializer<BookingContext>(new CreateDatabaseIfNotExists<BookingContext>());
+#else
+            // Azure cloud conf
+            System.Data.Entity.Database.SetInitializer<BookingContext>(new DropCreateDatabaseAlways<BookingContext>());
+
+#endif
         }
     }
 }

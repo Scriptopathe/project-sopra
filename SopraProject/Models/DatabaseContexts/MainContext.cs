@@ -120,12 +120,17 @@ namespace SopraProject.Models.DatabaseContexts
 		/// <param name="connexion">Connexion.</param>
         public MainContext () : base("mainContext")
 		{
-			System.Data.Entity.Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
-		}
-		/// <summary>
-		/// Gets or sets the users profile.
-		/// </summary>
-		/// <value>The users profile.</value>
+#if DEBUG
+            System.Data.Entity.Database.SetInitializer<MainContext>(new CreateDatabaseIfNotExists<MainContext>());
+#else
+            // Azure cloud conf
+            System.Data.Entity.Database.SetInitializer<MainContext>(new DropCreateDatabaseAlways<MainContext>());
+#endif
+        }
+        /// <summary>
+        /// Gets or sets the users profile.
+        /// </summary>
+        /// <value>The users profile.</value>
         public DbSet<MCUserProfile> UsersProfile { get; set; }
 		/// <summary>
 		/// Gets or sets the sites.
